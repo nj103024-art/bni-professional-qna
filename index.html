@@ -156,8 +156,9 @@ svg{display:block}
 .dtag{margin:14px 0 0;font-size:13px;font-weight:800;color:var(--red)}
 .dsub{margin:4px 0 0;font-size:11px;color:var(--ink3)}
 .dsub2{margin:10px 0 0;font-size:12.5px;font-weight:700}
+.dwnote{margin:12px 0 0;font-size:12.5px;color:var(--ink2);text-align:center}
 .dwomen,.dshoes{display:grid;gap:14px;grid-template-columns:1fr;margin-top:12px}
-@media(min-width:640px){.dwomen,.dshoes{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:640px){.dshoes{grid-template-columns:repeat(2,1fr)}.dwomen{grid-template-columns:repeat(3,1fr)}}
 .dnos{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);margin-top:12px}
 @media(min-width:560px){.dnos{grid-template-columns:repeat(5,1fr)}}
 .wi.x{max-width:none;position:relative}
@@ -713,16 +714,18 @@ const RULES = [
 {
  id:'dress-women', cat:'복장', src:'챕터 운영 기준', eff:null, boost:7,
  title:'여성 멤버는 어떤 복장이 좋을까요?',
- verdict:'재킷에 블라우스, 또는 단정한 원피스면 됩니다. 격식을 갖춘다는 기준은 남성과 같습니다.',
+ verdict:'여성 정장, 재킷에 블라우스나 셔츠, 단정한 원피스 모두 됩니다. 격식을 갖춘다는 기준은 남성과 같습니다.',
  body:[
-  '<b>재킷 + 블라우스</b> 또는 <b>단정한 원피스</b>가 기본입니다. 정장 스커트나 슬랙스 모두 괜찮습니다.',
+  '<b>여성 정장</b> — 팬츠 수트든 스커트 수트든 모두 괜찮습니다.',
+  '<b>재킷 + 블라우스</b> 또는 <b>재킷 + 셔츠</b> — 셔츠도 얼마든지 가능합니다.',
+  '<b>단정한 원피스</b>도 괜찮습니다.',
   '신발은 <b>구두</b>를 신습니다. 굽 높이는 상관없으며 편한 낮은 굽도 괜찮습니다.',
-  '겨울에는 블라우스 대신 <b>목폴라</b>를 입어도 됩니다.',
-  '남성과 마찬가지로 <b>패딩·모자·운동화</b>는 착용하지 않습니다.',
+  '겨울에는 블라우스나 셔츠 대신 <b>목폴라</b>를 입어도 됩니다.',
+  '남성과 마찬가지로 <b>모자·운동화</b>는 착용하지 않고, 외투는 조찬 중에 벗어 둡니다.',
   '기준은 남녀가 같습니다. 형식이 아니라 <b>격식을 갖춘다</b>는 원칙입니다.'
  ],
- questions:['여자는 뭐 입어요?','여성 복장 기준이 뭐예요?','원피스 입어도 돼요?','치마 입어도 되나요?','바지 정장 괜찮아요?','굽 높은 구두 신어야 하나요?'],
- keywords:['여성','여자','대표님','블라우스','원피스','치마','스커트','슬랙스','바지','구두','힐','목폴라','정장']
+ questions:['여자는 뭐 입어요?','여성 복장 기준이 뭐예요?','원피스 입어도 돼요?','치마 입어도 되나요?','바지 정장 괜찮아요?','여자도 셔츠 입어도 되나요?','팬츠 수트 괜찮아요?','굽 높은 구두 신어야 하나요?'],
+ keywords:['여성','여자','대표님','블라우스','셔츠','원피스','치마','스커트','슬랙스','바지','팬츠','수트','정장','투피스','구두','힐','목폴라']
 },
 {
  id:'dress-outer', cat:'복장', src:'챕터 운영 기준', eff:null, boost:8,
@@ -1947,6 +1950,7 @@ const WEAR = {
   shortshirt:['shortshirt.jpg','반팔 셔츠'], blouse:['blouse.jpg','블라우스'],
   dress:['dress.jpg','원피스'],       heels:['heels.jpg','여성 구두'],
   oxford:['oxford.jpg','남성 구두'],  wjacket:['wjacket.jpg','재킷'],
+  wshirt:['wshirt.jpg','셔츠'],       wsuit:['wsuit.jpg','여성 정장'],
   puffer:['puffer.jpg','패딩'],       cap:['cap.jpg','모자'],
   sneaker:['sneaker.jpg','운동화'],   shorts:['shorts.jpg','반바지'],
   slipper:['slipper.jpg','슬리퍼']
@@ -1964,13 +1968,14 @@ function primerDress(){
     {s:'겨울',      m:['coat','jacket','turtle'],         t:'목폴라도 가능', d:'코트 · 재킷 · 셔츠 또는 목폴라'}
   ];
   const women = [
-    {m:['wjacket','blouse'], l:'재킷 + 블라우스'},
-    {m:['dress'],            l:'단정한 원피스'}
+    {m:['wsuit'],                      l:'여성 정장 (팬츠·스커트)'},
+    {m:['wjacket','blouse','wshirt'],  l:'재킷 + 블라우스 또는 셔츠'},
+    {m:['dress'],                      l:'단정한 원피스'}
   ];
   const nos = ['cap','sneaker','shorts','slipper'];
 
   let h = '<div class="dress">';
-  h += '<div class="dlbl">계절별 기준 — 남녀 공통</div><div class="dseasons">';
+  h += '<div class="dlbl">남성 — 계절별 기준</div><div class="dseasons">';
   cols.forEach(function(c){
     h += '<section class="dcol"><h4>'+esc(c.s)+'</h4><div class="ditems">'+
          c.m.map(k=>wear(k)).join('')+'</div>'+
@@ -1978,12 +1983,14 @@ function primerDress(){
   });
   h += '</div>';
 
+  h += '<p class="dwnote">겨울에는 블라우스나 셔츠 대신 <b>목폴라</b>를 입어도 됩니다. 스커트·슬랙스 모두 괜찮습니다.</p>';
+
   h += '<div class="dlbl">신발 — 남녀 모두 구두</div><div class="dshoes">'+
        '<section class="dcol"><div class="ditems">'+wear('oxford')+'</div><p class="dsub2">남성 — 구두</p></section>'+
        '<section class="dcol"><div class="ditems">'+wear('heels')+'</div><p class="dsub2">여성 — 구두 (굽 무관)</p></section>'+
        '</div>';
 
-  h += '<div class="dlbl">여성 멤버</div><div class="dwomen">';
+  h += '<div class="dlbl">여성 — 이런 차림이면 됩니다</div><div class="dwomen">';
   women.forEach(function(o){
     h += '<section class="dcol"><div class="ditems">'+o.m.map(k=>wear(k)).join('')+'</div>'+
          '<p class="dsub2">'+esc(o.l)+'</p></section>';
@@ -2089,7 +2096,7 @@ const PRIMERS = [
   lead:'복장은 권장이 아니라 <b>가입할 때 약속한 조건</b>입니다. 신입 인터뷰에서 확인하고 부의장이 점검합니다. 남녀 기준은 같고, 계절이 바뀌어도 <b>격식을 갖춘다</b>는 원칙은 변하지 않습니다.',
   svg:primerDress,
   keys:[['기본은 정장 또는 격식을 갖춘 복장','남녀 모두 같습니다. 신입 멤버 인터뷰에서 확인하는 항목이고, 부의장 체크리스트에 복장 점검이 공식 업무로 들어가 있습니다.'],
-        ['여성은 재킷에 블라우스, 또는 원피스','정장 스커트와 슬랙스 모두 괜찮습니다.'],
+        ['여성은 정장 · 블라우스 · 셔츠 · 원피스 모두 가능','팬츠 수트든 스커트 수트든 괜찮고, 셔츠도 얼마든지 입으셔도 됩니다.'],
         ['신발은 남녀 모두 구두','남성은 정장 구두, 여성은 구두를 신습니다. 굽 높이는 상관없습니다.'],
         ['여름은 노타이 가능, 칼라는 필수','넥타이는 안 매도 되지만 칼라 있는 상의는 입어야 합니다. 반팔이라면 재킷을 걸쳐 주세요.'],
         ['겨울은 셔츠 대신 목폴라도 가능','외투는 패딩이든 코트든 입고 오셔도 됩니다. 조찬 중에만 옷걸이에 걸어두세요.'],
