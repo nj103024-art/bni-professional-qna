@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BNI 영등포 프로페셔널 · 변경 규정 Q&amp;A</title>
+<style>
+:root{
+  --red:#CF2030; --red-d:#A5151F; --red-l:#FDECEE;
+  --ink:#17181A; --ink2:#4A4E55; --ink3:#797E86;
+  --line:#E4E6EA; --bg:#F4F5F7; --card:#FFFFFF;
+  --ok:#0F7A4D; --ok-l:#E8F5EE; --warn:#8A5A00; --warn-l:#FFF6E0;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;overflow-x:hidden;width:100%}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
+  font-size:15px; line-height:1.6; word-break:keep-all; overflow-wrap:anywhere;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:560px;margin:0 auto;padding:0 12px 60px}
+a{color:var(--red-d)}
+
+/* header */
+header{background:#fff;border-bottom:1px solid var(--line);padding:14px 0 12px;margin-bottom:10px}
+header .wrap{padding-bottom:0}
+.brandline{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.bni{background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:.12em;padding:3px 7px;border-radius:4px}
+.chapter{font-weight:700;font-size:14px;color:var(--ink)}
+h1{font-size:20px;line-height:1.35;margin:8px 0 4px;font-weight:800;letter-spacing:-.02em}
+.docver{font-size:12px;color:var(--ink3)}
+
+/* search */
+.searchbox{position:sticky;top:0;z-index:20;background:var(--bg);padding:8px 0 6px;margin:0 -12px;padding-left:12px;padding-right:12px}
+.sinput{position:relative}
+.sinput input{
+  width:100%;border:1.5px solid var(--line);background:#fff;border-radius:12px;
+  padding:13px 40px 13px 14px;font-size:16px;font-family:inherit;color:var(--ink);outline:none;
+}
+.sinput input:focus{border-color:var(--red)}
+.sclear{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--ink3);font-size:20px;width:32px;height:32px;line-height:1;cursor:pointer}
+.hint{font-size:12px;color:var(--ink3);margin:6px 2px 0}
+
+/* chips */
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 12px 4px;margin:0 -12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--ink2);border-radius:999px;padding:7px 13px;font-size:13px;font-family:inherit;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+
+/* banner */
+.banner{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:12px 0}
+.banner h2{font-size:13px;margin:0 0 9px;color:var(--ink3);font-weight:700;letter-spacing:.02em}
+.brow{display:flex;gap:9px;align-items:flex-start;padding:9px 10px;border-radius:10px;margin-bottom:6px}
+.brow:last-child{margin-bottom:0}
+.brow.hot{background:var(--red-l);border:1px solid #F6C9CE}
+.brow.on{background:var(--ok-l);border:1px solid #CBE7D8}
+.bdot{font-size:13px;line-height:1.5}
+.btxt{min-width:0}
+.btxt b{display:block;font-size:14px;font-weight:800}
+.brow.hot .btxt b{color:var(--red-d)}
+.brow.on .btxt b{color:var(--ok)}
+.btxt span{font-size:12px;color:var(--ink2)}
+
+/* tools */
+.tabs{display:flex;gap:6px;margin:16px 0 0}
+.tab{flex:1;min-width:0;border:1px solid var(--line);background:#fff;color:var(--ink2);border-radius:10px 10px 0 0;border-bottom:0;padding:11px 6px;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.tool{background:#fff;border:1px solid var(--line);border-radius:0 0 14px 14px;padding:14px}
+.field{margin-bottom:11px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:5px}
+input[type=time],input[type=date],input[type=number],select{
+  width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font-size:16px;
+  font-family:inherit;background:#fff;color:var(--ink);outline:none;min-width:0
+}
+input:focus,select:focus{border-color:var(--red)}
+.check{display:flex;gap:9px;align-items:flex-start;padding:10px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:7px;cursor:pointer}
+.check input{margin:2px 0 0;width:18px;height:18px;flex:0 0 auto;accent-color:var(--red)}
+.check span{font-size:13.5px;color:var(--ink2);min-width:0}
+.btn{width:100%;border:0;background:var(--red);color:#fff;font-weight:800;font-size:15.5px;font-family:inherit;padding:13px;border-radius:11px;cursor:pointer;margin-top:3px}
+.btn:active{background:var(--red-d)}
+.btn.ghost{background:#fff;color:var(--ink2);border:1px solid var(--line);font-weight:700;font-size:14px;padding:11px}
+
+details.cfg{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+details.cfg>summary{list-style:none;cursor:pointer;padding:11px 12px;font-size:13px;font-weight:700;color:var(--ink2);background:#FAFBFC}
+details.cfg>summary::-webkit-details-marker{display:none}
+details.cfg>summary::after{content:"▾";float:right;color:var(--ink3)}
+details.cfg[open]>summary::after{content:"▴"}
+.cfgbody{padding:12px;border-top:1px solid var(--line)}
+.cfggrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.cfggrid .field{margin:0}
+.cfggrid .field label{font-size:11.5px;font-weight:600}
+.cfggrid input{padding:8px 9px;font-size:14px}
+
+/* result */
+.res{margin-top:13px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.res .head{padding:13px 14px;font-weight:800;font-size:17px;color:#fff;background:var(--ink2)}
+.res .head.g{background:var(--ok)} .res .head.y{background:#C9860A} .res .head.r{background:var(--red)}
+.res .bodyx{background:#fff;padding:13px 14px}
+.res .line{display:flex;gap:8px;font-size:14px;margin-bottom:7px}
+.res .line b{flex:0 0 62px;color:var(--ink3);font-weight:700;font-size:12.5px;padding-top:1px}
+.res .line span{min-width:0}
+.note{font-size:12.5px;color:var(--ink2);background:#FAFBFC;border-left:3px solid var(--line);padding:9px 11px;border-radius:0 8px 8px 0;margin-top:9px}
+.note.w{background:var(--warn-l);border-left-color:#E0A800;color:var(--warn);font-weight:600}
+.fixnote{font-size:12.5px;color:var(--ink2);margin-top:11px;padding:10px 11px;background:var(--red-l);border-radius:9px;border:1px solid #F6C9CE}
+.fixnote b{color:var(--red-d)}
+.disc{font-size:11.5px;color:var(--ink3);margin-top:9px;line-height:1.55}
+
+/* timeline */
+.tl{margin-top:13px}
+.tlrow{display:flex;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;margin-bottom:7px;align-items:flex-start}
+.tlrow.past{opacity:.55}
+.tlrow.now{border-color:var(--red);background:var(--red-l);box-shadow:0 0 0 2px rgba(207,32,48,.09)}
+.tld{flex:0 0 58px;text-align:center}
+.tld .dd{font-size:13px;font-weight:800;color:var(--red)}
+.tlrow.past .dd{color:var(--ink3)}
+.tld .dt{font-size:11px;color:var(--ink3);margin-top:1px}
+.tlt{min-width:0}
+.tlt b{display:block;font-size:14px;font-weight:800;line-height:1.4}
+.tlt span{display:block;font-size:12.5px;color:var(--ink2);margin-top:3px}
+.tlt .dday{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--ink2);border-radius:5px;padding:1px 6px;margin-top:5px}
+.tlrow.now .dday{background:var(--red)}
+.msp{background:#F1F4FF;border:1px solid #D6DEFF;color:#243B8F;border-radius:11px;padding:11px 12px;font-size:12.5px;margin-top:4px}
+.msp b{display:block;font-size:13.5px;margin-bottom:3px}
+.cond{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font-size:12.5px;color:var(--ink2);margin-top:7px}
+.cond b{display:block;font-size:13.5px;color:var(--ink);margin-bottom:4px}
+
+/* cards */
+.count{font-size:12.5px;color:var(--ink3);margin:18px 2px 8px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:9px}
+.cbadges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.bd{font-size:11px;font-weight:700;border-radius:6px;padding:3px 7px;white-space:nowrap}
+.bd.cat{background:#EEF0F3;color:var(--ink2)}
+.bd.soon{background:var(--red);color:#fff}
+.bd.live{background:var(--ok-l);color:var(--ok);border:1px solid #CBE7D8}
+.bd.now{background:#EEF0F3;color:var(--ink2)}
+.bd.chk{background:var(--warn-l);color:var(--warn);border:1px solid #F0DCA8}
+.card h3{font-size:16px;font-weight:800;margin:0 0 7px;line-height:1.4;letter-spacing:-.01em}
+.verdict{font-size:15px;font-weight:800;color:var(--ink);background:var(--red-l);border-left:3px solid var(--red);padding:10px 12px;border-radius:0 9px 9px 0;line-height:1.5}
+details.more{margin-top:9px}
+details.more>summary{list-style:none;cursor:pointer;font-size:13px;font-weight:700;color:var(--red-d);padding:6px 0}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:" ▾"}
+details.more[open]>summary::after{content:" ▴"}
+details.more ul{margin:4px 0 0;padding-left:17px}
+details.more li{font-size:13.5px;color:var(--ink2);margin-bottom:6px;line-height:1.6}
+.chkbox{background:var(--warn-l);border:1px solid #F0DCA8;border-radius:9px;padding:10px 11px;margin-top:9px;font-size:12.5px;color:var(--warn)}
+.chkbox b{display:block;margin-bottom:3px;font-size:13px}
+.chkbox ul{margin:0;padding-left:16px}
+.chkbox li{margin-bottom:3px}
+.src{font-size:11.5px;color:var(--ink3);margin-top:9px;padding-top:8px;border-top:1px dashed var(--line)}
+.xref{display:inline-block;font-size:12px;font-weight:700;color:var(--red-d);background:var(--red-l);border-radius:7px;padding:5px 9px;margin-top:9px}
+
+/* mini calc */
+.mini{border:1px solid var(--line);border-radius:11px;padding:11px;margin-top:10px;background:#FAFBFC}
+.mini b.t{display:block;font-size:13px;font-weight:800;margin-bottom:8px}
+.mini .row{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.mini input,.mini select{padding:9px 10px;font-size:14px;background:#fff}
+.mini .out{margin-top:9px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px;font-size:13px}
+.mini .out b{font-size:16px;color:var(--red-d)}
+
+/* empty */
+.empty{background:#fff;border:1px dashed var(--line);border-radius:14px;padding:22px 16px;text-align:center}
+.empty p{margin:0 0 6px;font-size:14.5px;font-weight:700}
+.empty small{color:var(--ink3);font-size:12.5px}
+.sugg{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px}
+
+footer{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+footer b{display:block;font-size:14.5px;margin-bottom:5px}
+footer p{margin:0 0 8px;font-size:13px;color:var(--ink2)}
+footer small{font-size:11.5px;color:var(--ink3);display:block;padding-top:9px;border-top:1px solid var(--line)}
+mark{background:#FFF0A8;color:inherit;border-radius:3px;padding:0 1px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brandline"><span class="bni">BNI</span><span class="chapter" id="chapName">영등포 프로페셔널 챕터</span></div>
+    <h1>변경 규정 Q&amp;A</h1>
+    <div class="docver">기준 문서 · <span id="docVer">변경되는 멤버십 운영 규정 Ver.2026-04-03</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="searchbox">
+    <div class="sinput">
+      <input id="q" type="search" autocomplete="off" enterkeyhint="search" placeholder="예) 출장 가면 출석 인정돼요?">
+      <button class="sclear" id="qclear" type="button" aria-label="지우기" hidden>&times;</button>
+    </div>
+    <div class="hint">궁금한 걸 말하듯이 쓰세요. 규정 원문 그대로만 답합니다.</div>
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="banner">
+    <h2>시행일 안내</h2>
+    <div class="brow hot">
+      <span class="bdot">🔴</span>
+      <span class="btxt"><b>대리인 제도 변경 · 2026.10.1 시행</b><span id="proxyCountdown"></span></span>
+    </div>
+    <div class="brow on">
+      <span class="bdot">🟢</span>
+      <span class="btxt"><b>출석 인정 완화 · 2026.4.1 시행 중</b><span>6개월 1회 → 3회 확대, 100km 이상 이동 시 타 지역 챕터 방문 출석 인정</span></span>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab1" role="tab" aria-selected="true" aria-controls="tool1">⏱ 지각·조퇴 판정기</button>
+    <button class="tab" id="tab2" role="tab" aria-selected="false" aria-controls="tool2">📅 갱신 D-day</button>
+  </div>
+
+  <!-- 도구 1 -->
+  <section class="tool" id="tool1" role="tabpanel" aria-labelledby="tab1">
+    <div class="field">
+      <label for="arrive">도착 시각</label>
+      <input type="time" id="arrive" value="07:10">
+    </div>
+    <div class="field">
+      <label for="leave">퇴장 시각 <span style="color:var(--ink3);font-weight:500">(끝까지 있었으면 비워두세요)</span></label>
+      <input type="time" id="leave">
+    </div>
+    <label class="check"><input type="checkbox" id="chkContrib"><span>리퍼럴/비지터 기여를 멤버십위원회에 <b>사전 전달</b>했음</span></label>
+    <label class="check"><input type="checkbox" id="chkNotice"><span>출결 담당 위원에게 조퇴를 <b>사전 고지</b>함</span></label>
+    <button class="btn" id="judgeBtn" type="button">판정하기</button>
+
+    <div id="judgeOut"></div>
+
+    <div class="fixnote">최근 6개월 내 <b>지각·조퇴 합산 3회 이상</b>이면 멤버십위원회 보호관찰 대상입니다. (예: 지각 2회 + 조퇴 1회 = 3회)</div>
+    <p class="disc">※ 위클리 시작/종료 시각은 당일 진행에 따라 달라집니다. 실제 판정 기준은 <b>첫 번째 / 마지막 위클리 발표 시점</b>입니다.</p>
+
+    <details class="cfg">
+      <summary>우리 챕터 시간 기준 보기 · 수정</summary>
+      <div class="cfgbody">
+        <div class="cfggrid">
+          <div class="field"><label for="cOpen">오픈 네트워킹 종료</label><input type="time" id="cOpen"></div>
+          <div class="field"><label for="cStart">본회의 시작</label><input type="time" id="cStart"></div>
+          <div class="field"><label for="cFirst">첫 위클리 시작(약)</label><input type="time" id="cFirst"></div>
+          <div class="field"><label for="cLast">마지막 위클리 종료(약)</label><input type="time" id="cLast"></div>
+          <div class="field"><label for="cEnd">조찬 종료</label><input type="time" id="cEnd"></div>
+          <div class="field"><label for="cNormal">정상출석 인정 시각</label><input type="time" id="cNormal"></div>
+        </div>
+        <p class="disc">값을 바꾸면 판정 기준이 즉시 바뀝니다. (이 기기에서만 적용)</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- 도구 2 -->
+  <section class="tool" id="tool2" role="tabpanel" aria-labelledby="tab2" hidden>
+    <div class="field">
+      <label for="expiry">멤버십 만료일</label>
+      <input type="date" id="expiry">
+    </div>
+    <button class="btn" id="renewBtn" type="button">갱신 일정 계산</button>
+    <div id="renewOut"></div>
+  </section>
+
+  <div class="count" id="count"></div>
+  <div id="list"></div>
+
+  <footer>
+    <b>여기 없는 내용이거나 판단이 애매하면?</b>
+    <p>→ <b>멤버십위원회</b>에 문의해 주세요. 이 페이지는 규정 원문을 찾아보기 쉽게 정리한 것이며, 최종 판단은 멤버십위원회 기준을 따릅니다.</p>
+    <small>기준 문서 · <span id="docVer2"></span></small>
+  </footer>
+</div>
+
+<script>
+/* ===================== 챕터 설정 ===================== */
+const CHAPTER = {
+  name: '영등포 프로페셔널 챕터',
+  docVersion: '변경되는 멤버십 운영 규정 Ver.2026-04-03',
+  openNetworkingEnd: '06:30',   // 오픈 네트워킹 종료
+  meetingStart:      '07:00',   // 본회의 시작
+  firstWeeklyStart:  '07:25',   // 첫 위클리 발표 시작(추정)
+  lastWeeklyEnd:     '07:55',   // 마지막 위클리 발표 종료(추정)
+  meetingEnd:        '08:30',   // 조찬 종료
+  normalAttendance:  '08:35'    // 이 시각 이후 퇴장 시 정상 출석 인정
+};
+
+const CATS = ['전체','지각·조퇴','대리인','출석인정','감사장','갱신','타챕터 협업'];
+
+/* ===================== 규정 데이터 ===================== */
+/* 규정이 바뀌면 이 배열만 수정하세요.
+   eff: 시행일(YYYY-MM-DD) / null이면 현행 적용
+   check: 원문에 명시가 없어 확인이 필요한 항목 */
+const RULES = [
+/* ---------- 지각·조퇴 ---------- */
+{
+ id:'late-basic', cat:'지각·조퇴', src:'슬라이드 2', eff:null, boost:6,
+ title:'지각·조퇴가 뭔가요? (기본 기준)',
+ verdict:'본회의 시작보다 늦게 도착하면 지각, 일찍 떠나면 조퇴입니다. 둘 다 멤버 트래픽라이트에 반영됩니다.',
+ body:[
+  '본회의 시작 시간보다 늦게 도착하면 지각, 본회의 중 일찍 떠나면 조퇴입니다.',
+  '지각·조퇴는 멤버 트래픽라이트에 반영됩니다.',
+  '지각·조퇴·결석을 판단하는 기준은 <b>위클리 프레젠테이션 발표 시간</b>입니다.',
+  '동료 멤버의 위클리 프레젠테이션을 모두 들어야 합니다.'
+ ],
+ questions:['지각이 뭐예요?','조퇴 기준이 뭐예요?','늦게 도착하면 어떻게 되나요?','일찍 나가면 어떻게 되나요?','트래픽라이트에 반영되나요?','위클리 다 들어야 하나요?'],
+ keywords:['지각','조퇴','결석','트래픽라이트','신호등','위클리','프레젠테이션','발표','늦게','일찍','기준','출결']
+},
+{
+ id:'late-probation', cat:'지각·조퇴', src:'슬라이드 2', eff:null, boost:4,
+ title:'지각·조퇴 몇 번이면 문제가 되나요?',
+ verdict:'최근 6개월 내 지각+조퇴 합산 3회 이상이면 멤버십위원회의 강력한 보호관찰 대상입니다.',
+ body:[
+  '최근 6개월 이내 지각과 조퇴를 <b>합산</b>하여 3회 이상이면 멤버십위원회에서 강력한 보호관찰을 하게 됩니다.',
+  '예) 지각 2회 + 조퇴 1회 = 합산 3회 → 보호관찰 대상.'
+ ],
+ questions:['지각 몇 번이면 문제 돼요?','조퇴 몇 번까지 괜찮아요?','보호관찰이 뭐예요?','지각 2번 조퇴 1번이면요?','6개월에 몇 번까지 되나요?'],
+ keywords:['보호관찰','3회','횟수','합산','6개월','경고','멤버십위원회','누적','패널티']
+},
+{
+ id:'late-arrive', cat:'지각·조퇴', src:'슬라이드 3', eff:null, boost:5,
+ title:'몇 시에 도착해야 지각인가요? (지각 적용 방법)',
+ verdict:'본회의 시작 후 도착이면 지각. 단, 첫 번째 위클리 발표 전까지는 도착해야 하고, 첫 위클리를 못 들으면 지각이 아니라 결석입니다.',
+ body:[
+  '본회의 시작 시간 이후에 도착하면 지각입니다. (본회의 시작 시간은 챕터마다 다를 수 있습니다.)',
+  '지각으로 인정받으려면 <b>첫 번째 위클리 발표자 이전까지</b> 도착해야 합니다.',
+  '첫 번째 위클리 프레젠테이션을 듣지 못했다면 지각이 아니라 <b>결석</b>으로 처리됩니다.'
+ ],
+ questions:['7시 10분에 도착하면 지각이에요?','첫 위클리 끝나고 도착하면?','늦게 도착했는데 결석인가요?','몇 시까지 가야 지각이에요?','본회의 시작 후 도착하면?'],
+ keywords:['지각','도착','늦잠','첫위클리','첫 번째 위클리','본회의 시작','결석','늦게 옴','입장']
+},
+{
+ id:'late-leave', cat:'지각·조퇴', src:'슬라이드 3', eff:null, boost:5,
+ title:'중간에 먼저 나가도 되나요? (조퇴 적용 방법)',
+ verdict:'마지막 위클리 발표까지 듣고 나가야 조퇴로 인정됩니다. 그 전에 나가면 결석이며, 조퇴는 출결 담당 위원에게 미리 알려야 합니다.',
+ body:[
+  '<b>마지막 위클리 발표까지 듣고</b> 퇴장해야 조퇴로 인정됩니다.',
+  '마지막 위클리 발표 전에 퇴장하면 조퇴가 아니라 <b>결석</b>입니다.',
+  '조퇴를 하는 경우 <b>멤버십 출결 담당 위원에게 미리 알려야</b> 합니다.'
+ ],
+ questions:['8시에 나가도 돼요?','먼저 나가도 되나요?','중간에 나가면 조퇴예요 결석이에요?','조퇴하려면 누구한테 말해요?','일찍 퇴장해도 되나요?'],
+ keywords:['조퇴','퇴장','먼저','일찍','나가','마지막 위클리','출결 담당','사전 고지','미리 알림','자리 비움']
+},
+{
+ id:'late-contrib', cat:'지각·조퇴', src:'슬라이드 4', eff:null, boost:3,
+ title:'리퍼럴 드리고 일찍 나가도 되나요? (기여자 배려)',
+ verdict:'기여가 있으면 기준보다 일찍 퇴장할 수 있습니다. 단, 기여 내용을 멤버십위원회에 미리 전달해야 하며 기여는 리퍼럴과 비지터만 인정됩니다.',
+ body:[
+  '조퇴 기준의 예외로, <b>기여가 있는 멤버</b>는 위 기준보다 일찍 퇴장하는 것을 허용합니다.',
+  '기여 내용을 <b>멤버십위원회에 미리 전달</b>해야 합니다.',
+  '여기서 <b>기여는 리퍼럴과 비지터만</b> 인정됩니다.'
+ ],
+ questions:['리퍼럴 드리고 일찍 나가도 되나요?','비지터 데려오면 먼저 가도 돼요?','기여가 뭐예요?','기여하면 조퇴 인정되나요?','감사장도 기여로 쳐주나요?'],
+ keywords:['기여','리퍼럴','비지터','배려','예외','먼저 퇴장','일찍 나가','초청','손님']
+},
+{
+ id:'late-delay', cat:'지각·조퇴', src:'슬라이드 4', eff:null, boost:3,
+ title:'조찬이 늦게 끝나면 언제까지 있어야 하나요?',
+ verdict:'조찬은 8:30에 끝나야 하며 5분 정도 늦어질 수 있습니다. 8:35 이후라면 조찬이 안 끝났어도 퇴장 시 정상 출석으로 인정됩니다.',
+ body:[
+  '멤버들의 비즈니스에 피해가 가지 않도록 조찬미팅은 <b>8:30에 종료</b>되어야 합니다.',
+  '공지 사항이나 마무리 진행으로 5분 정도 늦어질 수 있습니다.',
+  '그 이후에도 조찬이 끝나지 않는 경우, <b>8:35 이후 퇴장</b>은 조찬이 끝나지 않았더라도 <b>정상 출석</b>으로 인정합니다.'
+ ],
+ questions:['조찬이 늦게 끝나면 언제 나가도 돼요?','미팅이 안 끝났는데 나가면 조퇴인가요?','조찬 종료 시간이 언제예요?','늦게 끝나는데 출근해야 해요','정상 출석 인정 시각이 언제예요?'],
+ keywords:['지연','늦게 끝','종료','마무리','공지','정상 출석','조찬미팅','8:35','8:30','오래 끌']
+},
+/* ---------- 대리인 ---------- */
+{
+ id:'proxy-now', cat:'대리인', src:'슬라이드 5', eff:null, boost:7, current:true,
+ title:'대리인 누구를 보낼 수 있나요? (기존 규정 · 이번 기수까지)',
+ verdict:'지금은 골드클럽 또는 그린클럽(그린 6개월 이상자) 또는 의장단만 대리인으로 참석할 수 있습니다.',
+ body:[
+  '이 규정은 <b>이번 기수까지</b> 적용됩니다.',
+  'BNI 멤버 중 대리인을 보내야 한다면 <b>골드클럽</b> 또는 <b>그린클럽(그린 6개월 이상자)</b> 또는 <b>의장단</b>만 대리인으로 참석할 수 있습니다. (보내는 쪽·받는 쪽 양쪽 모두 동일 조건입니다.)',
+  '조건이 동일한 대리인은 해당 챕터에 <b>1년에 2회까지만</b> 참석할 수 있습니다.',
+  '3회 이상 참석하는 경우 멤버십위원회가 대리인을 초대한 멤버에게 <b>컨트롤 레터</b>를 발송하고, 대리인이 소속된 챕터의 멤버십위원회에 사실을 전달하여 조치하도록 합니다.',
+  '<b>런칭 중인 챕터의 멤버는 대리인으로 참석할 수 없습니다.</b>'
+ ],
+ questions:['대리인 누구 보낼 수 있어요?','대리인 자격이 뭐예요?','대리인 몇 번까지 보낼 수 있어요?','골드클럽만 대리인 되나요?','런칭 챕터 멤버도 대리인 되나요?','컨트롤 레터가 뭐예요?'],
+ keywords:['대리인','대타','대신','골드클럽','그린클럽','의장단','2회','컨트롤 레터','런칭','자격','파견'],
+ xref:'2026.10.1부터 대리인 제도가 바뀝니다 → 아래 「대리인 제도 변경」 카드를 함께 보세요.'
+},
+{
+ id:'proxy-new', cat:'대리인', src:'슬라이드 6', eff:'2026-10-01', boost:5,
+ title:'10월부터 대리인이 어떻게 바뀌나요? (변경 규정)',
+ verdict:'2026.10.1부터 모든 멤버가 대리인을 쓸 수 있습니다. 대신 대리인 역할은 디렉터·앰배서더·어시스트 앰배서더(커뮤니티 빌더)만 할 수 있습니다.',
+ body:[
+  '<b>대리인 사용 자격 제한을 폐지</b>합니다 → 모든 멤버가 대리인을 사용할 수 있습니다.',
+  '단, <b>대리인 역할이 가능한 대상을 한정</b>합니다 → <b>디렉터, 앰배서더, 어시스트 앰배서더(커뮤니티 빌더)</b>.',
+  '정책 취지 ① 출석 규정의 핵심 가치는 유지합니다.',
+  '정책 취지 ② 출장·개인 사정으로 인한 활동 중단을 방지합니다.',
+  '정책 취지 ③ 커뮤니티 빌더가 챕터 공동체를 연결하고 에너지를 유지하도록 지원합니다.'
+ ],
+ check:[
+  '대리인 <b>연 2회 제한</b>과 <b>컨트롤 레터</b> 규정이 변경 후에도 그대로 유지되는지 원문에 명시가 없습니다.',
+  '동료 멤버나 외부인은 대리인이 될 수 없다는 뜻인지(역할 대상 한정의 해석 범위) 원문에 명시가 없습니다.'
+ ],
+ questions:['10월부터 대리인 뭐가 바뀌어요?','이제 아무나 대리인 보낼 수 있나요?','커뮤니티 빌더가 뭐예요?','앰배서더가 대리인 되나요?','대리인 제도 변경 언제부터예요?'],
+ keywords:['대리인','변경','디렉터','앰배서더','어시스트 앰배서더','커뮤니티 빌더','자격 폐지','10월','시행']
+},
+/* ---------- 출석인정 ---------- */
+{
+ id:'attend-away', cat:'출석인정', src:'슬라이드 7', eff:'2026-04-01', boost:7,
+ title:'출장 가는데 출석은 어떻게 하나요? (출석 인정 기준 완화)',
+ verdict:'소속 지역 기준 100km 이상 이동하는 장거리 출장이면 타 지역 챕터를 방문해 출석으로 인정받을 수 있고, 기존 6개월 1회에서 6개월 3회로 확대되었습니다.',
+ body:[
+  '기존 <b>6개월 1회</b> → 변경 <b>6개월 3회</b>로 확대되었습니다.',
+  '장거리 출장 시 <b>타 지역 챕터 방문 출석</b>을 인정합니다.',
+  '적용 기준: <b>소속 지역 기준 100km 이상 이동</b> 시 (국내 출장 포함).',
+  '정책 취지 ① 전국·글로벌 단위로 활동하는 비즈니스 멤버 증가를 반영합니다.',
+  '정책 취지 ② 출석 부담을 완화해 활동 지속성을 강화합니다.'
+ ],
+ check:[
+  '“6개월 1회 → 3회”가 <b>타 지역 챕터 방문 출석 인정 횟수</b>를 뜻하는지, 원문 문장만으로는 명확하지 않습니다.'
+ ],
+ questions:['출장 가는데 출석 어떻게 해요?','부산 출장이면 타 챕터 가도 돼요?','출장 가면 출석 인정돼요?','몇 km부터 인정돼요?','타 지역 챕터 방문 몇 번까지 돼요?','해외 출장도 되나요?'],
+ keywords:['출장','장거리','100km','타 지역','타 챕터 방문','메이크업','출석 인정','완화','지방','국내 출장','비행기']
+},
+/* ---------- 감사장 ---------- */
+{
+ id:'ty-basic', cat:'감사장', src:'슬라이드 8', eff:null, boost:12, calc:true,
+ title:'감사장 금액, 얼마로 적어야 하나요? (기본 원칙)',
+ verdict:'감사장 금액은 부가세를 제외한 매출 총액을 입력합니다. 보험처럼 여러 번 작성되는 경우에도 소개장은 최초 1년에 1회만 작성합니다.',
+ body:[
+  '감사장 금액은 <b>부가세를 제외한 매출 총액</b>을 입력합니다.',
+  '감사장이 여러 번 작성되는 경우(예: 보험)에도 <b>소개장은 최초 1년 1회</b> 작성합니다.',
+  '아래 업종별 기준에 따라 입력 금액이 달라집니다. 본인 업종 카드를 검색해 확인하세요.'
+ ],
+ questions:['감사장 얼마로 써요?','감사장 금액 어떻게 계산해요?','부가세 포함해서 써요?','소개장은 몇 번 써요?','감사장 작성 기준이 뭐예요?','땡스 얼마 써요?'],
+ keywords:['감사장','땡스','TYFCB','소개장','부가세','매출 총액','금액','작성','입력','기록']
+},
+{
+ id:'ty-fee', cat:'감사장', src:'슬라이드 8', eff:null, boost:4,
+ title:'수수료(중개료)를 받는 업종은 어떻게 쓰나요?',
+ verdict:'고객에게 수수료를 공개(청구)하지 않고 회사가 영업사원 등에게 별도 계약으로 지급하는 방식이라도, 총액의 10%를 감사장으로 입력합니다.',
+ body:[
+  '수수료(중개료)를 받는 업종에서, 고객에게 수수료를 공개(청구)하지 않고 회사가 영업사원 등에게 별도 계약으로 지급하는 방식이더라도 <b>총액의 10%</b>를 감사장으로 입력합니다.',
+  '해당 업종: 부동산 중개, 보험, 투자상품, 자동차 판매, 여행사 등 (각 업종 카드 참고).'
+ ],
+ questions:['수수료 받는데 감사장 어떻게 써요?','중개료는 어떻게 계산해요?','수수료 10%가 뭐예요?','회사가 수수료 주는 구조면요?'],
+ keywords:['수수료','중개료','10%','영업사원','별도 계약','총액','커미션','인센티브']
+},
+{
+ id:'ty-realestate', cat:'감사장', src:'슬라이드 8', eff:null,
+ title:'부동산 중개 감사장은 얼마로 쓰나요?',
+ verdict:'실제로 청구한 중개 수수료 금액을 입력합니다. 예) 10억 집 중개 + 수수료 1% 청구 → 1천만원 기록.',
+ body:[
+  '부동산 중개: 예) 10억원짜리 집을 중개하고 수수료 1%를 청구했다면 <b>1천만원</b>을 기록합니다.',
+  '수수료를 고객에게 공개하지 않고 회사가 별도 지급하는 구조라도 총액의 10%를 입력합니다.'
+ ],
+ questions:['부동산 감사장 얼마로 써요?','중개 수수료 감사장 계산','집 팔았는데 감사장 얼마?','10억 중개하면 얼마 써요?'],
+ keywords:['부동산','중개','공인중개사','매매','전세','임대','수수료','1%','집']
+},
+{
+ id:'ty-insurance', cat:'감사장', src:'슬라이드 8', eff:null,
+ title:'보험 감사장은 얼마로 쓰나요?',
+ verdict:'1년간 고객이 지불하는 보험료 총액을 한 번에 기록합니다.',
+ body:[
+  '보험: <b>1년간 고객이 지불하는 보험료 총액</b>을 한 번에 기록합니다.',
+  '감사장이 여러 번 작성되는 경우(보험)에도 소개장은 최초 1년 1회 작성합니다.'
+ ],
+ questions:['보험 감사장 얼마로 써요?','보험료 감사장 계산','월납 보험은 어떻게 써요?','보험 계약했는데 감사장 금액'],
+ keywords:['보험','보험료','설계사','월납','연납','1년','계약','생명보험','손해보험']
+},
+{
+ id:'ty-invest', cat:'감사장', src:'슬라이드 8', eff:null,
+ title:'투자상품 감사장은 얼마로 쓰나요?',
+ verdict:'세일즈 담당자가 수수료를 따로 청구하면 그 수수료를, 상품가에 수수료가 포함되어 회사가 전액 청구하는 구조면 고객이 회사에 지불한 금액을 기록합니다.',
+ body:[
+  '투자상품: 세일즈 담당자가 수수료를 따로 청구하는 경우 <b>수수료를 기록</b>합니다.',
+  '상품가에 수수료가 포함되어 있어 회사가 전액을 청구하고 담당자에게 수수료를 지급하는 경우에는 <b>고객이 회사에 지불한 금액</b>을 기록합니다.'
+ ],
+ questions:['투자상품 감사장 어떻게 써요?','펀드 감사장 금액','금융상품 감사장 계산'],
+ keywords:['투자','투자상품','펀드','금융상품','증권','수수료','세일즈']
+},
+{
+ id:'ty-car', cat:'감사장', src:'슬라이드 8', eff:null,
+ title:'자동차 판매 감사장은 얼마로 쓰나요?',
+ verdict:'회사가 차량 금액을 청구하고 담당자에게 수수료를 지급하는 구조이므로, 차량 금액을 기록합니다.',
+ body:[
+  '자동차 판매: 회사가 차량 금액을 청구하고 담당자에게 수수료를 지급합니다. → <b>차량 금액</b>을 기록합니다.'
+ ],
+ questions:['자동차 감사장 얼마로 써요?','차 팔았는데 감사장 금액','자동차 판매 감사장'],
+ keywords:['자동차','차량','차','판매','딜러','수입차','신차','금액']
+},
+{
+ id:'ty-travel', cat:'감사장', src:'슬라이드 8', eff:null,
+ title:'여행사 감사장은 얼마로 쓰나요?',
+ verdict:'고객이 입금한 상품 금액 전체를 입력합니다. 예) 500만원 패키지에 고객이 500만원 입금 → 500만원.',
+ body:[
+  '여행사: 예) 500만원짜리 패키지 상품에 고객이 500만원을 입금했다면 <b>500만원</b>을 입력합니다.'
+ ],
+ questions:['여행사 감사장 얼마로 써요?','여행 상품 감사장 금액','패키지 판매 감사장'],
+ keywords:['여행','여행사','패키지','투어','항공','상품 금액','입금']
+},
+{
+ id:'ty-service', cat:'감사장', src:'슬라이드 9', eff:null,
+ title:'용역을 직접 제공하는 서비스는 얼마로 쓰나요?',
+ verdict:'인건비 원가를 포함한 서비스 총액을 입력합니다. 예) 디자이너, 마사지, 청소, 변호사, 컨설팅.',
+ body:[
+  '용역 직접 제공 서비스: <b>인건비 원가를 포함한 서비스 총액</b>을 입력합니다.',
+  '예) 디자이너, 마사지, 청소, 변호사, 컨설팅.'
+ ],
+ questions:['컨설팅 감사장 얼마로 써요?','변호사 수임료 감사장','디자인 용역 감사장','청소 서비스 감사장'],
+ keywords:['용역','서비스','인건비','디자이너','마사지','청소','변호사','컨설팅','수임료','자문']
+},
+{
+ id:'ty-goods', cat:'감사장', src:'슬라이드 9', eff:null,
+ title:'물품을 제공하는 서비스는 얼마로 쓰나요?',
+ verdict:'물품 원가를 포함한 제품·서비스 총액을 입력합니다. 예) 직접 판매, 도소매, 플로리스트.',
+ body:[
+  '물품 제공 서비스: <b>물품 원가를 포함한 제품/서비스 총액</b>을 입력합니다.',
+  '예) 직접 판매, 도소매, 플로리스트.'
+ ],
+ questions:['물건 판매 감사장 얼마로 써요?','도매 감사장 금액','꽃집 감사장','원가 빼고 써야 하나요?'],
+ keywords:['물품','제품','도소매','도매','소매','판매','플로리스트','꽃','원가','상품']
+},
+{
+ id:'ty-install', cat:'감사장', src:'슬라이드 9', eff:null,
+ title:'설치·설비 서비스는 얼마로 쓰나요?',
+ verdict:'설치용 물품 구매 금액과 설치(시공) 비용을 합산해 입력합니다. 예) 배관공, 계단 설치, 인쇄, 건축.',
+ body:[
+  '설치/설비 서비스: <b>설치용 물품 구매 금액 + 설치(시공) 비용</b>을 합산합니다.',
+  '예) 배관공, 계단 설치, 인쇄, 건축.'
+ ],
+ questions:['시공 감사장 얼마로 써요?','인테리어 감사장 금액','인쇄 감사장','설치비 포함해서 써요?'],
+ keywords:['설치','설비','시공','배관','계단','인쇄','건축','자재','공사','인테리어']
+},
+{
+ id:'ty-nonperiodic', cat:'감사장', src:'슬라이드 9', eff:null,
+ title:'기한 없는 정기결제(비정기 서비스)는 얼마로 쓰나요?',
+ verdict:'월 납부액 × 36개월로 계산합니다. 예) 월 5만원 → 180만원.',
+ body:[
+  '비정기 서비스(기한이 정해지지 않은 정기 결제): <b>월 납부액 × 36개월</b>.',
+  '예) 월 5만원 → <b>180만원</b>.',
+  '예시 업종) 음악 스트리밍, 자동 갱신되는 앱.'
+ ],
+ questions:['구독 서비스 감사장 계산','기한 없는 정기결제 감사장','월 5만원이면 얼마로 써요?','자동결제 감사장'],
+ keywords:['비정기','정기 결제','구독','36개월','스트리밍','자동 갱신','앱','월정액','무기한']
+},
+{
+ id:'ty-periodic', cat:'감사장', src:'슬라이드 9', eff:null,
+ title:'기한이 있는 정기 서비스는 얼마로 쓰나요?',
+ verdict:'월 납부액 × 계약 개월 수로 계산합니다. 예) 월 10만원 × 24개월 = 240만원.',
+ body:[
+  '정기 서비스(기한이 있는 계약): <b>월 납부액 × 계약 개월 수</b>.',
+  '예) 월 10만원 × 24개월 = <b>240만원</b>.',
+  '예시 업종) 정기 코칭, 구독, 렌탈.'
+ ],
+ questions:['렌탈 감사장 계산','정기 코칭 감사장','24개월 계약이면 얼마로 써요?','구독 계약 감사장'],
+ keywords:['정기','계약 개월','렌탈','코칭','구독','24개월','약정','기한']
+},
+{
+ id:'ty-bank', cat:'감사장', src:'슬라이드 9', eff:null,
+ title:'은행·금융 서비스는 얼마로 쓰나요?',
+ verdict:'대출은 만기까지 발생하는 이자 금액, 신용대출은 한도의 10%, 예금은 최초 개설 입금액, 별도 비용 없는 기타 서비스는 30만원입니다.',
+ body:[
+  '대출 상품: <b>만기까지 발생하는 이자 금액</b>.',
+  '신용대출(신용카드, 가계대출, 기업신용대출): <b>신용대출 한도의 10%</b>.',
+  '예금: <b>처음 계좌 개설 시 입금액</b>.',
+  '기타 별도 비용이 없는 은행 서비스: <b>30만원</b>.'
+ ],
+ questions:['대출 감사장 얼마로 써요?','신용카드 감사장 금액','예금 계좌 개설 감사장','은행 감사장 계산','통장 만들어주면 얼마?'],
+ keywords:['은행','금융','대출','이자','신용대출','신용카드','가계대출','기업신용대출','예금','계좌','한도','30만원']
+},
+/* ---------- 갱신 ---------- */
+{
+ id:'renew-cycle', cat:'갱신', src:'슬라이드 10', eff:null, boost:5,
+ title:'1년차 멤버는 1년 동안 무엇을 하나요? (멤버 주기)',
+ verdict:'입회 → 오리엔테이션·MSP → 30일 디너 → 90일·150일·210일 리뷰 → 갱신 대상자 예비 통보 → 발표 → 갱신 기간 순서로 진행됩니다.',
+ body:[
+  '12월 가입을 예로 든 1년차 흐름입니다.',
+  '① 비지터 방문 · 후보자 지원 · 인터뷰 및 승인',
+  '② 입회식 · 오리엔테이션',
+  '③ MSP 1차, 패스포트 및 의무 1-2-1',
+  '④ 30일 디너',
+  '⑤ 90일 리뷰',
+  '⑥ 150일 리뷰 (1:1 담당 멘토 멘토링 기간 ~5월, 심화교육 4개, MSP 2차)',
+  '⑦ 210일 리뷰 · 멤버십 상담',
+  '⑧ 갱신 대상자 예비 통보',
+  '⑨ 갱신 대상자 발표',
+  '⑩ 갱신 기간'
+ ],
+ questions:['갱신 언제 준비해요?','1년차에 뭐 해야 해요?','150일 리뷰가 뭐예요?','MSP 언제 들어요?','30일 디너가 뭐예요?','210일 리뷰는 언제예요?'],
+ keywords:['멤버 주기','1년차','입회식','오리엔테이션','MSP','패스포트','1-2-1','30일 디너','90일','150일','210일','리뷰','멘토','심화교육','예비 통보']
+},
+{
+ id:'renew-steps', cat:'갱신', src:'슬라이드 11', eff:null, boost:5,
+ title:'갱신하려면 무엇을 해야 하나요? (갱신 기간 절차)',
+ verdict:'갱신 지원서 제출 → 갱신비 입금 → 210일 이후 MSP 이수 → 인터뷰. 이 네 가지를 해당 월 안에 모두 끝내야 합니다.',
+ body:[
+  '갱신 기간에는 다음 절차를 <b>해당 월 안에 모두</b> 끝내야 합니다.',
+  '① 갱신 지원서 제출',
+  '② 갱신비 입금',
+  '③ 210일 이후 MSP 이수 (1년차는 MSP 1.0, 2년차 이후는 심화 과정 권장)',
+  '④ 인터뷰',
+  '갱신 대상자 발표 이후에는 멤버십 참가비 납부 및 지원서 제출 순서대로 인터뷰가 진행됩니다.'
+ ],
+ questions:['갱신 어떻게 해요?','갱신 지원서 언제 내요?','갱신비 언제 입금해요?','MSP 꼭 들어야 해요?','갱신 인터뷰가 있나요?'],
+ keywords:['갱신','지원서','갱신비','입금','MSP','1.0','심화 과정','인터뷰','절차','재갱신','참가비']
+},
+{
+ id:'renew-open', cat:'갱신', src:'슬라이드 11', eff:null, boost:4,
+ title:'전문분야 오픈이 뭔가요?',
+ verdict:'갱신 지원서 제출과 갱신비 납부가 안 되면 갱신일 60일 전에 해당 전문분야가 오픈되어, 그 업종의 비지터를 초청할 수 있게 됩니다.',
+ body:[
+  '갱신 지원서 제출과 갱신비 납부가 이루어지지 않으면 <b>갱신일 60일 전에 전문분야를 오픈</b>합니다.',
+  '전문분야가 오픈되면 <b>해당 업종의 비지터를 요청(초청)</b>할 수 있습니다.'
+ ],
+ questions:['전문분야 오픈이 뭐예요?','갱신 안 하면 자리 없어지나요?','내 업종 자리 열리나요?','60일 전에 무슨 일이 있어요?'],
+ keywords:['전문분야','오픈','비지터 요청','60일 전','자리','업종','미납','미제출']
+},
+{
+ id:'renew-conditional', cat:'갱신', src:'슬라이드 11', eff:null,
+ title:'조건부 갱신은 어떻게 되나요?',
+ verdict:'승인되면 서약서를 작성하고(중간 프로베이션 미이수 시 환불 없음), 미승인되면 환불 후 자방합니다.',
+ body:[
+  '조건부 갱신 <b>승인 시</b>: 서약서를 작성합니다. (중간 프로베이션 미이수 시 환불되지 않습니다.)',
+  '조건부 갱신 <b>미승인 시</b>: 환불하고 자방합니다.'
+ ],
+ questions:['조건부 갱신이 뭐예요?','서약서 써야 하나요?','프로베이션 못 지키면 어떻게 돼요?','조건부인데 떨어지면 환불되나요?'],
+ keywords:['조건부','승인','미승인','서약서','프로베이션','환불','자방','탈퇴']
+},
+{
+ id:'renew-mature', cat:'갱신', src:'슬라이드 11', eff:null,
+ title:'성숙한 챕터의 갱신 관리는 언제부터 시작하나요?',
+ verdict:'4월부터 갱신 관리를 시작합니다. 10월 1일자 트래픽라이트는 4~9월 활동이 반영됩니다.',
+ body:[
+  '성숙한 챕터는 <b>4월부터 갱신 관리</b>를 합니다. (10월 1일자 트래픽라이트는 4~9월 활동이 반영됩니다.)',
+  '갱신하는 월 안에 <b>지원서·입금·상담·승인</b>을 마무리해야 합니다.',
+  '<b>M&amp;M(멤버십위원회)과 긴밀히 협조</b>해야 합니다.'
+ ],
+ questions:['갱신 관리 언제부터 해요?','트래픽라이트 언제 반영돼요?','10월 갱신이면 언제부터 준비해요?','성숙한 챕터가 뭐예요?'],
+ keywords:['성숙한 챕터','4월','트래픽라이트','10월 1일','상담','승인','M&M','협조','관리']
+},
+{
+ id:'renew-refund', cat:'갱신', src:'슬라이드 11', eff:null, boost:8,
+ title:'갱신비 환불되나요?',
+ verdict:'갱신비 입금 후 재갱신이 승인되면 환불되지 않습니다.',
+ body:[
+  '갱신비를 입금한 뒤 <b>재갱신이 승인되면 환불이 불가</b>합니다.',
+  '조건부 갱신에서 미승인된 경우에는 환불하고 자방합니다.',
+  '조건부 갱신 승인 후 서약서를 쓰고 중간 프로베이션을 이수하지 못하면 환불되지 않습니다.'
+ ],
+ questions:['갱신비 환불 돼요?','돈 냈는데 취소하면 돌려받나요?','환불 규정이 어떻게 돼요?','입금하고 나가면 환불되나요?'],
+ keywords:['환불','갱신비','입금','재갱신','승인','불가','취소','돌려받']
+},
+/* ---------- 타챕터 협업 ---------- */
+{
+ id:'co-work', cat:'타챕터 협업', src:'슬라이드 12', eff:null,
+ title:'다른 챕터 멤버와 협업해도 되나요?',
+ verdict:'가능합니다. 협업할 수 있는 전문분야가 있다면 얼마든지 협업을 권장합니다.',
+ body:[
+  '타 챕터 멤버와 협업이 가능합니다.',
+  '협업이 가능한 전문분야가 있다면 얼마든지 협업하기를 권장합니다.'
+ ],
+ questions:['다른 챕터 사람이랑 같이 일해도 돼요?','타 챕터 협업 가능한가요?','다른 챕터랑 프로젝트 해도 되나요?'],
+ keywords:['타 챕터','다른 챕터','협업','협업팀','권장','전문분야','공동 작업']
+},
+{
+ id:'co-referral', cat:'타챕터 협업', src:'슬라이드 12', eff:null, boost:4,
+ title:'다른 챕터 사람한테 리퍼럴 줘도 인정되나요?',
+ verdict:'우리 챕터 안에 같은 전문분야가 없을 경우에만 리퍼럴과 감사장이 인정됩니다.',
+ body:[
+  '타 챕터 멤버와의 협업에서 <b>리퍼럴과 감사장은 우리 챕터 내에 같은 전문분야가 없을 경우에만</b> 인정됩니다.'
+ ],
+ questions:['다른 챕터 사람한테 리퍼럴 줘도 인정돼요?','타 챕터 감사장 인정되나요?','우리 챕터에 같은 업종 있으면요?','외부 사람 소개해도 실적 되나요?'],
+ keywords:['리퍼럴','감사장','인정','같은 전문분야','타 챕터','중복','업종 중복','실적']
+},
+{
+ id:'co-powerteam', cat:'타챕터 협업', src:'슬라이드 12', eff:null, boost:6,
+ title:'파워팀이라고 불러도 되나요?',
+ verdict:'안 됩니다. 타 챕터 멤버와의 협업에는 "파워팀" 표현을 쓸 수 없고, "협업" 또는 "협업팀"으로 표현합니다.',
+ body:[
+  '타 챕터 멤버와의 협업에 <b>"파워팀"이라는 표현을 사용하지 않습니다.</b>',
+  '<b>"협업", "협업팀"</b>으로 표현합니다.'
+ ],
+ questions:['파워팀이라고 해도 돼요?','파워팀 표현 써도 되나요?','뭐라고 불러야 해요?','협업팀이라고 하면 되나요?'],
+ keywords:['파워팀','표현','명칭','호칭','협업','협업팀','금지','용어']
+}
+];
+
+/* ===================== 공통 유틸 ===================== */
+const TODAY = new Date();
+const $ = s => document.querySelector(s);
+function esc(s){return String(s).replace(/&(?!(amp|lt|gt|quot|#\d+);)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+/* 본문에는 <b> 태그만 허용 */
+function rich(s){return esc(s).replace(/&lt;b&gt;/g,'<b>').replace(/&lt;\/b&gt;/g,'</b>');}
+function toMin(t){ if(!t) return null; const m=/^(\d{1,2}):(\d{2})$/.exec(t); if(!m) return null; return (+m[1])*60 + (+m[2]); }
+function hhmm(min){ const h=Math.floor(min/60), m=min%60; return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'); }
+function ymd(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function parseYmd(s){ const p=String(s).split('-').map(Number); return new Date(p[0],p[1]-1,p[2]); }
+const WD=['일','월','화','수','목','금','토'];
+function fmtDate(d){ return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.('+WD[d.getDay()]+')'; }
+function fmtDot(s){ const d=parseYmd(s); return d.getFullYear()+'.'+(d.getMonth()+1)+'.'+d.getDate(); }
+function addDays(d,n){ const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()); x.setDate(x.getDate()+n); return x; }
+function dayDiff(a,b){ const x=new Date(a.getFullYear(),a.getMonth(),a.getDate()), y=new Date(b.getFullYear(),b.getMonth(),b.getDate());
+  return Math.round((x-y)/86400000); }
+function krw(n){
+  n = Math.round(n);
+  let extra='';
+  if(n>=10000){
+    const eok=Math.floor(n/100000000), man=Math.floor((n%100000000)/10000), won=n%10000;
+    extra=' ('+(eok?eok+'억 ':'')+(man?man+'만':'')+(won?(man||eok?' ':'')+won:'')+'원)';
+  }
+  return n.toLocaleString('ko-KR')+'원'+extra;
+}
+
+/* ===================== 시행 상태 ===================== */
+function effState(r){
+  if(!r.eff) return {cls:'now', label:'현행 적용'};
+  const d = parseYmd(r.eff);
+  if(dayDiff(d,TODAY) > 0) return {cls:'soon', label:'시행 전 · '+fmtDot(r.eff)+' 시행', pre:true};
+  return {cls:'live', label:'시행 중 · '+fmtDot(r.eff)+'~'};
+}
+
+/* ===================== 검색 ===================== */
+function norm(s){
+  return String(s||'').toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/[·.,()~%\-–—:;!?'"“”’‘\/\[\]<>&+]/g,'');
+}
+RULES.forEach(r=>{
+  r._t = norm(r.title);
+  r._q = norm((r.questions||[]).join(' '));
+  r._k = norm((r.keywords||[]).join(' '));
+  r._v = norm(r.verdict);
+  r._b = norm((r.body||[]).join(' ') + ' ' + (r.check||[]).join(' '));
+  r._c = norm(r.cat);
+});
+function occ(hay, needle){
+  if(!needle) return 0;
+  let n=0, i=0;
+  while((i = hay.indexOf(needle, i)) !== -1){ n++; i += needle.length; }
+  return n;
+}
+function scoreOne(r, tk){
+  return 12*occ(r._t,tk) + 10*occ(r._q,tk) + 6*occ(r._k,tk) + 4*occ(r._v,tk) + 3*occ(r._c,tk) + 2*occ(r._b,tk);
+}
+function search(query){
+  const raw = String(query||'').trim();
+  if(!raw) return RULES.slice();
+  const joined = norm(raw);
+  const tokens = raw.split(/\s+/).map(norm).filter(Boolean);
+
+  // 1단계: 공백 무시 전체 일치
+  let hits = RULES.map(r=>({r, s:scoreOne(r, joined)})).filter(x=>x.s>0);
+  // 2단계: 여러 단어 AND
+  if(!hits.length && tokens.length>1){
+    hits = RULES.map(r=>{
+      let sum=0;
+      for(const t of tokens){ const s=scoreOne(r,t); if(s===0) return {r,s:0}; sum+=s; }
+      return {r,s:sum};
+    }).filter(x=>x.s>0);
+  }
+  // 3단계: OR
+  if(!hits.length && tokens.length>1){
+    hits = RULES.map(r=>{
+      let sum=0; for(const t of tokens) sum+=scoreOne(r,t);
+      return {r,s:sum};
+    }).filter(x=>x.s>0);
+  }
+  hits.forEach(x=>{ x.s += (x.r.boost||0); });
+  hits.sort((a,b)=> b.s-a.s || RULES.indexOf(a.r)-RULES.indexOf(b.r));
+  return hits.map(x=>x.r);
+}
+
+/* ===================== 카드 렌더 ===================== */
+let state = { q:'', cat:'전체' };
+
+function cardHTML(r, open){
+  const st = effState(r);
+  const badges = ['<span class="bd cat">'+esc(r.cat)+'</span>',
+                  '<span class="bd '+st.cls+'">'+esc(st.label)+'</span>'];
+  if(r.check && r.check.length) badges.push('<span class="bd chk">⚠️ 확인 필요</span>');
+  let h = '<article class="card" id="card-'+r.id+'">';
+  h += '<div class="cbadges">'+badges.join('')+'</div>';
+  h += '<h3>'+esc(r.title)+'</h3>';
+  h += '<div class="verdict">'+rich(r.verdict)+'</div>';
+  if(r.xref) h += '<div class="xref">'+esc(r.xref)+'</div>';
+  h += '<details class="more"'+(open?' open':'')+'><summary>자세한 근거 보기</summary><ul>';
+  (r.body||[]).forEach(b=> h += '<li>'+rich(b)+'</li>');
+  h += '</ul>';
+  if(r.check && r.check.length){
+    h += '<div class="chkbox"><b>⚠️ 확인 필요 (원문에 명시 없음)</b><ul>';
+    r.check.forEach(c=> h += '<li>'+rich(c)+'</li>');
+    h += '</ul>멤버십위원회 확인이 필요한 부분입니다.</div>';
+  }
+  h += '</details>';
+  if(r.calc) h += tyCalcHTML();
+  h += '<div class="src">출처 · '+esc(r.src)+' &nbsp;|&nbsp; '+esc(CHAPTER.docVersion)+'</div>';
+  h += '</article>';
+  return h;
+}
+
+function render(){
+  let list = search(state.q);
+  if(state.cat !== '전체') list = list.filter(r=> r.cat === state.cat);
+  const open = !!state.q.trim() && list.length <= 5;
+
+  const cnt = $('#count'), box = $('#list');
+  if(!list.length){
+    cnt.textContent = '';
+    const sug = CATS.filter(c=>c!=='전체').map(c=>'<button class="chip" data-sug="'+c+'" type="button">'+c+'</button>').join('');
+    box.innerHTML = '<div class="empty"><p>“'+esc(state.q)+'”에 대한 규정을 찾지 못했습니다.</p>'+
+      '<small>비슷한 카테고리에서 찾아보세요.</small><div class="sugg">'+sug+'</div>'+
+      '<small style="display:block;margin-top:14px">그래도 없으면 <b>멤버십위원회</b>에 문의해 주세요.</small></div>';
+    box.querySelectorAll('[data-sug]').forEach(b=> b.onclick = ()=>{
+      state.q=''; $('#q').value=''; $('#qclear').hidden=true; state.cat=b.dataset.sug; syncChips(); render();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+    return;
+  }
+  cnt.textContent = state.q.trim() ? '검색 결과 '+list.length+'건' : (state.cat==='전체' ? '전체 규정 '+list.length+'건' : state.cat+' '+list.length+'건');
+  box.innerHTML = list.map(r=>cardHTML(r, open)).join('');
+  bindTyCalc();
+}
+
+/* ===================== 칩 ===================== */
+function syncChips(){
+  document.querySelectorAll('#chips .chip').forEach(b=>
+    b.setAttribute('aria-pressed', String(b.dataset.cat === state.cat)));
+}
+function buildChips(){
+  $('#chips').innerHTML = CATS.map(c=>'<button class="chip" type="button" data-cat="'+c+'" aria-pressed="'+(c==='전체')+'">'+c+'</button>').join('');
+  document.querySelectorAll('#chips .chip').forEach(b=> b.onclick = ()=>{ state.cat=b.dataset.cat; syncChips(); render(); });
+}
+
+/* ===================== 감사장 간이 계산기 ===================== */
+function tyCalcHTML(){
+  return '<div class="mini">'+
+  '<b class="t">🧮 감사장 금액 간이 계산기</b>'+
+  '<div class="row">'+
+    '<select id="tyType">'+
+      '<option value="periodic">정기 서비스(기한 O)</option>'+
+      '<option value="nonperiodic">비정기(기한 X, 정기결제)</option>'+
+      '<option value="fee10">수수료 10%</option>'+
+      '<option value="credit10">신용대출 한도 10%</option>'+
+    '</select>'+
+    '<input type="number" id="tyAmt" inputmode="numeric" placeholder="금액(원)">'+
+  '</div>'+
+  '<div class="row" id="tyMonthsRow" style="margin-top:7px"><input type="number" id="tyMonths" inputmode="numeric" placeholder="계약 개월 수" value="24"><span></span></div>'+
+  '<div class="out" id="tyOut">금액을 입력하면 감사장에 적을 금액이 나옵니다.</div>'+
+  '</div>';
+}
+function tyCalc(type, amt, months){
+  amt = Number(amt)||0; months = Number(months)||0;
+  if(type==='periodic') return {v: amt*months, m:'월 납부액 × 계약 개월 수 ('+months+'개월)'};
+  if(type==='nonperiodic') return {v: amt*36, m:'월 납부액 × 36개월 (기한 없는 정기결제)'};
+  if(type==='fee10') return {v: amt*0.1, m:'총액의 10% (수수료·중개료)'};
+  return {v: amt*0.1, m:'신용대출 한도의 10%'};
+}
+function bindTyCalc(){
+  const t=$('#tyType'); if(!t) return;
+  const a=$('#tyAmt'), mth=$('#tyMonths'), row=$('#tyMonthsRow'), out=$('#tyOut');
+  const upd=()=>{
+    row.style.display = (t.value==='periodic') ? 'grid' : 'none';
+    if(!a.value){ out.innerHTML='금액을 입력하면 감사장에 적을 금액이 나옵니다.'; return; }
+    const r = tyCalc(t.value, a.value, mth.value);
+    out.innerHTML = '감사장에 입력할 금액<br><b>'+krw(r.v)+'</b><br><span style="color:var(--ink3);font-size:12px">'+r.m+' · 부가세 제외 기준</span>';
+  };
+  [t,a,mth].forEach(el=> el.addEventListener('input', upd));
+  upd();
+}
+
+/* ===================== 도구 1 : 지각·조퇴 판정기 ===================== */
+function pick(a,b){ const v=toMin(a); return v===null ? toMin(b) : v; }
+function cfg(){
+  return {
+    open:  pick($('#cOpen').value,  CHAPTER.openNetworkingEnd),
+    start: pick($('#cStart').value, CHAPTER.meetingStart),
+    first: pick($('#cFirst').value, CHAPTER.firstWeeklyStart),
+    last:  pick($('#cLast').value,  CHAPTER.lastWeeklyEnd),
+    end:   pick($('#cEnd').value,   CHAPTER.meetingEnd),
+    normal:pick($('#cNormal').value,CHAPTER.normalAttendance)
+  };
+}
+function judge(arriveStr, leaveStr, contrib, notice, c){
+  c = c || cfg();
+  const a = toMin(arriveStr), l = toMin(leaveStr);
+  if(a===null) return {error:'도착 시각을 입력해 주세요.'};
+  const o = {arrival:'', departure:'', tags:[], overall:'', notes:[], warns:[]};
+
+  if(a <= c.start){ o.arrival='정시'; o.notes.push('본회의 시작('+hhmm(c.start)+') 전에 도착 → 정시 도착입니다.'); }
+  else if(a <= c.first){ o.arrival='지각'; o.notes.push('본회의 시작('+hhmm(c.start)+') 이후, 첫 위클리 발표('+hhmm(c.first)+') 전 도착 → 지각입니다.'); }
+  else { o.arrival='결석'; o.notes.push('첫 위클리 발표('+hhmm(c.first)+') 이후 도착 → 첫 위클리를 듣지 못했으므로 지각이 아니라 결석입니다.'); }
+
+  if(l!==null){
+    if(l >= c.normal){ o.departure='정상'; o.notes.push(hhmm(c.normal)+' 이후 퇴장 → 조찬이 끝나지 않았더라도 정상 출석으로 인정됩니다.'); }
+    else if(l >= c.last){ o.departure='조퇴'; o.notes.push('마지막 위클리 종료('+hhmm(c.last)+') 이후 ~ '+hhmm(c.normal)+' 이전 퇴장 → 조퇴입니다.');
+      if(!notice) o.warns.push('조퇴는 <b>멤버십 출결 담당 위원에게 미리 알려야</b> 합니다. 사전 고지 체크가 안 되어 있습니다.');
+    }
+    else if(contrib){ o.departure='조퇴'; o.contribApplied=true;
+      o.notes.push('마지막 위클리 종료('+hhmm(c.last)+') 전 퇴장이지만, 리퍼럴/비지터 기여를 멤버십위원회에 사전 전달했으므로 기여자 배려로 조퇴 인정됩니다.');
+      if(!notice) o.warns.push('조퇴 시 출결 담당 위원 사전 고지도 함께 필요합니다.');
+    }
+    else { o.departure='결석'; o.notes.push('마지막 위클리 종료('+hhmm(c.last)+') 전에 퇴장 → 조퇴가 아니라 결석입니다.');
+      o.warns.push('리퍼럴 또는 비지터 <b>기여를 멤버십위원회에 미리 전달</b>했다면 조퇴로 인정받을 수 있습니다. (기여는 리퍼럴·비지터만 인정)');
+    }
+  }
+
+  if(o.arrival==='지각') o.tags.push('지각');
+  if(o.departure==='조퇴') o.tags.push('조퇴');
+  if(o.arrival==='결석' || o.departure==='결석') o.overall='결석';
+  else if(o.tags.length) o.overall = o.tags.join(' + ');
+  else o.overall = '정상 출석';
+  return o;
+}
+function runJudge(){
+  const o = judge($('#arrive').value, $('#leave').value, $('#chkContrib').checked, $('#chkNotice').checked);
+  const box = $('#judgeOut');
+  if(o.error){ box.innerHTML = '<div class="res"><div class="bodyx">'+o.error+'</div></div>'; return; }
+  const cls = o.overall==='결석' ? 'r' : (o.overall==='정상 출석' ? 'g' : 'y');
+  let h = '<div class="res"><div class="head '+cls+'">'+esc(o.overall)+'</div><div class="bodyx">';
+  h += '<div class="line"><b>도착</b><span>'+esc($('#arrive').value)+' → <b>'+esc(o.arrival)+'</b></span></div>';
+  h += '<div class="line"><b>퇴장</b><span>'+($('#leave').value ? esc($('#leave').value)+' → <b>'+esc(o.departure==='정상'?'정상 출석':o.departure)+'</b>' : '끝까지 참석 (입력 없음)')+'</span></div>';
+  o.notes.forEach(n=> h += '<div class="note">'+rich(n)+'</div>');
+  o.warns.forEach(n=> h += '<div class="note w">⚠️ '+rich(n)+'</div>');
+  h += '</div></div>';
+  box.innerHTML = h;
+}
+
+/* ===================== 도구 2 : 갱신 D-day 계산기 ===================== */
+const RENEW_STEPS = [
+  {d:150, t:'210일 리뷰 · 갱신 전 트래픽라이트 관리', s:'210일 리뷰와 멤버십 상담을 진행하고, 갱신 전 트래픽라이트를 관리합니다. 이 시점부터 MSP 이수기간이 시작됩니다.'},
+  {d:120, t:'갱신 대상자 예비 통보 (ST)', s:'갱신 대상자에게 예비 통보가 나갑니다.'},
+  {d:90,  t:'갱신 대상자 발표', s:'멤버십 참가비 납부 및 지원서 제출 순서대로 인터뷰가 진행됩니다. 갱신비 입금 (재갱신 승인 후 환불 불가).'},
+  {d:60,  t:'전문분야 오픈', s:'참가비 납부·지원서 미제출 시 전문분야가 오픈되어 해당 업종 비지터를 초청할 수 있습니다.'},
+  {d:30,  t:'갱신 멤버 발표 및 축하', s:'갱신이 확정된 멤버를 발표하고 축하합니다.'},
+  {d:0,   t:'멤버십 만료', s:'갱신 절차(지원서·갱신비·MSP·인터뷰)는 이 날 전에 모두 끝나야 합니다.'}
+];
+function renewDates(expiryStr){
+  const exp = parseYmd(expiryStr);
+  return RENEW_STEPS.map(s=>{
+    const dt = addDays(exp, -s.d);
+    return {d:s.d, t:s.t, s:s.s, date:dt, ymd:ymd(dt), dday:dayDiff(dt, TODAY)};
+  });
+}
+function runRenew(){
+  const v = $('#expiry').value, box = $('#renewOut');
+  if(!v){ box.innerHTML = '<div class="res"><div class="bodyx">멤버십 만료일을 선택해 주세요.</div></div>'; return; }
+  const rows = renewDates(v);
+  let nowIdx = rows.findIndex(r=> r.dday >= 0);
+  if(nowIdx === -1) nowIdx = rows.length-1;
+  let h = '<div class="tl">';
+  rows.forEach((r,i)=>{
+    const cls = r.dday < 0 ? 'past' : (i===nowIdx ? 'now' : '');
+    h += '<div class="tlrow '+cls+'">'+
+      '<div class="tld"><div class="dd">D-'+r.d+'</div><div class="dt">'+(r.date.getMonth()+1)+'/'+r.date.getDate()+'</div></div>'+
+      '<div class="tlt"><b>'+esc(r.t)+'</b><span>'+esc(fmtDate(r.date))+'</span><span>'+esc(r.s)+'</span>'+
+      '<span class="dday">'+(r.dday>0 ? '오늘부터 D-'+r.dday : (r.dday===0 ? '오늘' : Math.abs(r.dday)+'일 지남'))+(i===nowIdx?' · 다음 단계':'')+'</span>'+
+      '</div></div>';
+  });
+  h += '</div>';
+  h += '<div class="msp"><b>MSP 이수기간</b>210일 리뷰(D-150) ~ 갱신 대상자 발표(D-90) 월까지. 1년차는 MSP 1.0, 2년차 이후는 심화 과정을 권장합니다.</div>';
+  h += '<div class="cond"><b>조건부 갱신 안내</b>· 승인 시: 서약서 작성 (중간 프로베이션 미이수 시 환불 불가)<br>· 미승인 시: 환불 후 자방</div>';
+  h += '<p class="disc">※ 실제 발표·통보는 해당 날짜가 속한 <b>주의 조찬</b> 기준으로 진행됩니다. (예: 10/31 만료 → 원문상 7/1 예비통보, 8/4 발표, 8/31 전문분야 오픈, 9/30 갱신멤버 발표) 계산 결과와 1~2일 차이가 날 수 있습니다.</p>';
+  box.innerHTML = h;
+}
+
+/* ===================== 초기화 ===================== */
+function boot(){
+  $('#chapName').textContent = CHAPTER.name;
+  $('#docVer').textContent = CHAPTER.docVersion;
+  $('#docVer2').textContent = CHAPTER.docVersion;
+  $('#cOpen').value = CHAPTER.openNetworkingEnd;
+  $('#cStart').value = CHAPTER.meetingStart;
+  $('#cFirst').value = CHAPTER.firstWeeklyStart;
+  $('#cLast').value = CHAPTER.lastWeeklyEnd;
+  $('#cEnd').value = CHAPTER.meetingEnd;
+  $('#cNormal').value = CHAPTER.normalAttendance;
+
+  const dleft = dayDiff(parseYmd('2026-10-01'), TODAY);
+  $('#proxyCountdown').textContent = dleft > 0
+    ? '아직 시행 전입니다. 오늘부터 D-'+dleft+' · 현재는 기존 대리인 규정(골드/그린 6개월 이상/의장단)이 적용됩니다.'
+    : '모든 멤버가 대리인 사용 가능, 대리인 역할은 디렉터·앰배서더·어시스트 앰배서더(커뮤니티 빌더)만 가능합니다.';
+
+  buildChips();
+
+  const q = $('#q');
+  q.addEventListener('input', ()=>{ state.q=q.value; $('#qclear').hidden = !q.value; render(); });
+  $('#qclear').onclick = ()=>{ q.value=''; state.q=''; $('#qclear').hidden=true; render(); q.focus(); };
+
+  $('#tab1').onclick = ()=>switchTab(1);
+  $('#tab2').onclick = ()=>switchTab(2);
+  $('#judgeBtn').onclick = runJudge;
+  $('#renewBtn').onclick = runRenew;
+  ['#arrive','#leave','#chkContrib','#chkNotice','#cOpen','#cStart','#cFirst','#cLast','#cEnd','#cNormal']
+    .forEach(s=> $(s).addEventListener('change', ()=>{ if($('#judgeOut').innerHTML) runJudge(); }));
+  $('#expiry').addEventListener('change', ()=>{ if($('#renewOut').innerHTML) runRenew(); });
+
+  render();
+}
+function switchTab(n){
+  $('#tab1').setAttribute('aria-selected', String(n===1));
+  $('#tab2').setAttribute('aria-selected', String(n===2));
+  $('#tool1').hidden = n!==1;
+  $('#tool2').hidden = n!==2;
+}
+boot();
+</script>
+</body>
+</html>
