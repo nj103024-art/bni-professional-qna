@@ -309,22 +309,44 @@ const CHAPTER = {
    멤버가 바뀌면 이 배열만 수정하세요. 화면에는 명단을 나열하지 않으며,
    본인 이름을 정확히 입력해야만 결과가 나옵니다. */
 const MEMBERS = [
-  /* due = 납부마감일(BNI Connect 「멤버십 갱신 대상 리포트」 기준, 2026-09-10 조회)
-     st  = 갱신 진행 상태. 아래 5가지 중 하나로 적으세요.
-           (없음) → 아직 시작 전 / '인터뷰' / '입금' / '투표' / '승인'
-           '승인'으로 바꾸면 카운트다운이 다음 갱신일(납부마감일 +1년)로 자동으로 넘어갑니다. */
-  {n:'김만식', due:'2027-06-01'}, {n:'정희진', due:'2027-09-01'}, {n:'염윤선', due:'2027-06-01'},
-  {n:'홍석강', due:'2026-10-01', st:'승인'}, {n:'강인혁', due:'2026-10-01'}, {n:'김은강', due:'2026-11-01'},
-  {n:'이병진', due:'2026-11-01', st:'승인'}, {n:'박용국', due:'2026-11-01'}, {n:'배가은', due:'2026-12-01'},
-  {n:'김재현', due:'2026-12-01', st:'승인'}, {n:'박두호', due:'2026-12-01'}, {n:'안성민', due:'2027-01-01'},
-  {n:'이선혜', due:'2027-01-01'}, {n:'박유나', due:'2027-01-01'}, {n:'한지섭', due:'2027-03-01'},
-  {n:'김일연', due:'2027-03-01'}, {n:'배종우', due:'2027-04-01'}, {n:'정주헌', due:'2027-04-01'},
-  {n:'이우람', due:'2027-04-01'}, {n:'박성훈', due:'2027-05-01'}, {n:'최병문', due:'2027-07-01'},
-  {n:'박주영', due:'2027-07-01'}, {n:'김해람', due:'2027-08-01'}, {n:'최진우', due:'2027-09-01'},
-  {n:'장호연', due:'2027-09-01'}, {n:'김동운', due:'2027-09-01'}, {n:'김정률', due:'2027-09-01'},
-  {n:'박지호', due:'2027-09-01'}, {n:'배기영', due:'2027-11-01'},
-  // 2026년 9월 신규 가입 — 갱신 대상 리포트 미등재, 가입월 기준 추정
-  {n:'김성숙', due:'2027-09-01', est:true}
+  /* 출처: 챕터 갱신 관리 시트 (입회일 / 갱신 만료일 / 210일 리뷰 / 갱신 인터뷰 / 갱신비 입금)
+     due  = 다가오는 갱신 만료일. 시트상 만료일이 이미 지난 멤버는 +1년 한 날짜입니다.
+     st   = 갱신 진행 상태: (없음) / '인터뷰' / '입금' / '투표' / '승인'
+     r210 = 210일 리뷰 기한, on210 = 실행일, who210 = 인터뷰어
+     itv  = 갱신 인터뷰 기한, onItv = 실행일, whoItv = 인터뷰어
+     pay  = 갱신비 입금일 */
+
+  // ── 이번 갱신 시즌 (진행 중) ──
+  {n:'홍석강', join:'23.10', due:'2026-09-30', r210:'26.04', itv:'27.07', pay:'2026-08-26', st:'승인'},
+  {n:'강인혁', join:'24.10', due:'2026-09-30', r210:'27.04', itv:'27.07'},
+  {n:'이병진', join:'25.10', due:'2026-09-30', r210:'27.05', itv:'27.08', pay:'2026-08-26', st:'승인'},
+  {n:'김은강', join:'24.11', due:'2026-10-31', r210:'27.05', itv:'26.08', whoItv:'이병진', pay:'2026-08-26', st:'입금'},
+  {n:'김재현', join:'24.11', due:'2026-10-31', r210:'27.05', who210:'김정률', itv:'27.08', whoItv:'김정률', pay:'2026-08-26', st:'승인'},
+  {n:'배가은', join:'24.12', due:'2026-11-30', r210:'27.06', itv:'26.09', whoItv:'김정률'},
+  {n:'박두호', join:'24.12', due:'2026-11-30', r210:'27.06', itv:'26.09', whoItv:'김재현', pay:'2026-09-03', st:'입금'},
+  {n:'이선혜', join:'24.12', due:'2026-11-30', r210:'27.06', itv:'26.09', whoItv:'이병진'},
+  {n:'안성민', join:'25.12', due:'2026-11-30', r210:'27.06', itv:'26.09', whoItv:'정희진'},
+  {n:'김일연', join:'26.02', due:'2027-01-31', r210:'26.08', on210:'2026-08-19', who210:'정희진', itv:'26.11'},
+
+  // ── 다음 시즌 ──
+  {n:'한지섭', join:'24.03', due:'2027-02-28', r210:'26.09', who210:'정희진', itv:'26.12'},
+  {n:'배종우', join:'25.04', due:'2027-03-31', r210:'27.03', itv:'27.02'},
+  {n:'정주헌', join:'26.04', due:'2027-03-31', r210:'26.10', who210:'배가은', itv:'27.01'},
+  {n:'이우람', join:'26.04', due:'2027-03-31', r210:'26.10', who210:'김재현/김일연', itv:'27.01'},
+  {n:'박성훈', join:'26.04', due:'2027-03-31', r210:'26.10', who210:'이병진/김동운', itv:'27.01'},
+  {n:'배기영', join:'26.05', due:'2027-04-30', r210:'26.11', itv:'27.02'},
+  {n:'염윤선', join:'25.05', due:'2027-04-30', r210:'26.12', itv:'27.03'},
+  {n:'김만식', join:'24.06', due:'2027-05-31', r210:'26.12', itv:'27.03'},
+  {n:'박주영', join:'26.07', due:'2027-06-30', r210:'27.01', itv:'27.04'},
+  {n:'최병문', join:'26.07', due:'2027-06-30', r210:'27.01', itv:'27.04'},
+  {n:'김해람', join:'25.08', due:'2027-07-31', r210:'27.02', itv:'27.05'},
+  {n:'박지호', join:'26.08', due:'2027-07-31', r210:'27.02', itv:'27.05'},
+  {n:'김동운', join:'23.09', due:'2027-08-31', r210:'27.03', itv:'27.06'},
+  {n:'정희진', join:'23.09', due:'2027-08-31', r210:'27.03', itv:'27.06'},
+  {n:'장호연', join:'23.09', due:'2027-08-31', r210:'27.03', itv:'27.06'},
+  {n:'최진우', join:'23.09', due:'2027-08-31', r210:'27.03', itv:'27.06'},
+  {n:'김정률', join:'23.09', due:'2027-08-31', r210:'27.03', itv:'27.06'},
+  {n:'김성숙', join:'26.09', due:'2027-08-30', r210:'27.03', itv:'27.06'}
 ];
 
 const CATS = ['전체','지각·조퇴','대리인','출석인정','감사장','갱신','타챕터 협업'];
@@ -1002,6 +1024,7 @@ const RENEW_FLOW = [
   {k:'승인',   t:'갱신 승인 발표 (조찬)',   d:'투표에서 찬성되면 그다음 조찬에서 갱신 승인이 발표됩니다.'}
 ];
 const FLOW_ORDER = ['','인터뷰','입금','투표','승인'];
+function ymTxt(v){ if(!v) return ''; const p=String(v).split('.'); return '20'+p[0]+'년 '+Number(p[1])+'월'; }
 
 function memberInfo(m){
   if(m.due){
@@ -1011,7 +1034,7 @@ function memberInfo(m){
     if(done){ const q = m.due.split('-').map(Number); target = ymd(new Date(q[0]+1, q[1]-1, q[2])); }
     const exp = parseYmd(target);
     let idx = FLOW_ORDER.indexOf(st); if(idx < 0) idx = 0;
-    return { name:m.n, st:st, done:done, idx:idx, curDue:parseYmd(m.due),
+    return { name:m.n, st:st, done:done, idx:idx, curDue:parseYmd(m.due), m:m,
              expiry:exp, ymd:target, dday:dayDiff(exp, TODAY), est:!!m.est };
   }
   const jy = Number(m.join.split('-')[0]);
@@ -1058,14 +1081,31 @@ function flowHTML(mi){
     const start = addDays(mi.expiry, -150);
     return '<div class="note">아직 갱신 절차를 시작할 시기가 아닙니다. 준비는 <b>'+fmtDate(start)+'(D-150)</b>부터 시작됩니다.</div>';
   }
+  const M = mi.m || {};
   let h = '<div class="flow"><b class="ft">갱신 진행 상황</b>';
+
+  // 210일 리뷰 (시트 기록 기준)
+  const r2done = !!M.on210;
+  let r2sub = '기한 '+ymTxt(M.r210) + (M.who210 ? ' · 담당 '+M.who210 : '');
+  if(r2done) r2sub = fmtDate(parseYmd(M.on210))+' 실행' + (M.who210 ? ' · '+M.who210 : '');
+  h += '<div class="frow'+(r2done?' fdone':'')+'">'+
+       '<span class="fi">'+(r2done?'✅':'⬜')+'</span>'+
+       '<span class="ftx"><b>210일 리뷰</b><span>'+esc(r2sub)+'</span></span>'+
+       '<span class="fst">'+(r2done?'완료':'기록 없음')+'</span></div>';
+
   RENEW_FLOW.forEach(function(f, i){
     const step = i+1;
     const isDone = mi.idx >= step;
     const isNow  = !mi.done && mi.idx === step-1;
+    let sub = f.d;
+    if(f.k==='인터뷰'){
+      sub = '기한 '+ymTxt(M.itv) + (M.whoItv ? ' · 담당 인터뷰어 '+M.whoItv : '');
+    } else if(f.k==='입금' && M.pay){
+      sub = fmtDate(parseYmd(M.pay))+' 입금 확인';
+    }
     h += '<div class="frow'+(isDone?' fdone':'')+(isNow?' fnow':'')+'">'+
          '<span class="fi">'+(isDone?'✅':'⬜')+'</span>'+
-         '<span class="ftx"><b>'+esc(f.t)+'</b><span>'+esc(f.d)+'</span></span>'+
+         '<span class="ftx"><b>'+esc(f.t)+'</b><span>'+esc(sub)+'</span></span>'+
          '<span class="fst">'+(isDone?'완료':(isNow?'다음 차례':'대기'))+'</span></div>';
   });
   h += '</div>';
@@ -1094,7 +1134,7 @@ function memberCardHTML(mi){
     h += '<div class="verdict">✅ 갱신 승인이 완료되었습니다. 지금 하실 일은 없습니다.<br>'+
          '<span style="font-weight:600;font-size:13.5px;color:var(--ink2)">다음 갱신 납부마감일 '+fmtDate(mi.expiry)+' · D-'+mi.dday+'</span></div>';
   } else {
-    h += '<div class="verdict">갱신 납부마감일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
+    h += '<div class="verdict">갱신 만료일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
   }
   h += flowHTML(mi);
   h += '<div class="mnext"><b>챕터 일정상 다음 단계</b>'+esc(next.t)+'<span>'+fmtDate(next.date)+' · '+
