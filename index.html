@@ -2660,8 +2660,11 @@ function bindProgress(){
 
 /* 숫자 카운트업 */
 function countUp(el, to){
-  if(!window.matchMedia || !window.matchMedia('(hover: hover)').matches){ el.textContent = to; return; }
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || document.visibilityState !== 'visible'){ el.textContent = to; return; }
   const dur = 520, t0 = performance.now();
+  // 프레임이 멈춰도 최종값은 반드시 표시
+  setTimeout(function(){ el.textContent = to; }, dur + 120);
   (function step(t){
     const k = Math.min(1, (t - t0) / dur);
     el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
