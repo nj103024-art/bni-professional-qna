@@ -2807,6 +2807,15 @@ function boot(){
   });
 
   render();
+
+  // 애니메이션이 시작되지 않는 환경에서도 콘텐츠가 반드시 보이도록
+  setTimeout(function(){
+    document.querySelectorAll('.heroin>*, .alerts>*, .snav, .sg').forEach(function(el){
+      if(getComputedStyle(el).opacity === '0'){
+        el.style.animation = 'none'; el.style.opacity = '1'; el.style.transform = 'none';
+      }
+    });
+  }, 1800);
 }
 function drawDiagrams(){
   const d = $('#diagRenew'); if(d) d.innerHTML = diagramRenew();
