@@ -107,7 +107,7 @@ svg{display:block}
 .plead{margin:0 0 18px;font-size:15px;color:var(--ink2);line-height:1.7;max-width:70ch}
 .plead b{color:var(--ink)}
 .pdiag{background:#FCFCFB;border:1px solid var(--line2);border-radius:12px;padding:22px 20px;overflow-x:auto;margin-bottom:18px}
-.pdiag svg{width:100%;height:auto;min-width:560px;margin:0 auto}
+.pdiag svg{width:100%;height:auto;min-width:600px;margin:0 auto}
 .swipe{display:none;font-size:11.5px;color:var(--ink3);margin:-10px 0 16px;text-align:center}
 @media(max-width:700px){.swipe{display:block}}
 .pkeys{border-top:1px solid var(--line2);padding-top:16px}
@@ -132,6 +132,31 @@ svg{display:block}
 .hcard span{font-size:13px;color:var(--ink2);line-height:1.6}
 .hcard .hn{margin-top:auto;font-size:11.5px;font-weight:700;color:var(--ink3);display:flex;align-items:center;gap:5px}
 
+/* ── 인터랙션 ── */
+.pdiag svg .hv{transition:opacity .22s ease}
+@media(hover:hover){
+  .pdiag svg:hover .hv{opacity:.32}
+  .pdiag svg .hv:hover{opacity:1}
+  .diagram svg .hv{transition:opacity .22s ease}
+  .diagram svg:hover .hv{opacity:.32}
+  .diagram svg .hv:hover{opacity:1}
+}
+.spot{position:relative;isolation:isolate}
+.spot::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  opacity:0;transition:opacity .35s ease;
+  background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%), rgba(200,16,46,.055), transparent 62%)}
+@media(hover:hover){.spot:hover::after{opacity:1}}
+.reveal{opacity:0;transform:translateY(12px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .55s cubic-bezier(.22,.7,.28,1),transform .55s cubic-bezier(.22,.7,.28,1)}
+@media(prefers-reduced-motion:reduce){.reveal,.reveal.in{opacity:1;transform:none;transition:none}}
+.hcard{transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+@media(hover:hover){.hcard:hover{border-color:var(--ink4);transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,20,20,.07)}}
+.card{transition:border-color .18s ease,box-shadow .18s ease}
+@media(hover:hover){.card:hover{border-color:#D6D3CF;box-shadow:0 4px 18px rgba(20,20,20,.06)}}
+.chip{transition:background .15s ease,color .15s ease}
+.sg{transition:border-color .15s ease,color .15s ease,background .15s ease}
+.ask .box{transition:border-color .18s ease,box-shadow .25s ease}
+
 /* ── 섹션 ── */
 .sec{margin-bottom:26px}
 .sech{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
@@ -146,7 +171,7 @@ svg{display:block}
 .toolh p{margin:5px 0 0;font-size:12.5px;color:var(--ink3)}
 .toolb{padding:15px 17px 17px}
 .diagram{background:#FCFCFB;border-bottom:1px solid var(--line2);padding:18px 16px 14px;overflow-x:auto}
-.diagram svg{margin:0 auto;width:100%;min-width:430px;height:auto}
+.diagram svg{margin:0 auto;width:100%;min-width:540px;height:auto}
 
 .field{margin-bottom:12px}
 .field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink2);margin-bottom:6px}
@@ -973,218 +998,215 @@ function icon(cat, size, cls){
 const CHECK = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16704A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
 const CIRCLE = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B6BAC1" stroke-width="2" ><circle cx="12" cy="12" r="8"/></svg>';
 
-/* 조찬 진행 타임라인 도식 */
+/* ── 도식 공통 헬퍼 ── */
+const C_INK='#16171A', C_SUB='#8B8F97', C_MID='#55585F', C_LINE='#E7E5E2', C_RED='#C8102E', C_OK='#16704A', C_AMB='#8A5A00';
+function T(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.s||10.5)+'" font-weight="'+(o.w||400)+
+  '" fill="'+(o.f||C_INK)+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.ls?' letter-spacing="'+o.ls+'"':'')+'>'+t+'</text>';}
+function R(x,y,w,h,o){o=o||{};return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(o.r===undefined?10:o.r)+
+  '" fill="'+(o.f||'#fff')+'"'+(o.s===null?'':' stroke="'+(o.s||C_LINE)+'"')+(o.sw?' stroke-width="'+o.sw+'"':'')+'/>';}
+function G(inner,label){return '<g class="hv"'+(label?' aria-label="'+label+'"':'')+'>'+inner+'</g>';}
+
+/* 조찬 진행 타임라인 (원문 4쪽 개념도) */
 function diagramMeeting(){
   const c = cfg();
-  const t0 = c.open - 15, t1 = c.normal + 15, span = t1 - t0;
-  const W = 460, L = 46, R = 14, IW = W - L - R;
+  const t0 = c.open - 18, t1 = c.normal + 18, span = t1 - t0;
+  const W = 620, L = 58, R2 = 24, IW = W - L - R2;
   const x = m => L + (m - t0) / span * IW;
+  const bar = (a2,b2,fill,y,h) => '<rect x="'+x(a2).toFixed(1)+'" y="'+y+'" width="'+(x(b2)-x(a2)).toFixed(1)+'" height="'+h+'" fill="'+fill+'" rx="4"/>';
+  const mid = (a2,b2)=> (x(a2)+x(b2))/2;
+
+  let h = '<svg viewBox="0 0 '+W+' 168" role="img" aria-label="조찬 진행 시각과 지각 조퇴 판정 구간">';
+  h += T(0,20,'언제 왔나',{s:10.5,w:800,f:C_SUB});
+  h += G(bar(t0,c.start,'#E4F0E9',8,22) + bar(c.start,c.first,'#F8EAD0',8,22) + bar(c.first,t1,'#F8DFE3',8,22) +
+        T(mid(t0,c.start),23,'정시',{s:11.5,w:800,f:C_OK,a:'middle'}) +
+        T(mid(c.start,c.first),23,'지각',{s:11.5,w:800,f:C_AMB,a:'middle'}) +
+        T(mid(c.first,t1),23,'결석',{s:11.5,w:800,f:C_RED,a:'middle'}), '도착 기준');
+
+  h += T(0,60,'언제 갔나',{s:10.5,w:800,f:C_SUB});
+  h += G(bar(t0,c.last,'#F8DFE3',48,22) + bar(c.last,c.normal,'#F8EAD0',48,22) + bar(c.normal,t1,'#E4F0E9',48,22) +
+        T(mid(t0,c.last),63,'결석',{s:11.5,w:800,f:C_RED,a:'middle'}) +
+        T(mid(c.last,c.normal),63,'조퇴',{s:11.5,w:800,f:C_AMB,a:'middle'}) +
+        T(mid(c.normal,t1),63,'정상 출석',{s:11.5,w:800,f:C_OK,a:'middle'}), '퇴장 기준');
+
+  h += '<line x1="'+L+'" y1="88" x2="'+(W-R2)+'" y2="88" stroke="'+C_LINE+'" stroke-width="1.2"/>';
   const marks = [
+    {m:c.open,   l:'오픈 네트워킹'},
     {m:c.start,  l:'본회의 시작'},
     {m:c.first,  l:'첫 위클리'},
     {m:c.last,   l:'마지막 위클리'},
     {m:c.end,    l:'조찬 종료'},
     {m:c.normal, l:'정상출석 인정'}
   ];
-  const band = (a,b,fill,y,h) => '<rect x="'+x(a).toFixed(1)+'" y="'+y+'" width="'+(x(b)-x(a)).toFixed(1)+'" height="'+h+'" fill="'+fill+'" rx="3"/>';
-  let h = '<svg viewBox="0 0 '+W+' 134" role="img" aria-label="조찬 진행 시각과 지각·조퇴 판정 구간">';
-  h += '<text x="0" y="26" font-size="11.5" font-weight="700" fill="#8B8F97">도착</text>';
-  h += band(t0, c.start, '#DCEAE3', 15, 15) + band(c.start, c.first, '#F6E7C8', 15, 15) + band(c.first, t1, '#F6DADE', 15, 15);
-  h += '<text x="'+((x(t0)+x(c.start))/2)+'" y="26" font-size="11.5" font-weight="800" fill="#16704A" text-anchor="middle">정시</text>';
-  h += '<text x="'+((x(c.start)+x(c.first))/2)+'" y="26" font-size="11.5" font-weight="800" fill="#8A5A00" text-anchor="middle">지각</text>';
-  h += '<text x="'+((x(c.first)+x(t1))/2)+'" y="26" font-size="11.5" font-weight="800" fill="#C8102E" text-anchor="middle">결석</text>';
-  h += '<text x="0" y="60" font-size="11.5" font-weight="700" fill="#8B8F97">퇴장</text>';
-  h += band(t0, c.last, '#F6DADE', 49, 15) + band(c.last, c.normal, '#F6E7C8', 49, 15) + band(c.normal, t1, '#DCEAE3', 49, 15);
-  h += '<text x="'+((x(t0)+x(c.last))/2)+'" y="60" font-size="11.5" font-weight="800" fill="#C8102E" text-anchor="middle">결석</text>';
-  h += '<text x="'+((x(c.last)+x(c.normal))/2)+'" y="60" font-size="11.5" font-weight="800" fill="#8A5A00" text-anchor="middle">조퇴</text>';
-  h += '<text x="'+((x(c.normal)+x(t1))/2)+'" y="60" font-size="11.5" font-weight="800" fill="#16704A" text-anchor="middle">정상</text>';
-  h += '<line x1="'+L+'" y1="78" x2="'+(W-R)+'" y2="78" stroke="#E7E5E2" stroke-width="1"/>';
-  marks.forEach(function(mk, i){
-    const px = x(mk.m), up = i % 2 === 0;
-    h += '<line x1="'+px.toFixed(1)+'" y1="72" x2="'+px.toFixed(1)+'" y2="84" stroke="#B6BAC1" stroke-width="1.4"/>';
-    h += '<text x="'+px.toFixed(1)+'" y="'+(up?98:118)+'" font-size="11.5" font-weight="800" fill="#16171A" text-anchor="middle">'+hhmm(mk.m)+'</text>';
-    h += '<text x="'+px.toFixed(1)+'" y="'+(up?109:129)+'" font-size="10.5" fill="#8B8F97" text-anchor="middle">'+mk.l+'</text>';
+  marks.forEach(function(mk,i){
+    const px = x(mk.m), up = i % 2 === 0, y = up ? 110 : 142;
+    const key = (mk.m===c.first || mk.m===c.last || mk.m===c.normal);
+    h += G('<line x1="'+px.toFixed(1)+'" y1="82" x2="'+px.toFixed(1)+'" y2="'+(y-19)+'" stroke="'+(key?'#C9CDD3':C_LINE)+'" stroke-width="1.2"/>'+
+           '<circle cx="'+px.toFixed(1)+'" cy="88" r="'+(key?4:3)+'" fill="'+(key?C_RED:'#fff')+'" stroke="'+(key?C_RED:C_SUB)+'" stroke-width="1.4"/>'+
+           T(px,y,hhmm(mk.m),{s:12,w:800,a:'middle'}) +
+           T(px,y+13,mk.l,{s:10,f:C_SUB,a:'middle'}), mk.l);
   });
   h += '</svg>';
   return h;
 }
 
-/* 갱신 절차 흐름 도식 */
+/* 갱신 절차 5단계 (도구용) */
 function diagramRenew(){
-  const steps = [
-    {t:'210일 리뷰', s:'D-150'},
-    {t:'갱신 인터뷰', s:'D-90 전후'},
-    {t:'지원서·갱신비', s:'인터뷰 후'},
-    {t:'위원회 투표', s:'월례 회의'},
-    {t:'갱신 승인', s:'다음 조찬'}
-  ];
-  const W = 460, n = steps.length, gap = 9;
-  const bw = (W - gap*(n-1)) / n;
-  let h = '<svg viewBox="0 0 '+W+' 108" role="img" aria-label="갱신 진행 절차 다섯 단계">';
-  steps.forEach(function(st, i){
-    const x = i * (bw + gap), cx = x + bw/2, last = i === n-1;
-    h += '<rect x="'+x.toFixed(1)+'" y="10" width="'+bw.toFixed(1)+'" height="70" rx="10" fill="'+(last?'#FCF3F4':'#FFFFFF')+'" stroke="'+(last?'#E9C8CD':'#E7E5E2')+'"/>';
-    h += '<circle cx="'+cx.toFixed(1)+'" cy="28" r="9" fill="'+(last?'#C8102E':'#F1EFEC')+'"/>';
-    h += '<text x="'+cx.toFixed(1)+'" y="31.8" font-size="10.5" font-weight="800" fill="'+(last?'#fff':'#8B8F97')+'" text-anchor="middle">'+(i+1)+'</text>';
-    h += '<text x="'+cx.toFixed(1)+'" y="55" font-size="10.5" font-weight="800" fill="#16171A" text-anchor="middle">'+st.t+'</text>';
-    h += '<text x="'+cx.toFixed(1)+'" y="70" font-size="9.5" fill="#8B8F97" text-anchor="middle">'+st.s+'</text>';
-    if(!last){
-      const ax = x + bw + gap/2;
-      h += '<path d="M'+(ax-3).toFixed(1)+' 41 l3.5 4 -3.5 4" fill="none" stroke="#B6BAC1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
-    }
+  const steps=[['210일 리뷰','D-150'],['갱신 인터뷰','D-90 전후'],['지원서·갱신비','인터뷰 후'],['위원회 투표','월례 회의'],['갱신 승인','다음 조찬']];
+  const W=560, n=steps.length, gap=12, bw=(W-gap*(n-1))/n;
+  let h='<svg viewBox="0 0 '+W+' 112" role="img" aria-label="갱신 진행 절차 다섯 단계">';
+  steps.forEach(function(st,i){
+    const x0=i*(bw+gap), cx=x0+bw/2, last=i===n-1;
+    h+=G(R(x0,12,bw,74,{f:last?'#FCF3F4':'#fff',s:last?'#E9C8CD':C_LINE,r:11})+
+         '<circle cx="'+cx.toFixed(1)+'" cy="32" r="10" fill="'+(last?C_RED:'#F1EFEC')+'"/>'+
+         T(cx,36,String(i+1),{s:11,w:800,f:last?'#fff':C_SUB,a:'middle'})+
+         T(cx,60,st[0],{s:11.5,w:800,a:'middle'})+
+         T(cx,75,st[1],{s:10,f:C_SUB,a:'middle'}), st[0]);
+    if(!last){const ax=x0+bw+gap/2;
+      h+='<path d="M'+(ax-3).toFixed(1)+' 45 l4 4 -4 4" fill="none" stroke="#C9CDD3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';}
   });
-  h += '<text x="0" y="99" font-size="10" fill="#8B8F97">투표에서 찬성되면 그다음 조찬에서 갱신 승인이 발표됩니다.</text>';
-  h += '</svg>';
+  h+=T(0,105,'투표에서 찬성되면 그다음 조찬에서 갱신 승인이 발표됩니다.',{s:10,f:C_SUB});
+  h+='</svg>';
   return h;
 }
-
-
-/* ===================== 카테고리별 핵심 정리 도식 ===================== */
-const C_INK='#16171A', C_SUB='#8B8F97', C_LINE='#E7E5E2', C_RED='#C8102E', C_OK='#16704A';
-function pnl(x,y,w,h,fill,stroke,rx){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(rx||10)+'" fill="'+(fill||'#fff')+'" stroke="'+(stroke||C_LINE)+'"/>';}
-function txt(x,y,t,size,weight,fill,anchor2){return '<text x="'+x+'" y="'+y+'" font-size="'+size+'" font-weight="'+(weight||400)+'" fill="'+(fill||C_INK)+'"'+(anchor2?' text-anchor="'+anchor2+'"':'')+'>'+t+'</text>';}
 
 /* 대리인: 기존 vs 변경 */
 function primerProxy(){
-  const W=460;
-  let h='<svg viewBox="0 0 '+W+' 178" role="img" aria-label="대리인 제도 기존과 변경 비교">';
-  h+=pnl(0,22,206,142,'#FCFCFB');
-  h+=txt(12,16,'지금 ~ 2026.9.30',10.5,800,C_SUB);
-  h+=txt(14,44,'대리인을 보낼 수 있는 사람',10,700,C_SUB);
-  ['골드클럽','그린클럽 (그린 6개월 이상)','의장단'].forEach(function(t,i){
-    h+=pnl(14,52+i*24,178,20,'#fff');
-    h+=txt(24,66+i*24,'· '+t,10.5,600,C_INK);
-  });
-  h+=pnl(14,128,178,26,'#FDF7EA','#F0E2C4');
-  h+=txt(24,145,'연 2회 제한 · 초과 시 컨트롤 레터',10,700,'#8A5A00');
+  const W=620;
+  let h='<svg viewBox="0 0 '+W+' 216" role="img" aria-label="대리인 제도 기존과 변경 비교">';
+  h+=G(R(0,26,266,158,{f:'#FCFCFB'})+
+      T(4,16,'지금 ~ 2026. 9. 30',{s:11,w:800,f:C_SUB,ls:'.02em'})+
+      T(22,52,'대리인을 보낼 수 있는 사람',{s:10.5,w:700,f:C_MID})+
+      ['골드클럽','그린클럽 (그린 6개월 이상)','의장단'].map(function(t,i){
+        return R(22,62+i*28,222,22,{r:7})+T(34,77+i*28,'· '+t,{s:11,w:600});
+      }).join('')+
+      R(22,150,222,24,{f:'#FDF7EA',s:'#F0E2C4',r:7})+
+      T(133,165,'연 2회 제한 · 초과 시 컨트롤 레터',{s:10.5,w:700,f:C_AMB,a:'middle'}), '기존 규정');
 
-  h+='<path d="M216 92 l14 0 M226 87 l5 5 -5 5" fill="none" stroke="'+C_SUB+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
+  h+='<g><path d="M282 105 h20 M298 100 l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>';
 
-  h+=pnl(240,22,220,142,'#FCF3F4','#E9C8CD');
-  h+=txt(252,16,'2026.10.1부터',10.5,800,C_RED);
-  h+=txt(254,44,'보내는 사람 제한 없음',10,700,C_SUB);
-  h+=pnl(254,52,192,20,'#fff','#E9C8CD');
-  h+=txt(264,66,'· 모든 멤버가 사용 가능',10.5,700,C_RED);
-  h+=txt(254,90,'대신 대리인이 될 수 있는 사람만 한정',10,700,C_SUB);
-  ['디렉터','앰배서더','어시스트 앰배서더 (커뮤니티 빌더)'].forEach(function(t,i){
-    h+=txt(264,105+i*15,'· '+t,10,600,C_INK);
-  });
-  h+=txt(0,176,'※ 런칭 중인 챕터의 멤버는 대리인으로 참석할 수 없습니다.',9.5,400,C_SUB);
+  h+=G(R(320,26,300,158,{f:'#FCF3F4',s:'#E9C8CD'})+
+      T(324,16,'2026. 10. 1 부터',{s:11,w:800,f:C_RED,ls:'.02em'})+
+      T(342,52,'보내는 사람 제한 없음',{s:10.5,w:700,f:C_MID})+
+      R(342,62,256,26,{s:'#E9C8CD',r:7})+
+      T(470,79,'모든 멤버가 사용 가능',{s:11.5,w:800,f:C_RED,a:'middle'})+
+      T(342,110,'대신 대리인이 될 수 있는 사람만 한정',{s:10.5,w:700,f:C_MID})+
+      ['디렉터','앰배서더','어시스트 앰배서더 (커뮤니티 빌더)'].map(function(t,i){
+        return T(354,128+i*18,'· '+t,{s:11,w:600});
+      }).join(''), '변경 규정');
+
+  h+=T(0,208,'※ 런칭 중인 챕터의 멤버는 대리인으로 참석할 수 없습니다.',{s:10,f:C_SUB});
   h+='</svg>';
   return h;
 }
 
-/* 출석 인정: 100km + 횟수 */
+/* 출석 인정 */
 function primerAway(){
-  const W=460;
-  let h='<svg viewBox="0 0 '+W+' 150" role="img" aria-label="출석 인정 완화 기준">';
-  h+=pnl(0,16,268,116,'#FCFCFB');
-  h+=txt(12,10,'장거리 출장 시 타 지역 챕터 방문 출석 인정',10.5,800,C_SUB);
-  h+='<circle cx="58" cy="72" r="26" fill="#fff" stroke="'+C_LINE+'"/>';
-  h+=txt(58,70,'소속',10,800,C_INK,'middle')+txt(58,82,'지역',10,800,C_INK,'middle');
-  h+='<path d="M92 72 h96" stroke="'+C_RED+'" stroke-width="1.6" stroke-dasharray="4 3"/>';
-  h+='<path d="M183 67 l5 5 -5 5" fill="none" stroke="'+C_RED+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
-  h+=pnl(104,54,72,20,'#fff','#E9C8CD',10);
-  h+=txt(140,68,'100km 이상',10,800,C_RED,'middle');
-  h+='<path d="M212 60 a14 14 0 1 1 0 22 l0 8 -6 -8 a14 14 0 0 1 6 -22z" fill="#FCF3F4" stroke="#E9C8CD"/>';
-  h+=txt(219,76,'타',9.5,800,C_RED,'middle');
-  h+=txt(219,104,'타 지역 챕터',9.5,700,C_SUB,'middle');
+  const W=620;
+  let h='<svg viewBox="0 0 '+W+' 208" role="img" aria-label="출석 인정 완화 기준">';
+  h+=G(R(0,26,346,150,{f:'#FCFCFB'})+
+      T(4,16,'장거리 출장이면 타 지역 챕터 방문도 출석',{s:11,w:800,f:C_SUB})+
+      '<circle cx="76" cy="98" r="34" fill="#fff" stroke="'+C_LINE+'"/>'+
+      T(76,94,'소속',{s:11.5,w:800,a:'middle'})+T(76,109,'지역',{s:11.5,w:800,a:'middle'})+
+      '<path d="M118 98 H236" stroke="'+C_RED+'" stroke-width="1.6" stroke-dasharray="5 4"/>'+
+      '<path d="M231 93 l5 5 -5 5" fill="none" stroke="'+C_RED+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'+
+      R(140,86,76,24,{s:'#E9C8CD',r:12})+
+      T(178,102,'100km 이상',{s:11,w:800,f:C_RED,a:'middle'})+
+      '<path d="M268 74 a22 22 0 0 1 22 22 c0 15 -22 34 -22 34 s-22 -19 -22 -34 a22 22 0 0 1 22 -22 z" fill="#FCF3F4" stroke="#E9C8CD"/>'+
+      '<circle cx="268" cy="96" r="7" fill="#fff" stroke="'+C_RED+'" stroke-width="1.6"/>'+
+      T(268,150,'타 지역 챕터',{s:10.5,w:700,f:C_MID,a:'middle'}), '거리 기준');
 
-  h+=pnl(284,16,176,116,'#FCFCFB');
-  h+=txt(296,10,'인정 횟수 확대',10.5,800,C_SUB);
-  h+=txt(300,42,'기존',10,700,C_SUB);
-  h+='<circle cx="352" cy="38" r="9" fill="#fff" stroke="'+C_LINE+'"/>';
-  h+=txt(352,41.5,'1',10,800,C_SUB,'middle');
-  h+=txt(370,42,'회 / 6개월',10,600,C_SUB);
-  h+='<path d="M300 60 h150" stroke="'+C_LINE+'"/>';
-  h+=txt(300,82,'변경',10,800,C_RED);
-  [0,1,2].forEach(function(i){
-    h+='<circle cx="'+(346+i*24)+'" cy="78" r="9" fill="#FCF3F4" stroke="#E9C8CD"/>';
-    h+=txt(346+i*24,81.5,String(i+1),10,800,C_RED,'middle');
-  });
-  h+=txt(300,110,'6개월 안에 3회까지 인정',10.5,800,C_RED);
-  h+=txt(0,146,'※ 국내 출장 포함. 소속 지역 기준 100km 이상 이동한 경우에 적용됩니다.',9.5,400,C_SUB);
+  h+=G(R(362,26,258,150,{f:'#FCFCFB'})+
+      T(366,16,'인정 횟수 확대',{s:11,w:800,f:C_SUB})+
+      T(386,66,'기존',{s:11,w:700,f:C_SUB})+
+      '<circle cx="452" cy="61" r="12" fill="#fff" stroke="'+C_LINE+'"/>'+
+      T(452,65.5,'1',{s:11.5,w:800,f:C_SUB,a:'middle'})+
+      T(476,66,'회 / 6개월',{s:11,w:600,f:C_SUB})+
+      '<line x1="386" y1="86" x2="596" y2="86" stroke="'+C_LINE+'"/>'+
+      T(386,118,'변경',{s:11,w:800,f:C_RED})+
+      [0,1,2].map(function(i){
+        return '<circle cx="'+(452+i*34)+'" cy="113" r="12" fill="#FCF3F4" stroke="#E9C8CD"/>'+
+               T(452+i*34,117.5,String(i+1),{s:11.5,w:800,f:C_RED,a:'middle'});
+      }).join('')+
+      T(491,152,'6개월 안에 3회까지 인정',{s:12,w:800,f:C_RED,a:'middle'}), '횟수 확대');
+
+  h+=T(0,200,'※ 국내 출장 포함. 소속 지역 기준 100km 이상 이동한 경우에 적용됩니다.',{s:10,f:C_SUB});
   h+='</svg>';
   return h;
 }
 
-/* 감사장: 유형별 계산식 */
+/* 감사장 유형별 계산식 */
 function primerThanks(){
-  const W=460, rows=[
-    ['수수료·중개형','부동산·보험·투자·자동차·여행','총액의 10% 또는 청구 수수료'],
-    ['용역 / 물품 / 설치','디자이너·도소매·시공 등','원가 포함한 서비스 총액'],
-    ['비정기 (기한 없음)','스트리밍·자동갱신 앱','월 납부액 × 36개월'],
-    ['정기 (기한 있음)','코칭·구독·렌탈','월 납부액 × 계약 개월수'],
-    ['은행 / 금융','대출·예금·신용','이자 / 한도의 10% / 최초 입금액']
+  const W=620, rows=[
+    ['수수료 · 중개형','부동산 · 보험 · 투자상품 · 자동차 · 여행사','총액의 10% 또는 청구한 수수료'],
+    ['용역 / 물품 / 설치','디자이너 · 도소매 · 시공 등','원가를 포함한 서비스 총액'],
+    ['비정기 (기한 없음)','스트리밍 · 자동갱신 앱','월 납부액 × 36개월'],
+    ['정기 (기한 있음)','코칭 · 구독 · 렌탈','월 납부액 × 계약 개월수'],
+    ['은행 / 금융','대출 · 신용 · 예금','이자 / 한도의 10% / 최초 입금액']
   ];
-  let h='<svg viewBox="0 0 '+W+' '+(30+rows.length*30+18)+'" role="img" aria-label="감사장 업종 유형별 금액 산정 방식">';
-  h+=txt(0,12,'내 업종이 어디에 해당하는지 먼저 찾으세요',10.5,800,C_SUB);
+  const rh=34, gap=8, top=28;
+  let h='<svg viewBox="0 0 '+W+' '+(top+rows.length*(rh+gap)+22)+'" role="img" aria-label="감사장 업종 유형별 금액 산정 방식">';
+  h+=T(0,14,'내 업종이 어디에 해당하는지 먼저 찾으세요',{s:11,w:800,f:C_SUB});
   rows.forEach(function(r,i){
-    const y=22+i*30;
-    h+=pnl(0,y,244,26,'#fff');
-    h+=txt(12,y+12,r[0],10.5,800,C_INK);
-    h+=txt(12,y+22,r[1],9,400,C_SUB);
-    h+='<path d="M250 '+(y+13)+' h10 M256 '+(y+8)+' l5 5 -5 5" fill="none" stroke="'+C_SUB+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
-    h+=pnl(268,y,192,26,'#FCF3F4','#E9C8CD');
-    h+=txt(364,y+17,r[2],10,800,C_RED,'middle');
+    const y=top+i*(rh+gap);
+    h+=G(R(0,y,312,rh)+
+        T(16,y+15,r[0],{s:11.5,w:800})+
+        T(16,y+27,r[1],{s:9.5,f:C_SUB})+
+        '<path d="M324 '+(y+rh/2)+' h14 M334 '+(y+rh/2-5)+' l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'+
+        R(352,y,268,rh,{f:'#FCF3F4',s:'#E9C8CD'})+
+        T(486,y+21,r[2],{s:11.5,w:800,f:C_RED,a:'middle'}), r[0]);
   });
-  h+=txt(0,30+rows.length*30+10,'※ 모든 금액은 부가세 제외 매출 총액 기준. 소개장은 최초 1년 1회만 작성합니다.',9.5,400,C_SUB);
+  h+=T(0,top+rows.length*(rh+gap)+14,'※ 모든 금액은 부가세 제외 매출 총액 기준. 소개장은 최초 1년 1회만 작성합니다.',{s:10,f:C_SUB});
   h+='</svg>';
   return h;
 }
 
-/* 갱신: D-150 ~ D-0 타임라인 */
+/* 갱신 타임라인 */
 function primerRenewLine(){
-  const W=460, L=6, R=6, IW=W-L-R;
-  const pts=[[150,'210일 리뷰','트래픽라이트 관리'],[120,'예비 통보','ST 통보'],[90,'대상자 발표','인터뷰·갱신비'],[60,'전문분야 모집','미제출 시'],[30,'갱신 멤버 발표','축하'],[0,'만료','']];
+  const W=620, L=62, R2=52, IW=W-L-R2, AX=104;
+  const pts=[[150,'210일 리뷰','트래픽라이트 관리'],[120,'예비 통보','ST 통보'],[90,'대상자 발표','인터뷰 · 갱신비'],
+             [60,'전문분야 모집','미제출 시'],[30,'갱신 멤버 발표','축하'],[0,'만료','']];
   const x=d=>L+(150-d)/150*IW;
-  let h='<svg viewBox="0 0 '+W+' 128" role="img" aria-label="갱신 일정 D-150부터 만료까지">';
-  h+='<line x1="'+L+'" y1="46" x2="'+(W-R)+'" y2="46" stroke="'+C_LINE+'" stroke-width="2"/>';
-  h+='<rect x="'+x(150)+'" y="44" width="'+(x(90)-x(150))+'" height="4" fill="#DCEAE3"/>';
+  let h='<svg viewBox="0 0 '+W+' 176" role="img" aria-label="갱신 일정 D-150부터 만료까지">';
+  h+='<line x1="'+(L-14)+'" y1="'+AX+'" x2="'+(W-R2+14)+'" y2="'+AX+'" stroke="'+C_LINE+'" stroke-width="2"/>';
+  h+='<rect x="'+x(150)+'" y="'+(AX-2)+'" width="'+(x(90)-x(150))+'" height="4" fill="#DCEAE3"/>';
+  h+=T((x(150)+x(90))/2,AX-14,'MSP 이수기간',{s:10,w:700,f:C_OK,a:'middle'});
   pts.forEach(function(pt,i){
-    const px=x(pt[0]), last=i===pts.length-1;
-    h+='<circle cx="'+px.toFixed(1)+'" cy="46" r="'+(last?6:5)+'" fill="'+(last?C_RED:'#fff')+'" stroke="'+(last?C_RED:C_SUB)+'" stroke-width="1.8"/>';
-    h+=txt(px,26,'D-'+pt[0],10,800,last?C_RED:C_INK,'middle');
-    const ty=i%2===0?70:96;
-    h+='<line x1="'+px.toFixed(1)+'" y1="52" x2="'+px.toFixed(1)+'" y2="'+(ty-14)+'" stroke="'+C_LINE+'" stroke-width="1"/>';
-    h+=txt(px,ty,pt[1],10,800,C_INK,'middle');
-    if(pt[2]) h+=txt(px,ty+11,pt[2],9,400,C_SUB,'middle');
+    const px=x(pt[0]), last=i===pts.length-1, up=i%2===0, ly=up?AX-34:AX+30;
+    h+=G(T(px,AX-52,'D-'+pt[0],{s:12,w:800,f:last?C_RED:C_INK,a:'middle'})+
+        '<circle cx="'+px.toFixed(1)+'" cy="'+AX+'" r="'+(last?7:6)+'" fill="'+(last?C_RED:'#fff')+'" stroke="'+(last?C_RED:'#B6BAC1')+'" stroke-width="2"/>'+
+        (up ? '' : '<line x1="'+px.toFixed(1)+'" y1="'+(AX+8)+'" x2="'+px.toFixed(1)+'" y2="'+(ly-12)+'" stroke="'+C_LINE+'" stroke-width="1"/>')+
+        T(px,ly,pt[1],{s:11.5,w:800,a:'middle'})+
+        (pt[2]?T(px,ly+14,pt[2],{s:10,f:C_SUB,a:'middle'}):''), pt[1]);
   });
-  h+=txt(x(120),40,'MSP 이수기간',9,700,C_OK,'middle');
-  h+=txt(0,124,'※ 실제 통보·발표는 해당 날짜가 속한 주의 조찬 기준으로 진행됩니다.',9.5,400,C_SUB);
+  h+=T(0,170,'※ 실제 통보 · 발표는 해당 날짜가 속한 주의 조찬 기준으로 진행됩니다.',{s:10,f:C_SUB});
   h+='</svg>';
   return h;
 }
 
-/* 타 챕터 협업 분기 */
+/* 타 챕터 협업 */
 function primerCoop(){
-  const W=460;
-  let h='<svg viewBox="0 0 '+W+' 148" role="img" aria-label="타 챕터 협업 시 리퍼럴·감사장 인정 조건">';
-  h+=pnl(0,14,130,34,'#fff');
-  h+=txt(65,35,'타 챕터 멤버와 협업',10.5,800,C_INK,'middle');
-  h+='<path d="M136 31 h22" stroke="'+C_SUB+'" stroke-width="1.4"/>';
-  h+='<path d="M153 26 l5 5 -5 5" fill="none" stroke="'+C_SUB+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
-  h+=pnl(166,14,150,34,'#FCFCFB');
-  h+=txt(241,29,'우리 챕터 안에',9.5,600,C_SUB,'middle');
-  h+=txt(241,41,'같은 전문분야가 있나요?',10,800,C_INK,'middle');
-  h+='<path d="M322 31 h16 l0 -18 h14" stroke="'+C_SUB+'" stroke-width="1.4" fill="none"/>';
-  h+='<path d="M322 31 h16 l0 34 h14" stroke="'+C_SUB+'" stroke-width="1.4" fill="none"/>';
-  h+='<path d="M347 8 l5 5 -5 5 M347 60 l5 5 -5 5" fill="none" stroke="'+C_SUB+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
-  h+=pnl(356,0,104,26,'#FCF3F4','#E9C8CD');
-  h+=txt(408,12,'있다 → 인정 안 됨',9.5,800,C_RED,'middle');
-  h+=txt(408,22,'리퍼럴·감사장',8.5,400,C_SUB,'middle');
-  h+=pnl(356,52,104,26,'#F0F7F3','#DCEAE3');
-  h+=txt(408,64,'없다 → 인정',9.5,800,C_OK,'middle');
-  h+=txt(408,74,'리퍼럴·감사장',8.5,400,C_SUB,'middle');
-  h+=pnl(0,96,460,34,'#FCFCFB');
-  h+=txt(14,110,'부르는 말도 정해져 있습니다',9.5,700,C_SUB);
-  h+=txt(14,124,'✕  파워팀',10.5,800,C_RED);
-  h+=txt(86,124,'○  협업 · 협업팀',10.5,800,C_OK);
-  h+=txt(0,146,'※ 협업 자체는 얼마든지 권장합니다. 제한은 리퍼럴·감사장 인정과 명칭에만 적용됩니다.',9.5,400,C_SUB);
+  const W=620;
+  let h='<svg viewBox="0 0 '+W+' 190" role="img" aria-label="타 챕터 협업 시 리퍼럴 감사장 인정 조건">';
+  h+=G(R(0,26,150,44)+T(75,53,'타 챕터 멤버와 협업',{s:11.5,w:800,a:'middle'}),'협업');
+  h+='<path d="M158 48 h26 M179 43 l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+  h+=G(R(192,26,196,44,{f:'#FCFCFB'})+
+      T(290,45,'우리 챕터 안에',{s:10,f:C_SUB,a:'middle'})+
+      T(290,60,'같은 전문분야가 있나요?',{s:11.5,w:800,a:'middle'}),'분기 조건');
+  h+='<path d="M396 48 h22 v-22 h18" stroke="#C9CDD3" stroke-width="1.6" fill="none"/>';
+  h+='<path d="M396 48 h22 v44 h18" stroke="#C9CDD3" stroke-width="1.6" fill="none"/>';
+  h+='<path d="M431 21 l5 5 -5 5 M431 87 l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+  h+=G(R(444,12,176,30,{f:'#FCF3F4',s:'#E9C8CD',r:8})+
+      T(532,32,'있다 → 인정 안 됨',{s:11.5,w:800,f:C_RED,a:'middle'}),'인정 안 됨');
+  h+=G(R(444,78,176,30,{f:'#F0F7F3',s:'#DCEAE3',r:8})+
+      T(532,98,'없다 → 리퍼럴·감사장 인정',{s:11,w:800,f:C_OK,a:'middle'}),'인정됨');
+  h+=G(R(0,126,620,40,{f:'#FCFCFB'})+
+      T(20,143,'부르는 말도 정해져 있습니다',{s:10,w:700,f:C_SUB})+
+      T(20,158,'✕  파워팀',{s:12,w:800,f:C_RED})+
+      T(120,158,'○  협업 · 협업팀',{s:12,w:800,f:C_OK}),'명칭');
+  h+=T(0,184,'※ 협업 자체는 얼마든지 권장합니다. 제한은 리퍼럴·감사장 인정과 명칭에만 적용됩니다.',{s:10,f:C_SUB});
   h+='</svg>';
   return h;
 }
-
 
 /* ===================== 카테고리별 핵심 정리 ===================== */
 const PRIMERS = [
@@ -1242,7 +1264,7 @@ const PRIMERS = [
 ];
 
 function primerHTML(pr){
-  let h = '<article class="primer">';
+  let h = '<article class="primer spot reveal">';
   h += '<div class="ph">'+icon(pr.cat,17,'pi')+'<div><span>'+esc(pr.cat)+'</span><h3>'+esc(pr.title)+'</h3></div></div>';
   h += '<p class="plead">'+rich(pr.lead)+'</p>';
   h += '<div class="pdiag">'+pr.svg()+'</div><p class="swipe">← 도식을 좌우로 밀어서 보세요 →</p>';
@@ -1262,6 +1284,7 @@ function renderPrimers(){
   document.getElementById('primerCount').textContent = state.cat==='전체' ? '6개 분야' : state.cat;
   box.innerHTML = list.length ? list.map(primerHTML).join('')
     : '<p class="disc">이 분야는 아래 조항을 확인해 주세요.</p>';
+  bindFX();
 }
 
 /* ===================== 카드 렌더 ===================== */
@@ -1272,7 +1295,7 @@ function cardHTML(r, open){
   const badges = ['<span class="bd cat">'+esc(r.cat)+'</span>',
                   '<span class="bd '+st.cls+'">'+esc(st.label)+'</span>'];
   if(r.check && r.check.length) badges.push('<span class="bd chk">⚠️ 확인 필요</span>');
-  let h = '<article class="card" id="card-'+r.id+'">';
+  let h = '<article class="card spot reveal" id="card-'+r.id+'">';
   h += '<div class="cbadges">'+badges.join('')+'</div>';
   h += '<h3>'+esc(r.title)+'</h3>';
   h += '<div class="verdict">'+rich(r.verdict)+'</div>';
@@ -1322,7 +1345,7 @@ function render(){
     cnt.textContent = '이름으로 조회했습니다';
     const rest = list.length ? list : RULES.filter(r=>r.cat==='갱신');
     box.innerHTML = head + memberCardHTML(mi) + rest.map(r=>cardHTML(r,false)).join('');
-    bindTyCalc();
+    bindTyCalc(); bindFX();
     return;
   }
   if(!list.length){
@@ -1332,11 +1355,12 @@ function render(){
       '<small>아래 분야에서 찾아보시거나, 본인 이름을 입력해 보세요.</small><div class="sugg">'+sug+'</div>'+
       '<small style="display:block;margin-top:16px">그래도 없으면 <b>멤버십위원회</b>에 문의해 주세요.</small></div>';
     box.querySelectorAll('[data-sug]').forEach(b2=> b2.onclick = ()=> goCat(b2.dataset.sug));
+    bindFX();
     return;
   }
   cnt.textContent = asked ? list.length+'개 조항을 찾았습니다' : list.length+'개 조항';
   box.innerHTML = head + list.map(r=>cardHTML(r, asked && list.length<=3)).join('');
-  bindTyCalc();
+  bindTyCalc(); bindFX();
 }
 
 function goCat(cat){
@@ -1361,11 +1385,12 @@ const HOME_DESC = {
 function buildHome(){
   $('#home').innerHTML = CATS.filter(c=>c!=='전체').map(function(c){
     const n = RULES.filter(r=>r.cat===c).length;
-    return '<button class="hcard" type="button" data-cat="'+c+'">'+
+    return '<button class="hcard spot reveal" type="button" data-cat="'+c+'">'+
       icon(c,22,'hi')+'<b>'+c+'</b><span>'+HOME_DESC[c]+'</span>'+
       '<span class="hn">조항 '+n+'개 · 핵심 정리 보기 →</span></button>';
   }).join('');
   document.querySelectorAll('#home .hcard').forEach(b=> b.onclick = ()=> goCat(b.dataset.cat));
+  bindFX();
 }
 
 /* ===================== 분야 내비 ===================== */
@@ -1630,7 +1655,7 @@ function memberCardHTML(mi){
   })();
   const rows = renewDates(mi.ymd);
   const next = rows[nextIdx];
-  let h = '<article class="card mcard">';
+  let h = '<article class="card mcard spot reveal">';
   h += '<div class="cbadges"><span class="bd cat">내 갱신 일정</span>'+
        (mi.done ? '<span class="bd live">✅ 갱신 승인 완료</span>'
                 : '<span class="bd '+(mi.dday<=90?'soon':'live')+'">'+(mi.dday>0?'갱신까지 D-'+mi.dday:'오늘 마감')+'</span>')+'</div>';
@@ -1649,6 +1674,32 @@ function memberCardHTML(mi){
        'BNI Connect 「멤버십 갱신 대상 리포트」 납부마감일 기준 · 정확한 일정은 멤버십위원회 안내를 따릅니다.</div>';
   h += '</article>';
   return h;
+}
+
+/* ===================== 인터랙션 ===================== */
+let _io = null;
+function bindFX(){
+  if(!window.matchMedia || !window.matchMedia('(hover: hover)').matches){
+    document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));
+    return;
+  }
+  document.querySelectorAll('.spot').forEach(function(el){
+    if(el._fx) return; el._fx = true;
+    el.addEventListener('pointermove', function(e){
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+  if(!_io && 'IntersectionObserver' in window){
+    _io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); _io.unobserve(en.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:.05});
+  }
+  document.querySelectorAll('.reveal:not(.in)').forEach(function(el,i){
+    if(_io){ el.style.transitionDelay = Math.min(i,6)*38+'ms'; _io.observe(el); }
+    else el.classList.add('in');
+  });
 }
 
 /* ===================== 초기화 ===================== */
