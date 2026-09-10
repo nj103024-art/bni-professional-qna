@@ -174,6 +174,65 @@ svg{display:block}
 .dctx>b{display:block;font-size:15px;font-weight:800;margin-bottom:5px}
 .dctx>span{display:block;font-size:13.5px;color:var(--ink2);line-height:1.65}
 
+/* ── 스크롤 진행 ── */
+.prog{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:linear-gradient(90deg,var(--red),#E8556B);
+  transition:width .12s linear;z-index:2;border-radius:0 2px 2px 0}
+
+/* ── 홈 버튼 ── */
+.mark{border:0;background:transparent;padding:4px 8px;margin-left:-8px;border-radius:9px;
+  transition:background .18s ease,transform .18s ease}
+@media(hover:hover){.mark:hover{background:var(--line2)}.mark:hover .bni{transform:rotate(-3deg) scale(1.05)}}
+.mark:active{transform:scale(.97)}
+.mark .bni{transition:transform .25s cubic-bezier(.34,1.4,.5,1)}
+
+/* ── 등장 애니메이션 ── */
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.heroin>*{animation:riseIn .62s cubic-bezier(.22,.75,.28,1) both}
+.heroin>.eyebrow{animation-delay:.02s}
+.heroin>h1{animation-delay:.09s}
+.heroin>p.sub{animation-delay:.16s}
+.heroin>.ask{animation-delay:.23s}
+.alerts>*{animation:riseIn .6s cubic-bezier(.22,.75,.28,1) both}
+.alerts>*:nth-child(2){animation-delay:.08s}
+.snav{animation:riseIn .5s cubic-bezier(.22,.75,.28,1) both;animation-delay:.1s}
+.sg{animation:popIn .5s cubic-bezier(.22,.75,.28,1) both}
+#suggests .sg:nth-child(1){animation-delay:.26s} #suggests .sg:nth-child(2){animation-delay:.30s}
+#suggests .sg:nth-child(3){animation-delay:.34s} #suggests .sg:nth-child(4){animation-delay:.38s}
+#suggests .sg:nth-child(5){animation-delay:.42s} #suggests .sg:nth-child(6){animation-delay:.46s}
+
+/* 페이지 전환 */
+.main.swap{animation:fadeIn .38s ease both}
+
+/* ── 입체 효과 ── */
+.tilt{transform-style:preserve-3d;will-change:transform;
+  transition:transform .5s cubic-bezier(.22,.75,.28,1),box-shadow .35s ease}
+@media(hover:hover){
+  .tilt:hover{transition:transform .12s ease,box-shadow .25s ease}
+  .card.tilt:hover{box-shadow:0 18px 40px -18px rgba(20,20,20,.24),0 3px 10px rgba(20,20,20,.05)}
+  .hcard.tilt:hover{box-shadow:0 22px 46px -20px rgba(20,20,20,.26),0 3px 10px rgba(20,20,20,.05)}
+  .primer.tilt:hover{box-shadow:0 26px 56px -26px rgba(20,20,20,.22),0 3px 12px rgba(20,20,20,.05)}
+}
+.hcard .hi,.ph .pi{transform:translateZ(22px)}
+.hcard b,.ph h3{transform:translateZ(12px)}
+
+/* 이미지 카드 깊이 */
+.wi img{transition:transform .4s cubic-bezier(.22,.75,.28,1),box-shadow .3s ease}
+@media(hover:hover){.wi:hover img{transform:translateY(-3px) scale(1.03);box-shadow:0 12px 24px -12px rgba(20,20,20,.3)}}
+.dcol{transition:border-color .25s ease,box-shadow .3s ease,transform .3s cubic-bezier(.22,.75,.28,1)}
+@media(hover:hover){.dcol:hover{border-color:#D8D5D1;box-shadow:0 14px 30px -16px rgba(20,20,20,.2);transform:translateY(-2px)}}
+
+/* 히어로 배경 깊이 */
+.hero .deco{animation:fadeIn 1.2s ease both}
+.hero::after{content:"";position:absolute;left:50%;top:-160px;width:760px;height:360px;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(200,16,46,.055),transparent 72%);pointer-events:none;z-index:1}
+
+@media(prefers-reduced-motion:reduce){
+  .heroin>*,.alerts>*,.snav,.sg,.main.swap,.hero .deco{animation:none}
+  .tilt,.wi img,.dcol{transition:none}
+}
+
 /* ── 인터랙션 ── */
 .pdiag svg .hv{transition:opacity .22s ease}
 @media(hover:hover){
@@ -349,14 +408,14 @@ footer small{font-size:11.5px;color:var(--ink3);display:block}
 </style>
 </head>
 <body>
-<div class="topbar">
+<div class="topbar"><div class="prog" id="prog"></div>
   <div class="tbin">
-    <div class="mark">
+    <button class="mark" id="homeBtn" type="button" aria-label="처음 화면으로">
       <span class="bni">BNI</span>
       <span class="cn" id="chapName">영등포 PROFESSIONAL</span>
       <span class="sep">/</span>
       <span class="pg">변경 규정 Q&amp;A</span>
-    </div>
+    </button>
     <span class="ver" id="docVer"></span>
   </div>
 </div>
@@ -2213,8 +2272,18 @@ function render(){
 
 function goCat(cat){
   state.cat = cat; state.q=''; $('#q').value=''; $('#qclear').hidden = true;
-  syncChips(); render();
-  window.scrollTo({top: document.querySelector('.shell').offsetTop - 60, behavior:'smooth'});
+  syncChips(); render(); swapIn();
+  const sh = document.querySelector('.shell');
+  window.scrollTo({top: cat==='전체' ? 0 : sh.offsetTop - 60, behavior:'smooth'});
+}
+function swapIn(){
+  const m = document.querySelector('.main'); if(!m) return;
+  m.classList.remove('swap'); void m.offsetWidth; m.classList.add('swap');
+}
+function goHome(){
+  state.cat='전체'; state.q=''; $('#q').value=''; $('#qclear').hidden = true;
+  syncChips(); render(); swapIn();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 function drawMeetingDiagram(){
   const pd = document.querySelector('#primers .pdiag');
@@ -2257,6 +2326,9 @@ function buildChips(){
            icon(c,16)+'<span>'+c+'</span><span class="n">'+n+'</span></button>';
   }).join('');
   document.querySelectorAll('#chips .chip').forEach(b=> b.onclick = ()=> goCat(b.dataset.cat));
+  document.querySelectorAll('#chips .chip .n').forEach(function(el){
+    const to = Number(el.textContent) || 0; el.textContent = '0'; countUp(el, to);
+  });
 }
 
 /* ===================== 추천 질문 ===================== */
@@ -2556,8 +2628,50 @@ function tieAll(){ document.querySelectorAll(TIE_SEL).forEach(function(el){ noBr
 
 /* ===================== 인터랙션 ===================== */
 let _io = null;
+/* 커서를 따라 살짝 기우는 입체 효과 */
+function bindTilt(){
+  if(!window.matchMedia || !window.matchMedia('(hover: hover)').matches) return;
+  document.querySelectorAll('.card, .hcard, .primer').forEach(function(el){
+    if(el._tilt) return; el._tilt = true;
+    el.classList.add('tilt');
+    const MAX = el.classList.contains('hcard') ? 5 : 3;
+    el.addEventListener('pointermove', function(e){
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - .5;
+      const py = (e.clientY - r.top) / r.height - .5;
+      el.style.transform = 'perspective(900px) rotateX('+(-py*MAX).toFixed(2)+'deg) rotateY('+(px*MAX).toFixed(2)+'deg) translateY(-2px)';
+    });
+    el.addEventListener('pointerleave', function(){ el.style.transform = ''; });
+  });
+}
+
+/* 스크롤 진행 표시 */
+function bindProgress(){
+  const bar = document.getElementById('prog'); if(!bar) return;
+  let tick = false;
+  const upd = () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? Math.min(100, window.scrollY / h * 100) : 0) + '%';
+    tick = false;
+  };
+  window.addEventListener('scroll', () => { if(!tick){ tick = true; requestAnimationFrame(upd); } }, {passive:true});
+  upd();
+}
+
+/* 숫자 카운트업 */
+function countUp(el, to){
+  if(!window.matchMedia || !window.matchMedia('(hover: hover)').matches){ el.textContent = to; return; }
+  const dur = 520, t0 = performance.now();
+  (function step(t){
+    const k = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+    if(k < 1) requestAnimationFrame(step);
+  })(t0);
+}
+
 function bindFX(){
   tieAll();
+  bindTilt();
   if(!window.matchMedia || !window.matchMedia('(hover: hover)').matches){
     document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));
     return;
@@ -2595,6 +2709,8 @@ function boot(){
 
   buildAlerts();
   buildChips();
+  bindProgress();
+  $('#homeBtn').onclick = goHome;
   buildSuggests();
   drawDiagrams();
 
