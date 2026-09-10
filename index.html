@@ -296,10 +296,19 @@ const CHAPTER = {
    멤버가 바뀌면 이 배열만 수정하세요. 화면에는 명단을 나열하지 않으며,
    본인 이름을 정확히 입력해야만 결과가 나옵니다. */
 const MEMBERS = [
-  // ↓↓↓ 샘플입니다. 실제 챕터 명단으로 교체하세요 ↓↓↓
-  {n:'홍길동', join:'2023-12-05'},
-  {n:'김철수', join:'2024-03-18'},
-  {n:'이영희', join:'2025-07-02'}
+  // BNI Connect「멤버십 갱신 대상 리포트」납부마감일 기준 (2026-09-10 조회)
+  {n:'김만식', due:'2027-06-01'}, {n:'정희진', due:'2027-09-01'}, {n:'염윤선', due:'2027-06-01'},
+  {n:'홍석강', due:'2026-10-01'}, {n:'강인혁', due:'2026-10-01'}, {n:'김은강', due:'2026-11-01'},
+  {n:'이병진', due:'2026-11-01'}, {n:'박용국', due:'2026-11-01'}, {n:'배가은', due:'2026-12-01'},
+  {n:'김재현', due:'2026-12-01'}, {n:'박두호', due:'2026-12-01'}, {n:'안성민', due:'2027-01-01'},
+  {n:'이선혜', due:'2027-01-01'}, {n:'박유나', due:'2027-01-01'}, {n:'한지섭', due:'2027-03-01'},
+  {n:'김일연', due:'2027-03-01'}, {n:'배종우', due:'2027-04-01'}, {n:'정주헌', due:'2027-04-01'},
+  {n:'이우람', due:'2027-04-01'}, {n:'박성훈', due:'2027-05-01'}, {n:'최병문', due:'2027-07-01'},
+  {n:'박주영', due:'2027-07-01'}, {n:'김해람', due:'2027-08-01'}, {n:'최진우', due:'2027-09-01'},
+  {n:'장호연', due:'2027-09-01'}, {n:'김동운', due:'2027-09-01'}, {n:'김정률', due:'2027-09-01'},
+  {n:'박지호', due:'2027-09-01'}, {n:'배기영', due:'2027-11-01'},
+  // 2026년 9월 신규 가입 — 갱신 대상 리포트 미등재, 가입월 기준 추정
+  {n:'김성숙', due:'2027-09-01', est:true}
 ];
 
 const CATS = ['전체','지각·조퇴','대리인','출석인정','감사장','갱신','타챕터 협업'];
@@ -970,6 +979,10 @@ function anniv(joinStr, y){
   return new Date(y, p[1]-1, Math.min(p[2], lastDayOf(y, p[1])));
 }
 function memberInfo(m){
+  if(m.due){
+    const exp = parseYmd(m.due);
+    return { name:m.n, expiry:exp, ymd:m.due, dday:dayDiff(exp, TODAY), est:!!m.est };
+  }
   const jy = Number(m.join.split('-')[0]);
   let y = jy + 1, exp = anniv(m.join, y);
   while(dayDiff(exp, TODAY) < 0){ y++; exp = anniv(m.join, y); }
@@ -1020,12 +1033,13 @@ function memberCardHTML(mi){
   let h = '<article class="card mcard">';
   h += '<div class="cbadges"><span class="bd cat">내 갱신 일정</span>'+
        '<span class="bd '+(mi.dday<=90?'soon':'live')+'">'+(mi.dday>0?'만료까지 D-'+mi.dday:'오늘 만료')+'</span></div>';
-  h += '<h3>'+esc(mi.name)+' 님 · '+mi.year+'년차 갱신</h3>';
-  h += '<div class="verdict">멤버십 만료일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
+  h += '<h3>'+esc(mi.name)+' 님 갱신 일정</h3>';
+  h += '<div class="verdict">갱신 납부마감일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
   h += '<div class="mnext"><b>다음 단계</b>'+esc(next.t)+'<span>'+fmtDate(next.date)+' · '+
        (next.dday>0?'D-'+next.dday:(next.dday===0?'오늘':Math.abs(next.dday)+'일 지남'))+'</span></div>';
   h += '<details class="more"><summary>내 갱신 일정 전체 보기</summary>'+renewTimelineHTML(mi.ymd)+'</details>';
-  h += '<div class="src">가입일 '+fmtDate(mi.join)+' 기준 자동 계산 · 정확한 일정은 멤버십위원회 안내를 따릅니다.</div>';
+  h += '<div class="src">'+(mi.est ? '⚠️ 신규 가입으로 갱신 대상 리포트에 아직 없어 <b>가입월 기준 추정치</b>입니다. 멤버십위원회에 확인해 주세요.<br>' : '')+
+       'BNI Connect 「멤버십 갱신 대상 리포트」 납부마감일 기준 · 정확한 일정은 멤버십위원회 안내를 따릅니다.</div>';
   h += '</article>';
   return h;
 }
