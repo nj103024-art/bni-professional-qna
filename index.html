@@ -1798,20 +1798,20 @@ function primerDress(){
     {s:'겨울',      m:['coat','jacket','tie'],  t:'정장 위에 코트', d:'코트 · 재킷 · 넥타이'}
   ];
   const cw = (W - 2*14) / 3;
-  let h = '<svg viewBox="0 0 '+W+' 250" role="img" aria-label="계절별 조찬 복장 기준">';
+  let h = '<svg viewBox="0 0 '+W+' 292" role="img" aria-label="계절별 조찬 복장 기준">';
   h += T(0, 14, '조찬은 사업하는 자리입니다 — 계절과 무관하게 격식이 기본입니다', {s:11, w:800, f:C_SUB});
   cols.forEach(function(c, i){
     const x = i * (cw + 14);
-    const n = c.m.length, gw = 40 * 0.92, gap = 6;
+    const n = c.m.length, sc = n === 3 ? 1.32 : 1.62, gw = 40 * sc, gap = n === 3 ? 7 : 12;
     const tot = n*gw + (n-1)*gap, sx = x + (cw - tot)/2;
-    h += G(R(x, 26, cw, 178, {f:'#FCFCFB', r:12}) +
-      T(x + cw/2, 50, c.s, {s:13, w:800, a:'middle'}) +
-      c.m.map(function(k, j){ return garment(k, sx + j*(gw+gap), 64, 0.92, true); }).join('') +
-      T(x + cw/2, 172, c.t, {s:12, w:800, f:C_RED, a:'middle'}) +
-      T(x + cw/2, 189, c.d, {s:10, f:C_SUB, a:'middle'}), c.s);
+    h += G(R(x, 26, cw, 214, {f:'#FCFCFB', r:12}) +
+      T(x + cw/2, 52, c.s, {s:13.5, w:800, a:'middle'}) +
+      c.m.map(function(k, j){ return garment(k, sx + j*(gw+gap), 68, sc, true); }).join('') +
+      T(x + cw/2, 208, c.t, {s:12.5, w:800, f:C_RED, a:'middle'}) +
+      T(x + cw/2, 226, c.d, {s:10.5, f:C_SUB, a:'middle'}), c.s);
   });
-  h += R(0, 214, W, 30, {f:'#FDF7EA', s:'#F0E2C4', r:9});
-  h += T(16, 233, '공통 — 정장 또는 격식을 갖춘 복장. 반바지 · 슬리퍼 · 운동복은 피해 주세요.', {s:11, w:700, f:C_AMB});
+  h += R(0, 252, W, 32, {f:'#FDF7EA', s:'#F0E2C4', r:9});
+  h += T(W/2, 272, '공통 — 정장 또는 격식을 갖춘 복장. 반바지 · 슬리퍼 · 운동복은 피해 주세요.', {s:11.5, w:700, f:C_AMB, a:'middle'});
   h += '</svg>';
   return h;
 }
