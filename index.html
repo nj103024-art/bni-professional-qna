@@ -54,6 +54,8 @@ svg{display:block}
 .ask svg.mag{flex:0 0 auto;color:var(--ink3)}
 .ask input{flex:1;min-width:0;border:0;outline:none;font-size:16px;font-family:inherit;color:var(--ink);background:transparent;padding:9px 0}
 .ask input::placeholder{color:var(--ink4)}
+.ask input[type=search]::-webkit-search-cancel-button,
+.ask input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
 .ask .go{flex:0 0 auto;width:38px;height:38px;border:0;border-radius:99px;background:var(--red);color:#fff;
   display:flex;align-items:center;justify-content:center}
 .ask .go:active{background:var(--red-d)}
@@ -2100,8 +2102,8 @@ function render(){
   const asked = !!state.q.trim();
   const mi = asked ? findMember(state.q) : null;
   let list = search(state.q);
+  // 질문했을 때는 분야와 관계없이 전체 조항에서 찾습니다
   if(!asked && state.cat !== '전체') list = list.filter(r=> r.cat === state.cat);
-  if(asked && state.cat !== '전체') list = list.filter(r=> r.cat === state.cat);
 
   const cnt = $('#count'), box = $('#list'), title = $('#listTitle');
   const show = (id, on) => { const e = $(id); if(e) e.hidden = !on; };
@@ -2200,7 +2202,7 @@ const SUGGESTS = ['출장 가면 출석 인정돼요?','7시 10분 도착하면 
 function buildSuggests(){
   $('#suggests').innerHTML = SUGGESTS.map(q=>'<button class="sg" type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>').join('');
   document.querySelectorAll('#suggests .sg').forEach(b=> b.onclick = ()=>{
-    const v=b.dataset.q; $('#q').value=v; state.q=v; $('#qclear').hidden=false; render();
+    const v=b.dataset.q; $('#q').value=v; state.q=v; state.cat='전체'; syncChips(); $('#qclear').hidden=false; render();
     document.getElementById('listTitle').scrollIntoView({behavior:'smooth', block:'start'});
   });
 }
@@ -2535,7 +2537,11 @@ function boot(){
   drawDiagrams();
 
   const q = $('#q');
-  q.addEventListener('input', ()=>{ state.q=q.value; $('#qclear').hidden = !q.value; render(); });
+  q.addEventListener('input', ()=>{
+    state.q = q.value; $('#qclear').hidden = !q.value;
+    if(q.value.trim() && state.cat !== '전체'){ state.cat = '전체'; syncChips(); }
+    render();
+  });
   q.addEventListener('keydown', e=>{ if(e.key==='Enter') q.blur(); });
   $('#qgo').onclick = ()=>{ q.blur(); document.getElementById('listTitle').scrollIntoView({behavior:'smooth', block:'start'}); };
   $('#qclear').onclick = ()=>{ q.value=''; state.q=''; $('#qclear').hidden=true; render(); q.focus(); };
