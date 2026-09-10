@@ -114,6 +114,7 @@ svg{display:block}
 .plead b{color:var(--ink)}
 .pdiag{background:#FCFCFB;border:1px solid var(--line2);border-radius:14px;padding:28px 24px;overflow-x:auto;margin-bottom:22px}
 .pdiag svg{width:100%;height:auto;min-width:600px;margin:0 auto}
+.pdiag.img{padding:20px 18px;overflow-x:visible;background:#FBFAF9}
 .swipe{display:none;font-size:11.5px;color:var(--ink3);margin:-10px 0 16px;text-align:center}
 @media(max-width:700px){.swipe{display:block}}
 .pkeys{border-top:1px solid var(--line2);padding-top:20px}
@@ -138,6 +139,31 @@ svg{display:block}
 .hcard b{font-size:16.5px;font-weight:800;letter-spacing:-.025em}
 .hcard span{font-size:13px;color:var(--ink2);line-height:1.6}
 .hcard .hn{margin-top:auto;font-size:11.5px;font-weight:700;color:var(--ink3);display:flex;align-items:center;gap:5px}
+
+/* ── 복장 이미지 ── */
+.dress{display:block}
+.dlbl{font-size:11px;font-weight:800;color:var(--ink3);letter-spacing:.09em;margin:0 0 12px}
+.dlbl.no{color:var(--red);margin-top:26px}
+.dseasons{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:640px){.dseasons{grid-template-columns:repeat(3,1fr)}}
+.dcol{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px;text-align:center}
+.dcol h4{font-size:14px;font-weight:800;margin-bottom:12px}
+.ditems{display:flex;gap:8px;justify-content:center;align-items:flex-end}
+.wi{margin:0;flex:1 1 0;min-width:0;max-width:110px}
+.wi img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#FCFCFB;border-radius:10px;display:block}
+.wi figcaption{font-size:10.5px;color:var(--ink3);margin-top:6px;font-weight:600;line-height:1.3}
+.dtag{margin:14px 0 0;font-size:13px;font-weight:800;color:var(--red)}
+.dsub{margin:4px 0 0;font-size:11px;color:var(--ink3)}
+.dsub2{margin:10px 0 0;font-size:12.5px;font-weight:700}
+.dwomen{display:grid;gap:14px;grid-template-columns:1fr;margin-top:12px}
+@media(min-width:640px){.dwomen{grid-template-columns:repeat(3,1fr)}}
+.dnos{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);margin-top:12px}
+@media(min-width:560px){.dnos{grid-template-columns:repeat(5,1fr)}}
+.wi.x{max-width:none;position:relative}
+.wi.x img{opacity:.42;filter:grayscale(1)}
+.wi.x::after{content:"";position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:99px;
+  background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/12px no-repeat}
+.wi.x figcaption{font-weight:700;color:var(--ink2);font-size:11.5px}
 
 /* ── 인터랙션 ── */
 .pdiag svg .hv{transition:opacity .22s ease}
@@ -1890,65 +1916,55 @@ function garment(kind, x, y, sc, on){
          '" stroke-width="'+(1.7/sc*0.9+0.5)+'" stroke-linejoin="round" stroke-linecap="round">'+P.join('')+'</g>';
 }
 
-/* 계절별 복장 도식 */
+/* 계절별 복장 — 실제 의상 이미지 */
+const WEAR = {
+  jacket:['jacket.jpg','정장 재킷'],  shirt:['shirt.jpg','드레스 셔츠'],
+  tie:['tie.jpg','넥타이'],           coat:['coat.jpg','코트'],
+  turtle:['turtle.jpg','목폴라'],     polo:['polo.jpg','카라티'],
+  shortshirt:['shortshirt.jpg','반팔 셔츠'], blouse:['blouse.jpg','블라우스'],
+  dress:['dress.jpg','원피스'],       heels:['heels.jpg','구두'],
+  puffer:['puffer.jpg','패딩'],       cap:['cap.jpg','모자'],
+  sneaker:['sneaker.jpg','운동화'],   shorts:['shorts.jpg','반바지'],
+  slipper:['slipper.jpg','슬리퍼']
+};
+function wear(k, cls){
+  const w = WEAR[k]; if(!w) return '';
+  return '<figure class="wi'+(cls?' '+cls:'')+'">'+
+         '<img src="img/'+w[0]+'" alt="'+esc(w[1])+'" loading="lazy" decoding="async">'+
+         '<figcaption>'+esc(w[1])+'</figcaption></figure>';
+}
 function primerDress(){
-  const W = 620;
   const cols = [
-    {s:'봄 · 가을', m:['jacket','shirt','tie'],  t:'정장 한 벌',      d:'재킷 · 셔츠 · 넥타이'},
-    {s:'여름',      m:['shirt','polo','jacket'], t:'노타이 가능',     d:'칼라 필수 · 반팔이면 재킷'},
-    {s:'겨울',      m:['coat','jacket','turtle'],t:'목폴라도 가능',   d:'코트 · 재킷 · 셔츠 또는 목폴라'}
+    {s:'봄 · 가을', m:['jacket','shirt','tie'],           t:'정장 한 벌',   d:'재킷 · 셔츠 · 넥타이'},
+    {s:'여름',      m:['shirt','polo','shortshirt'],      t:'노타이 가능',  d:'칼라 필수 · 반팔이면 재킷 착용'},
+    {s:'겨울',      m:['coat','jacket','turtle'],         t:'목폴라도 가능', d:'코트 · 재킷 · 셔츠 또는 목폴라'}
   ];
   const women = [
     {m:['jacket','blouse'], l:'재킷 + 블라우스'},
     {m:['dress'],           l:'단정한 원피스'},
     {m:['heels'],           l:'구두 (굽 무관)'}
   ];
-  const nos = [
-    {k:'puffer',  l:'패딩'},
-    {k:'cap',     l:'모자'},
-    {k:'sneaker', l:'운동화'},
-    {k:'shorts',  l:'반바지'},
-    {k:'slipper', l:'슬리퍼'}
-  ];
-  const cw = (W - 2*14) / 3;
-  let h = '<svg viewBox="0 0 '+W+' 502" role="img" aria-label="계절별 복장 기준과 금지 품목">';
+  const nos = ['puffer','cap','sneaker','shorts','slipper'];
 
-  /* 계절별 */
-  h += T(0, 14, '계절별 기준 — 남녀 공통',{s:11,w:800,f:C_SUB});
-  cols.forEach(function(c,i){
-    const x = i*(cw+14), n = c.m.length, sc = n===3 ? 0.86 : 1.02, gw = GW*sc, gap = n===3 ? 6 : 12;
-    const tot = n*gw + (n-1)*gap, sx = x + (cw - tot)/2;
-    h += G(R(x,26,cw,208,{f:'#FCFCFB',r:12}) +
-      T(x+cw/2,52,c.s,{s:13.5,w:800,a:'middle'}) +
-      c.m.map(function(k,j){ return garment(k, sx+j*(gw+gap), 64, sc, true); }).join('') +
-      T(x+cw/2,202,c.t,{s:12.5,w:800,f:C_RED,a:'middle'}) +
-      T(x+cw/2,220,c.d,{s:10.5,f:C_SUB,a:'middle'}), c.s);
+  let h = '<div class="dress">';
+  h += '<div class="dlbl">계절별 기준 — 남녀 공통</div><div class="dseasons">';
+  cols.forEach(function(c){
+    h += '<section class="dcol"><h4>'+esc(c.s)+'</h4><div class="ditems">'+
+         c.m.map(k=>wear(k)).join('')+'</div>'+
+         '<p class="dtag">'+esc(c.t)+'</p><p class="dsub">'+esc(c.d)+'</p></section>';
   });
+  h += '</div>';
 
-  /* 여성 멤버 */
-  h += T(0,262,'여성 멤버',{s:11,w:800,f:C_SUB});
-  h += R(0,274,W,116,{f:'#FCFCFB',r:12});
-  const ww = (W - 24) / 3;
-  women.forEach(function(o,i){
-    const x = 12 + i*ww, n = o.m.length, sc = 0.76, gw = GW*sc, gap = 8;
-    const tot = n*gw + (n-1)*gap, sx = x + (ww - tot)/2;
-    h += G(o.m.map(function(k,j){ return garment(k, sx+j*(gw+gap), 288, sc, true); }).join('') +
-      T(x+ww/2,372,o.l,{s:11.5,w:700,a:'middle'}), o.l);
-    if(i<2) h += '<line x1="'+(12+(i+1)*ww)+'" y1="288" x2="'+(12+(i+1)*ww)+'" y2="376" stroke="'+C_LINE+'"/>';
+  h += '<div class="dlbl">여성 멤버</div><div class="dwomen">';
+  women.forEach(function(o){
+    h += '<section class="dcol"><div class="ditems">'+o.m.map(k=>wear(k)).join('')+'</div>'+
+         '<p class="dsub2">'+esc(o.l)+'</p></section>';
   });
+  h += '</div>';
 
-  /* 금지 품목 */
-  h += T(0,418,'이런 차림은 피해 주세요 — 남녀 공통',{s:11,w:800,f:C_RED});
-  const nw = W / nos.length;
-  nos.forEach(function(o,i){
-    const x = i*nw, cx = x + nw/2, sc = 0.66, gw = GW*sc;
-    const bx = cx + gw/2 - 2, by = 434;
-    h += G(garment(o.k, cx - gw/2, 428, sc, false) +
-      '<circle cx="'+bx+'" cy="'+by+'" r="10" fill="'+C_RED+'"/>' +
-      '<path d="M'+(bx-4)+' '+(by-4)+' L'+(bx+4)+' '+(by+4)+' M'+(bx+4)+' '+(by-4)+' L'+(bx-4)+' '+(by+4)+'" stroke="#fff" stroke-width="2" stroke-linecap="round"/>' +
-      T(cx,494,o.l,{s:11.5,w:700,f:C_MID,a:'middle'}), o.l);
-  });
-  h += '</svg>';
+  h += '<div class="dlbl no">이런 차림은 피해 주세요 — 남녀 공통</div><div class="dnos">'+
+       nos.map(k=>wear(k,'x')).join('')+'</div>';
+  h += '</div>';
   return h;
 }
 
@@ -2050,7 +2066,9 @@ function primerHTML(pr){
   let h = '<article class="primer spot reveal">';
   h += '<div class="ph">'+icon(pr.cat,17,'pi')+'<div><span>'+esc(pr.cat)+'</span><h3>'+esc(pr.title)+'</h3></div></div>';
   h += '<p class="plead">'+rich(pr.lead)+'</p>';
-  h += '<div class="pdiag">'+pr.svg()+'</div><p class="swipe">← 도식을 좌우로 밀어서 보세요 →</p>';
+  const dg = pr.svg();
+  const isImg = dg.indexOf('<div class="dress"') === 0;
+  h += '<div class="pdiag'+(isImg?' img':'')+'">'+dg+'</div>'+(isImg?'':'<p class="swipe">← 도식을 좌우로 밀어서 보세요 →</p>');
   h += '<div class="pkeys"><b class="pk">이것만 기억하세요</b>';
   pr.keys.forEach(function(k,i){
     h += '<div class="pkrow"><span class="pn">'+(i+1)+'</span><span class="pt"><b>'+rich(k[0])+'</b><span>'+rich(k[1])+'</span></span></div>';
