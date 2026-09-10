@@ -1851,7 +1851,7 @@ function primerDress(){
     {k:'slipper', l:'슬리퍼'}
   ];
   const cw = (W - 2*14) / 3;
-  let h = '<svg viewBox="0 0 '+W+' 486" role="img" aria-label="계절별 복장 기준과 금지 품목">';
+  let h = '<svg viewBox="0 0 '+W+' 502" role="img" aria-label="계절별 복장 기준과 금지 품목">';
 
   /* 계절별 */
   h += T(0, 14, '계절별 기준 — 남녀 공통',{s:11,w:800,f:C_SUB});
@@ -1881,10 +1881,12 @@ function primerDress(){
   h += T(0,418,'이런 차림은 피해 주세요 — 남녀 공통',{s:11,w:800,f:C_RED});
   const nw = W / nos.length;
   nos.forEach(function(o,i){
-    const x = i*nw, cx = x + nw/2, sc = 0.82, gw = 40*sc;
+    const x = i*nw, cx = x + nw/2, sc = 1.05, gw = 40*sc;
+    const bx = cx + gw/2 - 2, by = 434;
     h += G(garment(o.k, cx - gw/2, 428, sc, false) +
-      '<path d="M'+(cx-13)+' 437 L'+(cx+13)+' 463 M'+(cx+13)+' 437 L'+(cx-13)+' 463" stroke="'+C_RED+'" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>' +
-      T(cx,481,o.l,{s:11,w:700,f:C_MID,a:'middle'}), o.l);
+      '<circle cx="'+bx+'" cy="'+by+'" r="10" fill="'+C_RED+'"/>' +
+      '<path d="M'+(bx-4)+' '+(by-4)+' L'+(bx+4)+' '+(by+4)+' M'+(bx+4)+' '+(by-4)+' L'+(bx-4)+' '+(by+4)+'" stroke="#fff" stroke-width="2" stroke-linecap="round"/>' +
+      T(cx,494,o.l,{s:11.5,w:700,f:C_MID,a:'middle'}), o.l);
   });
   h += '</svg>';
   return h;
