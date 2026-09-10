@@ -1166,10 +1166,10 @@ function primerRenewLine(){
   const pts=[[150,'210일 리뷰','트래픽라이트 관리'],[120,'예비 통보','ST 통보'],[90,'대상자 발표','인터뷰 · 갱신비'],
              [60,'전문분야 모집','미제출 시'],[30,'갱신 멤버 발표','축하'],[0,'만료','']];
   const x=d=>L+(150-d)/150*IW;
-  let h='<svg viewBox="0 0 '+W+' 176" role="img" aria-label="갱신 일정 D-150부터 만료까지">';
+  let h='<svg viewBox="0 0 '+W+' 188" role="img" aria-label="갱신 일정 D-150부터 만료까지">';
   h+='<line x1="'+(L-14)+'" y1="'+AX+'" x2="'+(W-R2+14)+'" y2="'+AX+'" stroke="'+C_LINE+'" stroke-width="2"/>';
   h+='<rect x="'+x(150)+'" y="'+(AX-2)+'" width="'+(x(90)-x(150))+'" height="4" fill="#DCEAE3"/>';
-  h+=T((x(150)+x(90))/2,AX-14,'MSP 이수기간',{s:10,w:700,f:C_OK,a:'middle'});
+
   pts.forEach(function(pt,i){
     const px=x(pt[0]), last=i===pts.length-1, up=i%2===0, ly=up?AX-34:AX+30;
     h+=G(T(px,AX-52,'D-'+pt[0],{s:12,w:800,f:last?C_RED:C_INK,a:'middle'})+
@@ -1178,7 +1178,9 @@ function primerRenewLine(){
         T(px,ly,pt[1],{s:11.5,w:800,a:'middle'})+
         (pt[2]?T(px,ly+14,pt[2],{s:10,f:C_SUB,a:'middle'}):''), pt[1]);
   });
-  h+=T(0,170,'※ 실제 통보 · 발표는 해당 날짜가 속한 주의 조찬 기준으로 진행됩니다.',{s:10,f:C_SUB});
+  h+='<rect x="0" y="158" width="22" height="7" rx="3.5" fill="#DCEAE3"/>';
+  h+=T(30,165,'MSP 이수기간 (D-150 ~ D-90)',{s:10,w:700,f:C_OK});
+  h+=T(0,182,'※ 실제 통보 · 발표는 해당 날짜가 속한 주의 조찬 기준으로 진행됩니다.',{s:10,f:C_SUB});
   h+='</svg>';
   return h;
 }
