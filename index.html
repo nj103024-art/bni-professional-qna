@@ -1009,13 +1009,13 @@ function G(inner,label){return '<g class="hv"'+(label?' aria-label="'+label+'"':
 /* 조찬 진행 타임라인 (원문 4쪽 개념도) */
 function diagramMeeting(){
   const c = cfg();
-  const t0 = c.open - 18, t1 = c.normal + 18, span = t1 - t0;
-  const W = 620, L = 58, R2 = 24, IW = W - L - R2;
+  const t0 = c.open - 18, t1 = c.normal + 22, span = t1 - t0;
+  const W = 620, L = 58, R2 = 26, IW = W - L - R2, AX = 88;
   const x = m => L + (m - t0) / span * IW;
   const bar = (a2,b2,fill,y,h) => '<rect x="'+x(a2).toFixed(1)+'" y="'+y+'" width="'+(x(b2)-x(a2)).toFixed(1)+'" height="'+h+'" fill="'+fill+'" rx="4"/>';
   const mid = (a2,b2)=> (x(a2)+x(b2))/2;
 
-  let h = '<svg viewBox="0 0 '+W+' 168" role="img" aria-label="조찬 진행 시각과 지각 조퇴 판정 구간">';
+  let h = '<svg viewBox="0 0 '+W+' 196" role="img" aria-label="조찬 진행 시각과 지각 조퇴 판정 구간">';
   h += T(0,20,'언제 왔나',{s:10.5,w:800,f:C_SUB});
   h += G(bar(t0,c.start,'#E4F0E9',8,22) + bar(c.start,c.first,'#F8EAD0',8,22) + bar(c.first,t1,'#F8DFE3',8,22) +
         T(mid(t0,c.start),23,'정시',{s:11.5,w:800,f:C_OK,a:'middle'}) +
@@ -1026,25 +1026,40 @@ function diagramMeeting(){
   h += G(bar(t0,c.last,'#F8DFE3',48,22) + bar(c.last,c.normal,'#F8EAD0',48,22) + bar(c.normal,t1,'#E4F0E9',48,22) +
         T(mid(t0,c.last),63,'결석',{s:11.5,w:800,f:C_RED,a:'middle'}) +
         T(mid(c.last,c.normal),63,'조퇴',{s:11.5,w:800,f:C_AMB,a:'middle'}) +
-        T(mid(c.normal,t1),63,'정상 출석',{s:11.5,w:800,f:C_OK,a:'middle'}), '퇴장 기준');
+        T(mid(c.normal,t1),63,'정상',{s:11.5,w:800,f:C_OK,a:'middle'}), '퇴장 기준');
 
-  h += '<line x1="'+L+'" y1="88" x2="'+(W-R2)+'" y2="88" stroke="'+C_LINE+'" stroke-width="1.2"/>';
+  h += '<line x1="'+L+'" y1="'+AX+'" x2="'+(W-R2)+'" y2="'+AX+'" stroke="'+C_LINE+'" stroke-width="1.2"/>';
+
+  /* 개별 눈금 — 06:30 / 07:00 / 07:25 / 07:55 */
   const marks = [
-    {m:c.open,   l:'오픈 네트워킹'},
-    {m:c.start,  l:'본회의 시작'},
-    {m:c.first,  l:'첫 위클리'},
-    {m:c.last,   l:'마지막 위클리'},
-    {m:c.end,    l:'조찬 종료'},
-    {m:c.normal, l:'정상출석 인정'}
+    {m:c.open,  l:'오픈 네트워킹', key:false},
+    {m:c.start, l:'본회의 시작',   key:true},
+    {m:c.first, l:'첫 위클리 발표', key:true},
+    {m:c.last,  l:'마지막 위클리', key:true}
   ];
   marks.forEach(function(mk,i){
-    const px = x(mk.m), up = i % 2 === 0, y = up ? 110 : 142;
-    const key = (mk.m===c.first || mk.m===c.last || mk.m===c.normal);
-    h += G('<line x1="'+px.toFixed(1)+'" y1="82" x2="'+px.toFixed(1)+'" y2="'+(y-19)+'" stroke="'+(key?'#C9CDD3':C_LINE)+'" stroke-width="1.2"/>'+
-           '<circle cx="'+px.toFixed(1)+'" cy="88" r="'+(key?4:3)+'" fill="'+(key?C_RED:'#fff')+'" stroke="'+(key?C_RED:C_SUB)+'" stroke-width="1.4"/>'+
+    const px = x(mk.m), up = i % 2 === 0, y = up ? 110 : 144;
+    h += G('<line x1="'+px.toFixed(1)+'" y1="'+(AX+(up?-6:6))+'" x2="'+px.toFixed(1)+'" y2="'+(up?y-20:y-19)+'" stroke="'+C_LINE+'" stroke-width="1.2"/>'+
+           '<circle cx="'+px.toFixed(1)+'" cy="'+AX+'" r="'+(mk.key?4.5:3.5)+'" fill="'+(mk.key?C_RED:'#fff')+'" stroke="'+(mk.key?C_RED:'#B6BAC1')+'" stroke-width="1.6"/>'+
            T(px,y,hhmm(mk.m),{s:12,w:800,a:'middle'}) +
-           T(px,y+13,mk.l,{s:10,f:C_SUB,a:'middle'}), mk.l);
+           T(px,y+14,mk.l,{s:10,f:C_SUB,a:'middle'}), mk.l);
   });
+
+  /* 08:30 · 08:35 는 5분 차이라 한 묶음으로 표기 */
+  const xe = x(c.end), xn = x(c.normal), cxp = (xe+xn)/2;
+  h += G('<circle cx="'+xe.toFixed(1)+'" cy="'+AX+'" r="3.5" fill="#fff" stroke="#B6BAC1" stroke-width="1.6"/>'+
+         '<circle cx="'+xn.toFixed(1)+'" cy="'+AX+'" r="4.5" fill="'+C_RED+'" stroke="'+C_RED+'" stroke-width="1.6"/>'+
+         '<path d="M'+xe.toFixed(1)+' '+(AX+8)+' V'+(AX+18)+' H'+xn.toFixed(1)+' V'+(AX+8)+'" fill="none" stroke="'+C_LINE+'" stroke-width="1.2"/>'+
+         '<line x1="'+cxp.toFixed(1)+'" y1="'+(AX+18)+'" x2="'+cxp.toFixed(1)+'" y2="'+(AX+30)+'" stroke="'+C_LINE+'" stroke-width="1.2"/>'+
+         T(cxp,144,hhmm(c.end)+' 조찬 종료',{s:12,w:800,a:'middle'})+
+         T(cxp,158,hhmm(c.normal)+' 이후 퇴장은 정상 출석',{s:10,f:C_SUB,a:'middle'}), '조찬 종료와 정상출석 인정');
+
+  /* 범례 */
+  h += '<circle cx="5" cy="180" r="4.5" fill="'+C_RED+'"/>';
+  h += T(16,184,'판정이 갈리는 기준 시각',{s:10,w:700,f:C_MID});
+  h += '<circle cx="160" cy="180" r="3.5" fill="#fff" stroke="#B6BAC1" stroke-width="1.6"/>';
+  h += T(170,184,'참고 시각',{s:10,f:C_SUB});
+  h += T(258,184,'※ 위클리 시각은 당일 진행에 따라 달라집니다.',{s:10,f:C_SUB});
   h += '</svg>';
   return h;
 }
