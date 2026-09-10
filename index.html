@@ -236,13 +236,17 @@ details.cfg[open]>summary::after{content:"－"}
 .cond>b{display:block;font-size:13.5px;color:var(--ink);margin-bottom:4px}
 
 /* ── 답변/카드 ── */
-.qbubble{display:flex;justify-content:flex-end;margin-bottom:14px}
-.qbubble .q{background:var(--ink);color:#fff;border-radius:16px 16px 4px 16px;padding:11px 16px;font-size:15px;font-weight:600;max-width:82%}
+.qline{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1px solid var(--line);
+  border-left:3px solid var(--red);border-radius:0 12px 12px 0;padding:14px 18px;margin-bottom:4px;box-shadow:var(--sh)}
+.qline svg{flex:0 0 auto;color:var(--ink4);margin-top:3px}
+.qline .qt{min-width:0}
+.qline .ql{display:block;font-size:10.5px;font-weight:800;color:var(--ink4);letter-spacing:.1em;margin-bottom:3px}
+.qline .qv{display:block;font-size:16.5px;font-weight:800;letter-spacing:-.025em;line-height:1.45}
 .count{font-size:12.5px;color:var(--ink3);margin:0 0 12px;font-weight:600;display:flex;align-items:center;gap:7px}
 .cards{display:grid;gap:14px;grid-template-columns:1fr}
 @media(min-width:1040px){.cards{grid-template-columns:1fr 1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:var(--sh);display:flex;flex-direction:column}
-.card.span2{grid-column:1/-1}
+.cards>.span2{grid-column:1/-1}
 .cbadges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
 .bd{font-size:10.5px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;letter-spacing:.01em}
 .bd.cat{background:var(--line2);color:var(--ink2)}
@@ -633,6 +637,22 @@ const RULES = [
  questions:['같은 비지터 또 데려와도 돼요?','비지터 몇 번까지 올 수 있어요?','손님 두 번 이상 초대 가능한가요?'],
  keywords:['비지터','손님','초대','2회','1년','전 챕터','방문객','게스트']
 },
+{
+ id:'agenda-time', cat:'출결', src:'표준 운영규정 4.4항 (보충)', eff:null, boost:5,
+ title:'위클리 발표는 몇 초인가요? (미팅 진행 시간)',
+ verdict:'50명 이하 챕터 기준으로 위클리 프레젠테이션은 최대 60초, 기여 발표는 1인당 최대 30초입니다.',
+ body:[
+  '우리 챕터는 <b>50명 이하</b> 구간에 해당합니다.',
+  '오픈 네트워킹 종료: 오전 7시 또는 그 이전 / 의제 시작: 오전 7시',
+  '<b>위클리 프레젠테이션: 최대 60초</b>',
+  '<b>기여 발표: 1인당 최대 30초</b>',
+  '네트워킹 교육: 10분 / 비지터 소개: 이름과 사업명만 간략히 / 비지터 소감·기여 발표: 최대 15초',
+  '피쳐 프레젠테이션: 총 10분 내로 2명까지 (1명 발표 시 10분, 2명 발표 시 각각 5분)',
+  '챕터 인원이 51명 이상으로 늘면 발표 시간이 45초·30초로 줄어듭니다.'
+ ],
+ questions:['위클리 몇 초예요?','발표 시간 얼마나 돼요?','기여 발표 몇 초?','피쳐 프레젠테이션 몇 분이에요?','60초 맞나요?'],
+ keywords:['위클리','발표 시간','60초','30초','15초','기여 발표','피쳐','네트워킹 교육','10분','의제','오픈 네트워킹','미팅 진행']
+},
 /* ---------- 대리인 ---------- */
 {
  id:'proxy-now', cat:'대리인', src:'슬라이드 5', eff:null, boost:7, current:true,
@@ -871,6 +891,46 @@ const RULES = [
  ],
  questions:['대출 감사장 얼마로 써요?','신용카드 감사장 금액','예금 계좌 개설 감사장','은행 감사장 계산','통장 만들어주면 얼마?'],
  keywords:['은행','금융','대출','이자','신용대출','신용카드','가계대출','기업신용대출','예금','계좌','한도','30만원']
+},
+{
+ id:'intro-t1t2', cat:'감사장', src:'표준 운영규정 7.1항 (보충)', eff:null, boost:6,
+ title:'소개장 T1과 T2는 어떻게 구분하나요?',
+ verdict:'BNI 멤버에게서 사거나 멤버끼리 연결된 경우는 T1(내부소개), BNI 멤버가 아닌 고객을 소개한 경우는 T2 이상(외부소개)입니다.',
+ body:[
+  '<b>T1 (내부소개)</b>',
+  '· 소속 챕터 멤버의 제품·서비스를 구매한 경우',
+  '· 타 챕터(국내·해외) 멤버의 제품·서비스를 구매한 경우',
+  '· 멤버(A)가 서로 다른 챕터의 멤버(B와 C)를 소개해 거래가 이뤄진 경우 → 거래 당사자 B와 C 사이에 T1으로 인정 (소개한 A는 해당 없음)',
+  '<b>T2 이상 (외부소개)</b>',
+  '· BNI 멤버가 아닌 고객을 소개한 경우',
+  '· BNI 멤버가 아닌 고객이 다른 고객을 소개한 경우'
+ ],
+ questions:['T1이 뭐예요?','T2랑 T1 차이가 뭐예요?','내부소개 외부소개 구분','멤버한테 산 것도 소개장 되나요?','소개장 등급 어떻게 정해요?'],
+ keywords:['소개장','T1','T2','내부소개','외부소개','리퍼럴','등급','구분','멤버 구매','타챕터']
+},
+{
+ id:'ty-share', cat:'감사장', src:'표준 운영규정 7항 (보충)', eff:null, boost:4,
+ title:'감사장을 쓰면 상대방도 알 수 있나요?',
+ verdict:'아닙니다. 소개장은 상대방에게 발송되지만 감사장은 발송되지 않습니다. 입력 후 화면을 캡처해서 직접 보내주세요.',
+ body:[
+  'BNI 커넥트 앱에서 <b>소개장은 상대방에게 발송</b>되지만, <b>감사장은 발송되지 않습니다</b>.',
+  '따라서 감사장 입력 후 완료된 화면을 <b>캡처해서 상대방에게 보내주는 배려</b>를 잊지 마세요.',
+  '감사장을 정확하고 일관되게 입력하는 것은 리퍼럴을 준 멤버에 대한 인정과 감사의 표시이며, 멤버십위원회의 갱신 결정과 멘토링에도 쓰이는 데이터입니다.'
+ ],
+ questions:['감사장 쓰면 상대방이 아나요?','감사장 캡처 보내야 해요?','감사장 알림 가나요?','소개장은 알림 가나요?'],
+ keywords:['감사장','캡처','알림','발송','상대방','커넥트','앱','배려','통보']
+},
+{
+ id:'ty-dispute', cat:'감사장', src:'표준 운영규정 7.2항 4) (보충)', eff:null,
+ title:'감사장 기준에 없는 업종이면 어떻게 하나요?',
+ verdict:'당사자 간 합의를 원칙으로 하되, 멤버십위원회의 승인을 받아야 합니다.',
+ body:[
+  '제시된 유형에 해당하지 않거나 특정한 사유가 있는 경우에는 <b>당사자 간 합의</b>를 원칙으로 합니다.',
+  '다만 합의한 내용은 <b>멤버십위원회의 승인</b>을 받아야 합니다.',
+  '임의로 금액을 정하지 말고 먼저 문의하세요.'
+ ],
+ questions:['내 업종이 목록에 없어요','감사장 얼마로 할지 애매해요','기준에 없는 경우 어떻게 해요?'],
+ keywords:['예외','합의','승인','애매','기준 없음','특수','문의']
 },
 /* ---------- 갱신 ---------- */
 {
@@ -1553,7 +1613,10 @@ function render(){
   if(!asked && (state.cat === '갱신')) { const d=$('#diagRenew'); if(d) d.innerHTML = diagramRenew(); }
 
   title.textContent = asked ? '답변' : (state.cat === '전체' ? '규정 전체' : state.cat + ' 조항');
-  const head = asked ? '<div class="qbubble span2"><span class="q">'+esc(state.q)+'</span></div>' : '';
+  const head = asked ? '<div class="qline span2">'+
+    '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">'+
+    '<path d="M20.5 14.5a3 3 0 0 1-3 3H8.5L4 21V6.5a3 3 0 0 1 3-3h10.5a3 3 0 0 1 3 3z"/></svg>'+
+    '<span class="qt"><span class="ql">이렇게 물어보셨습니다</span><span class="qv">'+esc(state.q)+'</span></span></div>' : '';
 
   if(mi){
     show('#toolRenew', false);
