@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
 <title>BNI 영등포 프로페셔널 · 변경 규정 Q&amp;A</title>
 <style>
 :root{
@@ -151,6 +152,14 @@ details.more li{font-size:13.5px;color:var(--ink2);margin-bottom:6px;line-height
 .src{font-size:11.5px;color:var(--ink3);margin-top:9px;padding-top:8px;border-top:1px dashed var(--line)}
 .xref{display:inline-block;font-size:12px;font-weight:700;color:var(--red-d);background:var(--red-l);border-radius:7px;padding:5px 9px;margin-top:9px}
 
+.mcard{border:2px solid var(--red);box-shadow:0 2px 12px rgba(207,32,48,.10)}
+.mnext{margin-top:10px;background:#FAFBFC;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;font-weight:700}
+.mnext b{display:block;font-size:11.5px;color:var(--ink3);font-weight:700;margin-bottom:3px}
+.mnext span{display:block;font-size:12.5px;color:var(--ink2);font-weight:600;margin-top:3px}
+.mcard details.more .tl{margin-top:10px}
+input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink);outline:none}
+input[type=text]:focus{border-color:var(--red)}
+
 /* mini calc */
 .mini{border:1px solid var(--line);border-radius:11px;padding:11px;margin-top:10px;background:#FAFBFC}
 .mini b.t{display:block;font-size:13px;font-weight:800;margin-bottom:8px}
@@ -248,7 +257,11 @@ mark{background:#FFF0A8;color:inherit;border-radius:3px;padding:0 1px}
   <!-- 도구 2 -->
   <section class="tool" id="tool2" role="tabpanel" aria-labelledby="tab2" hidden>
     <div class="field">
-      <label for="expiry">멤버십 만료일</label>
+      <label for="mname">이름으로 불러오기</label>
+      <input type="text" id="mname" autocomplete="off" placeholder="예) 홍길동 — 이름만 입력하면 자동 계산">
+    </div>
+    <div class="field">
+      <label for="expiry">멤버십 만료일 <span style="color:var(--ink3);font-weight:500">(직접 입력도 가능)</span></label>
       <input type="date" id="expiry">
     </div>
     <button class="btn" id="renewBtn" type="button">갱신 일정 계산</button>
@@ -277,6 +290,17 @@ const CHAPTER = {
   meetingEnd:        '08:30',   // 조찬 종료
   normalAttendance:  '08:35'    // 이 시각 이후 퇴장 시 정상 출석 인정
 };
+
+/* ===================== 멤버 명단 (갱신일 자동 계산) =====================
+   이름과 가입일만 넣으면 만료일(가입 기념일)·연차·D-day가 자동 계산됩니다.
+   멤버가 바뀌면 이 배열만 수정하세요. 화면에는 명단을 나열하지 않으며,
+   본인 이름을 정확히 입력해야만 결과가 나옵니다. */
+const MEMBERS = [
+  // ↓↓↓ 샘플입니다. 실제 챕터 명단으로 교체하세요 ↓↓↓
+  {n:'홍길동', join:'2023-12-05'},
+  {n:'김철수', join:'2024-03-18'},
+  {n:'이영희', join:'2025-07-02'}
+];
 
 const CATS = ['전체','지각·조퇴','대리인','출석인정','감사장','갱신','타챕터 협업'];
 
@@ -791,14 +815,23 @@ function render(){
   let list = search(state.q);
   if(state.cat !== '전체') list = list.filter(r=> r.cat === state.cat);
   const open = !!state.q.trim() && list.length <= 5;
+  const mi = state.q.trim() ? findMember(state.q) : null;
 
   const cnt = $('#count'), box = $('#list');
+  if(mi){
+    cnt.textContent = '이름 조회 결과';
+    box.innerHTML = memberCardHTML(mi) +
+      (list.length ? '<div class="count">함께 보면 좋은 규정 '+list.length+'건</div>' + list.map(r=>cardHTML(r,false)).join('')
+                   : '<div class="count">갱신 관련 규정</div>' + RULES.filter(r=>r.cat==='갱신').map(r=>cardHTML(r,false)).join(''));
+    bindTyCalc();
+    return;
+  }
   if(!list.length){
     cnt.textContent = '';
     const sug = CATS.filter(c=>c!=='전체').map(c=>'<button class="chip" data-sug="'+c+'" type="button">'+c+'</button>').join('');
     box.innerHTML = '<div class="empty"><p>“'+esc(state.q)+'”에 대한 규정을 찾지 못했습니다.</p>'+
       '<small>비슷한 카테고리에서 찾아보세요.</small><div class="sugg">'+sug+'</div>'+
-      '<small style="display:block;margin-top:14px">그래도 없으면 <b>멤버십위원회</b>에 문의해 주세요.</small></div>';
+      '<small style="display:block;margin-top:14px">내 갱신 일정이 궁금하면 <b>본인 이름</b>을 입력해 보세요.<br>그래도 없으면 <b>멤버십위원회</b>에 문의해 주세요.</small></div>';
     box.querySelectorAll('[data-sug]').forEach(b=> b.onclick = ()=>{
       state.q=''; $('#q').value=''; $('#qclear').hidden=true; state.cat=b.dataset.sug; syncChips(); render();
       window.scrollTo({top:0,behavior:'smooth'});
@@ -919,7 +952,7 @@ const RENEW_STEPS = [
   {d:150, t:'210일 리뷰 · 갱신 전 트래픽라이트 관리', s:'210일 리뷰와 멤버십 상담을 진행하고, 갱신 전 트래픽라이트를 관리합니다. 이 시점부터 MSP 이수기간이 시작됩니다.'},
   {d:120, t:'갱신 대상자 예비 통보 (ST)', s:'갱신 대상자에게 예비 통보가 나갑니다.'},
   {d:90,  t:'갱신 대상자 발표', s:'멤버십 참가비 납부 및 지원서 제출 순서대로 인터뷰가 진행됩니다. 갱신비 입금 (재갱신 승인 후 환불 불가).'},
-  {d:60,  t:'전문분야 오픈', s:'참가비 납부·지원서 미제출 시 전문분야가 오픈되어 해당 업종 비지터를 초청할 수 있습니다.'},
+  {d:60,  t:'전문분야 오픈 (지원서·갱신비 미제출 시)', s:'참가비 납부·지원서 미제출 시 전문분야가 오픈되어 해당 업종 비지터를 초청할 수 있습니다.'},
   {d:30,  t:'갱신 멤버 발표 및 축하', s:'갱신이 확정된 멤버를 발표하고 축하합니다.'},
   {d:0,   t:'멤버십 만료', s:'갱신 절차(지원서·갱신비·MSP·인터뷰)는 이 날 전에 모두 끝나야 합니다.'}
 ];
@@ -930,9 +963,27 @@ function renewDates(expiryStr){
     return {d:s.d, t:s.t, s:s.s, date:dt, ymd:ymd(dt), dday:dayDiff(dt, TODAY)};
   });
 }
-function runRenew(){
-  const v = $('#expiry').value, box = $('#renewOut');
-  if(!v){ box.innerHTML = '<div class="res"><div class="bodyx">멤버십 만료일을 선택해 주세요.</div></div>'; return; }
+/* --- 멤버 가입일 → 만료일·연차·D-day --- */
+function lastDayOf(y,m){ return new Date(y, m, 0).getDate(); }
+function anniv(joinStr, y){
+  const p = joinStr.split('-').map(Number);
+  return new Date(y, p[1]-1, Math.min(p[2], lastDayOf(y, p[1])));
+}
+function memberInfo(m){
+  const jy = Number(m.join.split('-')[0]);
+  let y = jy + 1, exp = anniv(m.join, y);
+  while(dayDiff(exp, TODAY) < 0){ y++; exp = anniv(m.join, y); }
+  return { name:m.n, join:parseYmd(m.join), expiry:exp, ymd:ymd(exp), year:y-jy, dday:dayDiff(exp, TODAY) };
+}
+function findMember(q){
+  const k = norm(q);
+  if(k.length < 2) return null;
+  let hit = MEMBERS.find(m => norm(m.n) === k);
+  if(!hit) hit = MEMBERS.find(m => k.indexOf(norm(m.n)) !== -1);
+  return hit ? memberInfo(hit) : null;
+}
+
+function renewTimelineHTML(v){
   const rows = renewDates(v);
   let nowIdx = rows.findIndex(r=> r.dday >= 0);
   if(nowIdx === -1) nowIdx = rows.length-1;
@@ -949,7 +1000,34 @@ function runRenew(){
   h += '<div class="msp"><b>MSP 이수기간</b>210일 리뷰(D-150) ~ 갱신 대상자 발표(D-90) 월까지. 1년차는 MSP 1.0, 2년차 이후는 심화 과정을 권장합니다.</div>';
   h += '<div class="cond"><b>조건부 갱신 안내</b>· 승인 시: 서약서 작성 (중간 프로베이션 미이수 시 환불 불가)<br>· 미승인 시: 환불 후 자방</div>';
   h += '<p class="disc">※ 실제 발표·통보는 해당 날짜가 속한 <b>주의 조찬</b> 기준으로 진행됩니다. (예: 10/31 만료 → 원문상 7/1 예비통보, 8/4 발표, 8/31 전문분야 오픈, 9/30 갱신멤버 발표) 계산 결과와 1~2일 차이가 날 수 있습니다.</p>';
-  box.innerHTML = h;
+  return h;
+}
+function runRenew(){
+  const v = $('#expiry').value, box = $('#renewOut');
+  if(!v){ box.innerHTML = '<div class="res"><div class="bodyx">이름을 입력하거나 멤버십 만료일을 선택해 주세요.</div></div>'; return; }
+  box.innerHTML = renewTimelineHTML(v);
+}
+
+/* --- 이름 검색 시 최상단에 뜨는 내 갱신 일정 카드 --- */
+function memberCardHTML(mi){
+  const nextIdx = (function(){
+    const rows = renewDates(mi.ymd);
+    let i = rows.findIndex(r=> r.dday >= 0);
+    return i === -1 ? rows.length-1 : i;
+  })();
+  const rows = renewDates(mi.ymd);
+  const next = rows[nextIdx];
+  let h = '<article class="card mcard">';
+  h += '<div class="cbadges"><span class="bd cat">내 갱신 일정</span>'+
+       '<span class="bd '+(mi.dday<=90?'soon':'live')+'">'+(mi.dday>0?'만료까지 D-'+mi.dday:'오늘 만료')+'</span></div>';
+  h += '<h3>'+esc(mi.name)+' 님 · '+mi.year+'년차 갱신</h3>';
+  h += '<div class="verdict">멤버십 만료일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
+  h += '<div class="mnext"><b>다음 단계</b>'+esc(next.t)+'<span>'+fmtDate(next.date)+' · '+
+       (next.dday>0?'D-'+next.dday:(next.dday===0?'오늘':Math.abs(next.dday)+'일 지남'))+'</span></div>';
+  h += '<details class="more"><summary>내 갱신 일정 전체 보기</summary>'+renewTimelineHTML(mi.ymd)+'</details>';
+  h += '<div class="src">가입일 '+fmtDate(mi.join)+' 기준 자동 계산 · 정확한 일정은 멤버십위원회 안내를 따릅니다.</div>';
+  h += '</article>';
+  return h;
 }
 
 /* ===================== 초기화 ===================== */
@@ -982,6 +1060,13 @@ function boot(){
   ['#arrive','#leave','#chkContrib','#chkNotice','#cOpen','#cStart','#cFirst','#cLast','#cEnd','#cNormal']
     .forEach(s=> $(s).addEventListener('change', ()=>{ if($('#judgeOut').innerHTML) runJudge(); }));
   $('#expiry').addEventListener('change', ()=>{ if($('#renewOut').innerHTML) runRenew(); });
+  $('#mname').addEventListener('input', ()=>{
+    const mi = findMember($('#mname').value);
+    if(mi){ $('#expiry').value = mi.ymd; runRenew(); }
+    else if($('#mname').value.trim().length >= 2){
+      $('#renewOut').innerHTML = '<div class="res"><div class="bodyx">명단에서 <b>'+esc($('#mname').value)+'</b> 님을 찾지 못했습니다. 아래 만료일을 직접 입력하시거나 멤버십위원회에 문의해 주세요.</div></div>';
+    }
+  });
 
   render();
 }
