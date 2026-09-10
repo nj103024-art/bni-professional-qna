@@ -153,6 +153,19 @@ details.more li{font-size:13.5px;color:var(--ink2);margin-bottom:6px;line-height
 .xref{display:inline-block;font-size:12px;font-weight:700;color:var(--red-d);background:var(--red-l);border-radius:7px;padding:5px 9px;margin-top:9px}
 
 .mcard{border:2px solid var(--red);box-shadow:0 2px 12px rgba(207,32,48,.10)}
+.flow{margin-top:11px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.flow b.ft{display:block;font-size:11.5px;color:var(--ink3);font-weight:700;padding:9px 12px;background:#FAFBFC;border-bottom:1px solid var(--line)}
+.frow{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border-bottom:1px solid var(--line)}
+.frow:last-child{border-bottom:0}
+.frow.fdone{background:var(--ok-l)}
+.frow.fnow{background:var(--warn-l)}
+.fi{flex:0 0 auto;font-size:13px;line-height:1.5}
+.ftx{min-width:0;flex:1}
+.ftx b{display:block;font-size:13.5px;font-weight:700;line-height:1.4}
+.ftx span{display:block;font-size:12px;color:var(--ink2);margin-top:2px}
+.fst{flex:0 0 auto;font-size:11px;font-weight:700;color:var(--ink3);padding-top:2px}
+.frow.fdone .fst{color:var(--ok)}
+.frow.fnow .fst{color:var(--warn)}
 .mnext{margin-top:10px;background:#FAFBFC;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;font-weight:700}
 .mnext b{display:block;font-size:11.5px;color:var(--ink3);font-weight:700;margin-bottom:3px}
 .mnext span{display:block;font-size:12.5px;color:var(--ink2);font-weight:600;margin-top:3px}
@@ -296,11 +309,14 @@ const CHAPTER = {
    멤버가 바뀌면 이 배열만 수정하세요. 화면에는 명단을 나열하지 않으며,
    본인 이름을 정확히 입력해야만 결과가 나옵니다. */
 const MEMBERS = [
-  // BNI Connect「멤버십 갱신 대상 리포트」납부마감일 기준 (2026-09-10 조회)
+  /* due = 납부마감일(BNI Connect 「멤버십 갱신 대상 리포트」 기준, 2026-09-10 조회)
+     st  = 갱신 진행 상태. 아래 5가지 중 하나로 적으세요.
+           (없음) → 아직 시작 전 / '인터뷰' / '입금' / '투표' / '승인'
+           '승인'으로 바꾸면 카운트다운이 다음 갱신일(납부마감일 +1년)로 자동으로 넘어갑니다. */
   {n:'김만식', due:'2027-06-01'}, {n:'정희진', due:'2027-09-01'}, {n:'염윤선', due:'2027-06-01'},
-  {n:'홍석강', due:'2026-10-01'}, {n:'강인혁', due:'2026-10-01'}, {n:'김은강', due:'2026-11-01'},
-  {n:'이병진', due:'2026-11-01'}, {n:'박용국', due:'2026-11-01'}, {n:'배가은', due:'2026-12-01'},
-  {n:'김재현', due:'2026-12-01'}, {n:'박두호', due:'2026-12-01'}, {n:'안성민', due:'2027-01-01'},
+  {n:'홍석강', due:'2026-10-01', st:'승인'}, {n:'강인혁', due:'2026-10-01'}, {n:'김은강', due:'2026-11-01'},
+  {n:'이병진', due:'2026-11-01', st:'승인'}, {n:'박용국', due:'2026-11-01'}, {n:'배가은', due:'2026-12-01'},
+  {n:'김재현', due:'2026-12-01', st:'승인'}, {n:'박두호', due:'2026-12-01'}, {n:'안성민', due:'2027-01-01'},
   {n:'이선혜', due:'2027-01-01'}, {n:'박유나', due:'2027-01-01'}, {n:'한지섭', due:'2027-03-01'},
   {n:'김일연', due:'2027-03-01'}, {n:'배종우', due:'2027-04-01'}, {n:'정주헌', due:'2027-04-01'},
   {n:'이우람', due:'2027-04-01'}, {n:'박성훈', due:'2027-05-01'}, {n:'최병문', due:'2027-07-01'},
@@ -978,10 +994,25 @@ function anniv(joinStr, y){
   const p = joinStr.split('-').map(Number);
   return new Date(y, p[1]-1, Math.min(p[2], lastDayOf(y, p[1])));
 }
+/* 우리 챕터 갱신 절차: 인터뷰 → 입금 → 위원회 투표 → 다음 조찬에서 승인 발표 */
+const RENEW_FLOW = [
+  {k:'인터뷰', t:'갱신 인터뷰',            d:'멤버십위원회와 갱신 인터뷰를 진행합니다.'},
+  {k:'입금',   t:'갱신 지원서 제출 · 갱신비 입금', d:'입금 후 재갱신이 승인되면 환불되지 않습니다.'},
+  {k:'투표',   t:'멤버십위원회 투표',       d:'위원회 회의에서 갱신 여부를 투표합니다.'},
+  {k:'승인',   t:'갱신 승인 발표 (조찬)',   d:'투표에서 찬성되면 그다음 조찬에서 갱신 승인이 발표됩니다.'}
+];
+const FLOW_ORDER = ['','인터뷰','입금','투표','승인'];
+
 function memberInfo(m){
   if(m.due){
-    const exp = parseYmd(m.due);
-    return { name:m.n, expiry:exp, ymd:m.due, dday:dayDiff(exp, TODAY), est:!!m.est };
+    const st = m.st || '';
+    const done = st === '승인';
+    let target = m.due;
+    if(done){ const q = m.due.split('-').map(Number); target = ymd(new Date(q[0]+1, q[1]-1, q[2])); }
+    const exp = parseYmd(target);
+    let idx = FLOW_ORDER.indexOf(st); if(idx < 0) idx = 0;
+    return { name:m.n, st:st, done:done, idx:idx, curDue:parseYmd(m.due),
+             expiry:exp, ymd:target, dday:dayDiff(exp, TODAY), est:!!m.est };
   }
   const jy = Number(m.join.split('-')[0]);
   let y = jy + 1, exp = anniv(m.join, y);
@@ -1022,6 +1053,30 @@ function runRenew(){
 }
 
 /* --- 이름 검색 시 최상단에 뜨는 내 갱신 일정 카드 --- */
+function flowHTML(mi){
+  if(!mi.done && mi.dday > 150){
+    const start = addDays(mi.expiry, -150);
+    return '<div class="note">아직 갱신 절차를 시작할 시기가 아닙니다. 준비는 <b>'+fmtDate(start)+'(D-150)</b>부터 시작됩니다.</div>';
+  }
+  let h = '<div class="flow"><b class="ft">갱신 진행 상황</b>';
+  RENEW_FLOW.forEach(function(f, i){
+    const step = i+1;
+    const isDone = mi.idx >= step;
+    const isNow  = !mi.done && mi.idx === step-1;
+    h += '<div class="frow'+(isDone?' fdone':'')+(isNow?' fnow':'')+'">'+
+         '<span class="fi">'+(isDone?'✅':'⬜')+'</span>'+
+         '<span class="ftx"><b>'+esc(f.t)+'</b><span>'+esc(f.d)+'</span></span>'+
+         '<span class="fst">'+(isDone?'완료':(isNow?'다음 차례':'대기'))+'</span></div>';
+  });
+  h += '</div>';
+  if(!mi.done){
+    const nextStep = RENEW_FLOW[mi.idx];
+    h += '<div class="mnext"><b>지금 하실 일</b>'+esc(nextStep.t)+'<span>'+esc(nextStep.d)+'</span></div>';
+  }
+  h += '<p class="disc">※ 규정상 210일 리뷰 이후 <b>MSP 이수</b>도 필요합니다. (1년차 MSP 1.0 / 2년차 이후 심화 과정 권장)</p>';
+  return h;
+}
+
 function memberCardHTML(mi){
   const nextIdx = (function(){
     const rows = renewDates(mi.ymd);
@@ -1032,10 +1087,17 @@ function memberCardHTML(mi){
   const next = rows[nextIdx];
   let h = '<article class="card mcard">';
   h += '<div class="cbadges"><span class="bd cat">내 갱신 일정</span>'+
-       '<span class="bd '+(mi.dday<=90?'soon':'live')+'">'+(mi.dday>0?'만료까지 D-'+mi.dday:'오늘 만료')+'</span></div>';
+       (mi.done ? '<span class="bd live">✅ 갱신 승인 완료</span>'
+                : '<span class="bd '+(mi.dday<=90?'soon':'live')+'">'+(mi.dday>0?'갱신까지 D-'+mi.dday:'오늘 마감')+'</span>')+'</div>';
   h += '<h3>'+esc(mi.name)+' 님 갱신 일정</h3>';
-  h += '<div class="verdict">갱신 납부마감일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
-  h += '<div class="mnext"><b>다음 단계</b>'+esc(next.t)+'<span>'+fmtDate(next.date)+' · '+
+  if(mi.done){
+    h += '<div class="verdict">✅ 갱신 승인이 완료되었습니다. 지금 하실 일은 없습니다.<br>'+
+         '<span style="font-weight:600;font-size:13.5px;color:var(--ink2)">다음 갱신 납부마감일 '+fmtDate(mi.expiry)+' · D-'+mi.dday+'</span></div>';
+  } else {
+    h += '<div class="verdict">갱신 납부마감일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
+  }
+  h += flowHTML(mi);
+  h += '<div class="mnext"><b>챕터 일정상 다음 단계</b>'+esc(next.t)+'<span>'+fmtDate(next.date)+' · '+
        (next.dday>0?'D-'+next.dday:(next.dday===0?'오늘':Math.abs(next.dday)+'일 지남'))+'</span></div>';
   h += '<details class="more"><summary>내 갱신 일정 전체 보기</summary>'+renewTimelineHTML(mi.ymd)+'</details>';
   h += '<div class="src">'+(mi.est ? '⚠️ 신규 가입으로 갱신 대상 리포트에 아직 없어 <b>가입월 기준 추정치</b>입니다. 멤버십위원회에 확인해 주세요.<br>' : '')+
