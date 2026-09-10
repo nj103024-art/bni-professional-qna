@@ -142,8 +142,9 @@ svg{display:block}
 
 /* ── 복장 이미지 ── */
 .dress{display:block}
-.dlbl{font-size:11px;font-weight:800;color:var(--ink3);letter-spacing:.09em;margin:0 0 12px}
-.dlbl.no{color:var(--red);margin-top:26px}
+.dlbl{font-size:11px;font-weight:800;color:var(--ink3);letter-spacing:.09em;margin:28px 0 12px}
+.dlbl:first-child{margin-top:0}
+.dlbl.no{color:var(--red)}
 .dseasons{display:grid;gap:14px;grid-template-columns:1fr}
 @media(min-width:640px){.dseasons{grid-template-columns:repeat(3,1fr)}}
 .dcol{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px;text-align:center}
