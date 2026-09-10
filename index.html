@@ -111,7 +111,7 @@ svg{display:block}
 .toolh p{margin:5px 0 0;font-size:12.5px;color:var(--ink3)}
 .toolb{padding:15px 17px 17px}
 .diagram{background:#FCFCFB;border-bottom:1px solid var(--line2);padding:14px 10px 10px;overflow-x:auto}
-.diagram svg{margin:0 auto;max-width:100%;height:auto}
+.diagram svg{margin:0 auto;width:100%;max-width:520px;min-width:400px;height:auto}
 
 .field{margin-bottom:12px}
 .field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink2);margin-bottom:6px}
@@ -933,7 +933,7 @@ const CIRCLE = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stro
 function diagramMeeting(){
   const c = cfg();
   const t0 = c.open - 15, t1 = c.normal + 15, span = t1 - t0;
-  const W = 560, L = 52, R = 18, IW = W - L - R;
+  const W = 460, L = 46, R = 14, IW = W - L - R;
   const x = m => L + (m - t0) / span * IW;
   const marks = [
     {m:c.start,  l:'본회의 시작'},
@@ -943,23 +943,23 @@ function diagramMeeting(){
     {m:c.normal, l:'정상출석 인정'}
   ];
   const band = (a,b,fill,y,h) => '<rect x="'+x(a).toFixed(1)+'" y="'+y+'" width="'+(x(b)-x(a)).toFixed(1)+'" height="'+h+'" fill="'+fill+'" rx="3"/>';
-  let h = '<svg viewBox="0 0 '+W+' 132" width="'+W+'" role="img" aria-label="조찬 진행 시각과 지각·조퇴 판정 구간">';
-  h += '<text x="0" y="26" font-size="10.5" font-weight="700" fill="#8B8F97">도착</text>';
+  let h = '<svg viewBox="0 0 '+W+' 134" role="img" aria-label="조찬 진행 시각과 지각·조퇴 판정 구간">';
+  h += '<text x="0" y="26" font-size="11.5" font-weight="700" fill="#8B8F97">도착</text>';
   h += band(t0, c.start, '#DCEAE3', 15, 15) + band(c.start, c.first, '#F6E7C8', 15, 15) + band(c.first, t1, '#F6DADE', 15, 15);
-  h += '<text x="'+((x(t0)+x(c.start))/2)+'" y="26" font-size="10.5" font-weight="800" fill="#16704A" text-anchor="middle">정시</text>';
-  h += '<text x="'+((x(c.start)+x(c.first))/2)+'" y="26" font-size="10.5" font-weight="800" fill="#8A5A00" text-anchor="middle">지각</text>';
-  h += '<text x="'+((x(c.first)+x(t1))/2)+'" y="26" font-size="10.5" font-weight="800" fill="#C8102E" text-anchor="middle">결석</text>';
-  h += '<text x="0" y="60" font-size="10.5" font-weight="700" fill="#8B8F97">퇴장</text>';
+  h += '<text x="'+((x(t0)+x(c.start))/2)+'" y="26" font-size="11.5" font-weight="800" fill="#16704A" text-anchor="middle">정시</text>';
+  h += '<text x="'+((x(c.start)+x(c.first))/2)+'" y="26" font-size="11.5" font-weight="800" fill="#8A5A00" text-anchor="middle">지각</text>';
+  h += '<text x="'+((x(c.first)+x(t1))/2)+'" y="26" font-size="11.5" font-weight="800" fill="#C8102E" text-anchor="middle">결석</text>';
+  h += '<text x="0" y="60" font-size="11.5" font-weight="700" fill="#8B8F97">퇴장</text>';
   h += band(t0, c.last, '#F6DADE', 49, 15) + band(c.last, c.normal, '#F6E7C8', 49, 15) + band(c.normal, t1, '#DCEAE3', 49, 15);
-  h += '<text x="'+((x(t0)+x(c.last))/2)+'" y="60" font-size="10.5" font-weight="800" fill="#C8102E" text-anchor="middle">결석</text>';
-  h += '<text x="'+((x(c.last)+x(c.normal))/2)+'" y="60" font-size="10.5" font-weight="800" fill="#8A5A00" text-anchor="middle">조퇴</text>';
-  h += '<text x="'+((x(c.normal)+x(t1))/2)+'" y="60" font-size="10.5" font-weight="800" fill="#16704A" text-anchor="middle">정상</text>';
+  h += '<text x="'+((x(t0)+x(c.last))/2)+'" y="60" font-size="11.5" font-weight="800" fill="#C8102E" text-anchor="middle">결석</text>';
+  h += '<text x="'+((x(c.last)+x(c.normal))/2)+'" y="60" font-size="11.5" font-weight="800" fill="#8A5A00" text-anchor="middle">조퇴</text>';
+  h += '<text x="'+((x(c.normal)+x(t1))/2)+'" y="60" font-size="11.5" font-weight="800" fill="#16704A" text-anchor="middle">정상</text>';
   h += '<line x1="'+L+'" y1="78" x2="'+(W-R)+'" y2="78" stroke="#E7E5E2" stroke-width="1"/>';
   marks.forEach(function(mk, i){
     const px = x(mk.m), up = i % 2 === 0;
     h += '<line x1="'+px.toFixed(1)+'" y1="72" x2="'+px.toFixed(1)+'" y2="84" stroke="#B6BAC1" stroke-width="1.4"/>';
-    h += '<text x="'+px.toFixed(1)+'" y="'+(up?98:118)+'" font-size="10.5" font-weight="800" fill="#16171A" text-anchor="middle">'+hhmm(mk.m)+'</text>';
-    h += '<text x="'+px.toFixed(1)+'" y="'+(up?109:129)+'" font-size="9.5" fill="#8B8F97" text-anchor="middle">'+mk.l+'</text>';
+    h += '<text x="'+px.toFixed(1)+'" y="'+(up?98:118)+'" font-size="11.5" font-weight="800" fill="#16171A" text-anchor="middle">'+hhmm(mk.m)+'</text>';
+    h += '<text x="'+px.toFixed(1)+'" y="'+(up?109:129)+'" font-size="10.5" fill="#8B8F97" text-anchor="middle">'+mk.l+'</text>';
   });
   h += '</svg>';
   return h;
@@ -974,22 +974,22 @@ function diagramRenew(){
     {t:'위원회 투표', s:'월례 회의'},
     {t:'갱신 승인', s:'다음 조찬'}
   ];
-  const W = 560, n = steps.length, gap = 14;
+  const W = 460, n = steps.length, gap = 9;
   const bw = (W - gap*(n-1)) / n;
-  let h = '<svg viewBox="0 0 '+W+' 92" width="'+W+'" role="img" aria-label="갱신 진행 절차 다섯 단계">';
+  let h = '<svg viewBox="0 0 '+W+' 94" role="img" aria-label="갱신 진행 절차 다섯 단계">';
   steps.forEach(function(st, i){
     const x = i * (bw + gap), last = i === n-1;
     h += '<rect x="'+x.toFixed(1)+'" y="18" width="'+bw.toFixed(1)+'" height="46" rx="9" fill="'+(last?'#FCF3F4':'#FFFFFF')+'" stroke="'+(last?'#E9C8CD':'#E7E5E2')+'"/>';
-    h += '<circle cx="'+(x+15).toFixed(1)+'" cy="33" r="8" fill="'+(last?'#C8102E':'#F1EFEC')+'"/>';
-    h += '<text x="'+(x+15).toFixed(1)+'" y="36.5" font-size="9.5" font-weight="800" fill="'+(last?'#fff':'#8B8F97')+'" text-anchor="middle">'+(i+1)+'</text>';
-    h += '<text x="'+(x+bw/2+6).toFixed(1)+'" y="36" font-size="10.5" font-weight="800" fill="#16171A" text-anchor="middle">'+st.t+'</text>';
-    h += '<text x="'+(x+bw/2+6).toFixed(1)+'" y="55" font-size="9" fill="#8B8F97" text-anchor="middle">'+st.s+'</text>';
+    h += '<circle cx="'+(x+14).toFixed(1)+'" cy="33" r="8" fill="'+(last?'#C8102E':'#F1EFEC')+'"/>';
+    h += '<text x="'+(x+14).toFixed(1)+'" y="36.5" font-size="10" font-weight="800" fill="'+(last?'#fff':'#8B8F97')+'" text-anchor="middle">'+(i+1)+'</text>';
+    h += '<text x="'+(x+bw/2+5).toFixed(1)+'" y="35" font-size="11" font-weight="800" fill="#16171A" text-anchor="middle">'+st.t+'</text>';
+    h += '<text x="'+(x+bw/2+5).toFixed(1)+'" y="54" font-size="9.5" fill="#8B8F97" text-anchor="middle">'+st.s+'</text>';
     if(!last){
       const ax = x + bw + gap/2;
       h += '<path d="M'+(ax-3.5)+' 37 l4 4 -4 4" fill="none" stroke="#B6BAC1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
     }
   });
-  h += '<text x="0" y="86" font-size="9.5" fill="#8B8F97">투표에서 찬성되면 그다음 조찬에서 갱신 승인이 발표됩니다.</text>';
+  h += '<text x="0" y="89" font-size="10" fill="#8B8F97">투표에서 찬성되면 그다음 조찬에서 갱신 승인이 발표됩니다.</text>';
   h += '</svg>';
   return h;
 }
