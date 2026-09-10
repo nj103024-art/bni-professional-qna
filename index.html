@@ -1975,6 +1975,7 @@ function primerDress(){
   const nos = ['cap','sneaker','shorts','slipper'];
 
   let h = '<div class="dress">';
+
   h += '<div class="dlbl">남성 — 계절별 기준</div><div class="dseasons">';
   cols.forEach(function(c){
     h += '<section class="dcol"><h4>'+esc(c.s)+'</h4><div class="ditems">'+
@@ -1983,6 +1984,12 @@ function primerDress(){
   });
   h += '</div>';
 
+  h += '<div class="dlbl">여성 — 이런 차림이면 됩니다</div><div class="dwomen">';
+  women.forEach(function(o){
+    h += '<section class="dcol"><div class="ditems">'+o.m.map(k=>wear(k)).join('')+'</div>'+
+         '<p class="dsub2">'+esc(o.l)+'</p></section>';
+  });
+  h += '</div>';
   h += '<p class="dwnote">겨울에는 블라우스나 셔츠 대신 <b>목폴라</b>를 입어도 됩니다. 스커트·슬랙스 모두 괜찮습니다.</p>';
 
   h += '<div class="dlbl">신발 — 남녀 모두 구두</div><div class="dshoes">'+
@@ -1990,22 +1997,16 @@ function primerDress(){
        '<section class="dcol"><div class="ditems">'+wear('heels')+'</div><p class="dsub2">여성 — 구두 (굽 무관)</p></section>'+
        '</div>';
 
-  h += '<div class="dlbl">여성 — 이런 차림이면 됩니다</div><div class="dwomen">';
-  women.forEach(function(o){
-    h += '<section class="dcol"><div class="ditems">'+o.m.map(k=>wear(k)).join('')+'</div>'+
-         '<p class="dsub2">'+esc(o.l)+'</p></section>';
-  });
-  h += '</div>';
-
   h += '<div class="dlbl no">이런 차림은 피해 주세요 — 남녀 공통</div><div class="dnos">'+
        nos.map(k=>wear(k,'x')).join('')+'</div>';
 
-  h += '<div class="dlbl">겨울 외투는 이렇게</div>'+
+  h += '<div class="dlbl">겨울 외투는 이렇게 — 남녀 공통</div>'+
        '<div class="dcoat">'+
          '<div class="dcimgs">'+wear('puffer')+wear('coat')+'</div>'+
          '<div class="dctx"><b>입고 오셔도 됩니다</b>'+
          '<span>패딩이든 코트든 출근길 외투는 편하게 입고 오세요. 다만 조찬 중에는 <b>준비된 옷걸이에 걸어두고</b> 정장 차림으로 참석해 주세요.</span></div>'+
        '</div>';
+
   h += '</div>';
   return h;
 }
