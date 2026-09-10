@@ -156,8 +156,8 @@ svg{display:block}
 .dtag{margin:14px 0 0;font-size:13px;font-weight:800;color:var(--red)}
 .dsub{margin:4px 0 0;font-size:11px;color:var(--ink3)}
 .dsub2{margin:10px 0 0;font-size:12.5px;font-weight:700}
-.dwomen{display:grid;gap:14px;grid-template-columns:1fr;margin-top:12px}
-@media(min-width:640px){.dwomen{grid-template-columns:repeat(3,1fr)}}
+.dwomen,.dshoes{display:grid;gap:14px;grid-template-columns:1fr;margin-top:12px}
+@media(min-width:640px){.dwomen,.dshoes{grid-template-columns:repeat(2,1fr)}}
 .dnos{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);margin-top:12px}
 @media(min-width:560px){.dnos{grid-template-columns:repeat(5,1fr)}}
 .wi.x{max-width:none;position:relative}
@@ -704,10 +704,11 @@ const RULES = [
   '신입 멤버 인터뷰에서 <b>“정장 또는 격식을 갖춘 복장으로 모임에 참석할 수 있습니까?”</b>를 확인합니다.',
   '즉 복장은 권장 사항이 아니라 <b>가입할 때 약속한 조건</b>입니다.',
   '부의장 체크리스트에 <b>복장 점검</b>이 공식 업무로 들어가 있습니다.',
+  '<b>신발은 남녀 모두 구두</b>입니다. 남성은 정장 구두, 여성은 구두(굽 높이 무관)를 신습니다.',
   '조찬은 사업하는 자리이고, 내 옷차림이 곧 동료 멤버가 나를 소개할 때의 인상이 됩니다.'
  ],
- questions:['조찬에 뭐 입고 가요?','복장 규정이 있나요?','정장 꼭 입어야 해요?','드레스코드 어떻게 돼요?','옷차림 기준이 뭐예요?'],
- keywords:['복장','옷','드레스코드','정장','격식','차림','점검','비즈니스 정장','슈트','남자','남성']
+ questions:['조찬에 뭐 입고 가요?','복장 규정이 있나요?','정장 꼭 입어야 해요?','드레스코드 어떻게 돼요?','옷차림 기준이 뭐예요?','신발은 뭐 신어요?','구두 신어야 하나요?'],
+ keywords:['복장','옷','드레스코드','정장','격식','차림','점검','비즈니스 정장','슈트','남자','남성','신발','구두','로퍼','옥스퍼드']
 },
 {
  id:'dress-women', cat:'복장', src:'챕터 운영 기준', eff:null, boost:7,
@@ -771,7 +772,7 @@ const RULES = [
  verdict:'모자, 운동화, 반바지, 슬리퍼는 착용하지 않습니다. 외투는 입고 오셔도 되고 조찬 중에만 벗으면 됩니다.',
  body:[
   '<b>모자</b> — 실내에서 모자를 쓰지 않습니다.',
-  '<b>운동화</b> — 구두를 신습니다. 운동화는 격식을 갖춘 복장으로 보지 않습니다.',
+  '<b>운동화</b> — <b>남녀 모두 구두</b>를 신습니다. 운동화는 격식을 갖춘 복장으로 보지 않습니다.',
   '<b>반바지 · 슬리퍼 · 운동복</b>도 같은 이유로 착용하지 않습니다.',
   '이 기준은 <b>남녀 공통</b>으로 적용됩니다.',
   '<b>외투는 다릅니다</b> — 패딩이나 코트는 입고 오셔도 되고, 조찬 중에만 벗어 두시면 됩니다.',
@@ -1944,7 +1945,8 @@ const WEAR = {
   tie:['tie.jpg','넥타이'],           coat:['coat.jpg','코트'],
   turtle:['turtle.jpg','목폴라'],     polo:['polo.jpg','카라티'],
   shortshirt:['shortshirt.jpg','반팔 셔츠'], blouse:['blouse.jpg','블라우스'],
-  dress:['dress.jpg','원피스'],       heels:['heels.jpg','구두'],
+  dress:['dress.jpg','원피스'],       heels:['heels.jpg','여성 구두'],
+  oxford:['oxford.jpg','남성 구두'],  wjacket:['wjacket.jpg','재킷'],
   puffer:['puffer.jpg','패딩'],       cap:['cap.jpg','모자'],
   sneaker:['sneaker.jpg','운동화'],   shorts:['shorts.jpg','반바지'],
   slipper:['slipper.jpg','슬리퍼']
@@ -1962,9 +1964,8 @@ function primerDress(){
     {s:'겨울',      m:['coat','jacket','turtle'],         t:'목폴라도 가능', d:'코트 · 재킷 · 셔츠 또는 목폴라'}
   ];
   const women = [
-    {m:['jacket','blouse'], l:'재킷 + 블라우스'},
-    {m:['dress'],           l:'단정한 원피스'},
-    {m:['heels'],           l:'구두 (굽 무관)'}
+    {m:['wjacket','blouse'], l:'재킷 + 블라우스'},
+    {m:['dress'],            l:'단정한 원피스'}
   ];
   const nos = ['cap','sneaker','shorts','slipper'];
 
@@ -1976,6 +1977,11 @@ function primerDress(){
          '<p class="dtag">'+esc(c.t)+'</p><p class="dsub">'+esc(c.d)+'</p></section>';
   });
   h += '</div>';
+
+  h += '<div class="dlbl">신발 — 남녀 모두 구두</div><div class="dshoes">'+
+       '<section class="dcol"><div class="ditems">'+wear('oxford')+'</div><p class="dsub2">남성 — 구두</p></section>'+
+       '<section class="dcol"><div class="ditems">'+wear('heels')+'</div><p class="dsub2">여성 — 구두 (굽 무관)</p></section>'+
+       '</div>';
 
   h += '<div class="dlbl">여성 멤버</div><div class="dwomen">';
   women.forEach(function(o){
@@ -2083,7 +2089,8 @@ const PRIMERS = [
   lead:'복장은 권장이 아니라 <b>가입할 때 약속한 조건</b>입니다. 신입 인터뷰에서 확인하고 부의장이 점검합니다. 남녀 기준은 같고, 계절이 바뀌어도 <b>격식을 갖춘다</b>는 원칙은 변하지 않습니다.',
   svg:primerDress,
   keys:[['기본은 정장 또는 격식을 갖춘 복장','남녀 모두 같습니다. 신입 멤버 인터뷰에서 확인하는 항목이고, 부의장 체크리스트에 복장 점검이 공식 업무로 들어가 있습니다.'],
-        ['여성은 재킷에 블라우스, 또는 원피스','정장 스커트와 슬랙스 모두 괜찮고 신발은 구두를 신습니다. 굽 높이는 상관없습니다.'],
+        ['여성은 재킷에 블라우스, 또는 원피스','정장 스커트와 슬랙스 모두 괜찮습니다.'],
+        ['신발은 남녀 모두 구두','남성은 정장 구두, 여성은 구두를 신습니다. 굽 높이는 상관없습니다.'],
         ['여름은 노타이 가능, 칼라는 필수','넥타이는 안 매도 되지만 칼라 있는 상의는 입어야 합니다. 반팔이라면 재킷을 걸쳐 주세요.'],
         ['겨울은 셔츠 대신 목폴라도 가능','외투는 패딩이든 코트든 입고 오셔도 됩니다. 조찬 중에만 옷걸이에 걸어두세요.'],
         ['모자 · 운동화는 안 됩니다','반바지, 슬리퍼, 운동복도 마찬가지입니다. 남녀 공통으로 적용됩니다.'],
