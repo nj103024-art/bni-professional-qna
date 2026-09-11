@@ -824,7 +824,7 @@ const RULES = [
   '간병이 길어지는 특별한 사정이라면 <b>멤버십위원회에 먼저 상의</b>하세요. 위원회는 재량으로 장기불참을 허용할 수 있습니다.'
  ],
  questions:['가족이 아파서 못 가면요?','간병 때문에 결석해도 되나요?','부모님이 입원하셨어요','아이가 아파서 못 가요','배우자 입원하면 인정돼요?','가족 병가 되나요?'],
- keywords:['가족','간병','부모님','아이','자녀','어머니','아버지','돌봄','보호자','가족 병가']
+ keywords:['가족','간병','부모님','부모님 병원','아이','자녀','어머니','아버지','돌봄','보호자','가족 병가']
 },
 {
  id:'abs-long', cat:'출결', src:'표준 운영규정 2.4항', eff:null, boost:10,
@@ -958,7 +958,7 @@ const RULES = [
 },
 /* ---------- 대리인 ---------- */
 {
- id:'proxy-now', cat:'대리인', src:'슬라이드 5', eff:null, boost:7, current:true,
+ id:'proxy-now', cat:'대리인', src:'슬라이드 5', eff:null, boost:14, current:true, until:'2026-09-30',
  title:'대리인 누구를 보낼 수 있나요? (기존 규정 · 이번 기수까지)',
  verdict:'지금은 골드클럽 또는 그린클럽(그린 6개월 이상자) 또는 의장단만 대리인으로 참석할 수 있습니다.',
  body:[
@@ -1722,7 +1722,11 @@ function search(query){
       return {r,s:sum};
     }).filter(x=>x.s>0);
   }
-  hits.forEach(x=>{ x.s += (x.r.boost||0); });
+  hits.forEach(x=>{
+    x.s += (x.r.boost||0);
+    // 적용 기간이 끝난 조항(예: 기존 대리인 규정)은 뒤로 보냅니다
+    if(x.r.until && dayDiff(TODAY, parseYmd(x.r.until)) > 0) x.s -= 30;
+  });
   hits.sort((a,b)=> b.s-a.s || RULES.indexOf(a.r)-RULES.indexOf(b.r));
   return hits.map(x=>x.r);
 }
