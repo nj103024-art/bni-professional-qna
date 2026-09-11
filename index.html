@@ -1727,7 +1727,7 @@ function search(query){
     // 적용 기간이 끝난 조항(예: 기존 대리인 규정)은 뒤로 보냅니다
     if(x.r.until && dayDiff(TODAY, parseYmd(x.r.until)) > 0) x.s -= 30;
     // 아직 시행 전인 조항은 지금 적용 중인 조항보다 한 칸 뒤에 둡니다
-    if(x.r.eff && dayDiff(parseYmd(x.r.eff), TODAY) > 0) x.s -= 10;
+    if(x.r.eff && dayDiff(parseYmd(x.r.eff), TODAY) > 0) x.s -= 25;
   });
   hits.sort((a,b)=> b.s-a.s || RULES.indexOf(a.r)-RULES.indexOf(b.r));
   return hits.map(x=>x.r);
