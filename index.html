@@ -699,6 +699,41 @@ button.wrow:active,.urow:active{background:#ECEEF2}
 .tym{display:block;font-size:12px;color:var(--ink2)}
 .tyf{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:6px}
 .tywait{font-size:13px;color:var(--ink3)}
+
+/* 조직도 */
+img.rav{object-fit:cover;padding:0}
+.org{display:grid;gap:12px}
+.ogrp{background:#fff;border-radius:18px;padding:18px 16px 16px}
+.ogl{display:block;font-size:12px;font-weight:800;color:var(--ink3);margin:0 2px 12px}
+.oav{width:60px;height:60px;border-radius:99px;object-fit:cover;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--navy);flex:0 0 auto}
+.oav.sm{width:44px;height:44px}
+.oav.xs{width:28px;height:28px;font-size:10px}
+.op{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;background:var(--soft);border-radius:14px;padding:14px 8px 12px}
+.op .oav{margin-bottom:6px}
+.orl{font-size:11.5px;font-weight:700;color:var(--red-d);line-height:1.35}
+.op b{font-size:15px;font-weight:800;color:var(--navy)}
+.otop{display:grid;gap:8px}
+.op.big{background:var(--navy)}
+.op.big .oav{width:84px;height:84px;box-shadow:0 0 0 3px rgba(255,255,255,.18)}
+.op.big .orl{color:#E9B9C1;font-size:12.5px}
+.op.big b{color:#fff;font-size:18px}
+.oexec{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.odir{display:flex;align-items:center;gap:12px;margin-top:8px;padding:10px 12px;border-radius:14px;box-shadow:inset 0 0 0 1.5px #E6D9B8;background:#FFFCF4}
+.odir small{display:block;font-size:11.5px;color:#8A6D2B;font-weight:700}
+.odir b{font-size:15px;color:var(--navy)}
+.ocom{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(min-width:760px){.ocom{grid-template-columns:repeat(4,1fr)}}
+.oteams{display:grid;gap:8px}
+@media(min-width:760px){.oteams{grid-template-columns:1fr 1fr}}
+@media(min-width:1180px){.oteams{grid-template-columns:repeat(3,1fr)}}
+.oteam{background:var(--soft);border-radius:14px;padding:12px}
+.oth{display:flex;align-items:center;gap:12px}
+.oth .oav{width:48px;height:48px}
+.oth small{display:block;font-size:11.5px;font-weight:700;color:var(--red-d);line-height:1.3}
+.oth b{display:block;font-size:15.5px;font-weight:800;color:var(--navy);line-height:1.35}
+.omem{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.om{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:99px;padding:3px 10px 3px 3px;font-size:13px;font-weight:600;color:var(--ink)}
+@media(min-width:760px){.otop{grid-template-columns:1.1fr 2fr;align-items:stretch}.oexec .op{height:100%;justify-content:center}}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -773,14 +808,17 @@ footer{background:transparent;border:0;margin:0}
     </section>
 
     <section class="sec" id="chapterSec" hidden>
-      <div class="sech"><h2>멤버 찾기</h2><span>전문분야, 회사, 이름 무엇으로든 찾을 수 있습니다</span></div>
+      <div class="sech"><h2>7기 조직도</h2><span>의장단 · 멤버십위원회 · 석세스팀</span></div>
+      <div id="orgBox"></div>
+
+      <div class="sech sp"><h2>멤버 찾기</h2><span>전문분야, 회사, 이름 무엇으로든 찾을 수 있습니다</span></div>
       <div class="tool finder">
         <div class="toolb">
           <div class="field"><label for="rq" class="sr">멤버 검색</label><input type="text" id="rq" autocomplete="off" placeholder="예) 세무사, 보험, 인테리어"></div>
           <div class="gchips" id="rgroups"></div>
           <p class="rcount" id="rcount"></p>
           <div id="rlist"></div>
-          <p class="disc">6기 비즈니스 경청표(2026.09.09) 기준입니다. 기수가 바뀌면 직책이 달라질 수 있습니다.</p>
+          <p class="disc">직책은 7기 조직도, 회사·전문분야는 비즈니스 경청표(2026.09.09) 기준입니다.</p>
         </div>
       </div>
 
@@ -1837,7 +1875,7 @@ const RULES = [
 },
 /* ---------- 멤버 지원 ---------- */
 {
- id:'ch-find', cat:'우리 챕터', src:'6기 비즈니스 경청표 (2026.09.09)', eff:null, boost:7,
+ id:'ch-find', cat:'우리 챕터', src:'7기 조직도 · 비즈니스 경청표 (2026.09.09)', eff:null, boost:7,
  title:'이 분야 하는 멤버 있나요? (전문분야로 멤버 찾기)',
  verdict:'「우리 챕터」 탭의 멤버 찾기에서 전문분야·회사·이름으로 바로 찾을 수 있습니다. 검색창에 "세무사 누구"처럼 물어봐도 됩니다.',
  body:[
@@ -1853,25 +1891,25 @@ const RULES = [
  keywords:['멤버 찾기','전문분야','업종','누구','회사','소개','리퍼럴 줄']
 },
 {
- id:'ch-who', cat:'우리 챕터', src:'6기 리더십팀 · 표준 운영규정', eff:null, boost:9,
+ id:'ch-who', cat:'우리 챕터', src:'7기 조직도 · 표준 운영규정', eff:null, boost:9,
  title:'이럴 땐 누구에게 말하나요? (담당자 안내)',
  verdict:'조퇴는 출결 담당, 대리인은 부의장, 갱신은 갱신 담당, 비지터는 비지터 호스트팀에 먼저 알리면 됩니다.',
  body:[
-  '<b>조퇴 미리 알리기</b> — 멤버십위원회 출결 담당 박두호',
-  '<b>대리인 보내기</b> — 부의장 정희진',
-  '<b>갱신 지원서·인터뷰</b> — 멤버십위원회 갱신 담당 김정률',
-  '<b>멤버 간 갈등·중재</b> — 멤버십위원회 중재 담당 김재현',
-  '<b>리퍼럴 관련 문의</b> — 멤버십위원회 리퍼럴 담당 이병진',
-  '<b>비지터 초대·당일 안내</b> — 비지터 호스트 코디 최진우, 비지터리더 배종우',
-  '<b>원투원</b> — 121마스터 강인혁',
-  '<b>교육 점수</b> — 교육코디 이선혜',
-  '<b>멘토·패스포트</b> — 멘토링코디 김동운',
-  '<b>회비·참가비</b> — ST 염윤선',
+  '<b>조퇴 미리 알리기</b> — 멤버십위원회 출결 담당 정희진',
+  '<b>대리인 보내기</b> — 부의장 김재현',
+  '<b>갱신 지원서·인터뷰</b> — 멤버십위원회 갱신 담당 배가은',
+  '<b>멤버 간 갈등·중재</b> — 멤버십위원회 중재 담당 김동운',
+  '<b>리퍼럴 관련 문의</b> — 멤버십위원회 리퍼럴 담당 김일연',
+  '<b>비지터 초대·당일 안내</b> — 비지터 호스트 리더 장호연',
+  '<b>교육 점수</b> — 교육코디 안성민',
+  '<b>멘토·패스포트</b> — 멘토링코디 홍석강',
+  '<b>챕터 행사</b> — 이벤트코디 김은강',
+  '<b>회비·참가비</b> — ST(서기 겸 재무) 이병진',
   '<b>다른 챕터 참관</b> — 방문할 챕터의 ST에게 연락해 디렉터 승인',
-  '6기 리더십팀(2026.09.09 경청표) 기준입니다. 기수가 바뀌면 담당자가 달라집니다.'
+  '7기 조직도 기준입니다. 의장 박두호 · 담당디렉터(GD) 김수지.'
  ],
  questions:['누구한테 말해요?','조퇴 누구한테 알려요?','담당자가 누구예요?','출결 담당 누구예요?','갱신 담당 누구예요?','의장이 누구예요?','리더십팀 누구예요?'],
- keywords:['담당자','누구','리더십팀','의장단','의장','부의장','ST','코디','멤버십위원회','연락','문의','출결 담당','갱신 담당','중재','121마스터','교육코디','멘토링코디','비지터 호스트','도어퍼슨']
+ keywords:['담당자','누구','리더십팀','의장단','의장','부의장','ST','코디','멤버십위원회','연락','문의','출결 담당','갱신 담당','중재','조직도','석세스팀','이벤트코디','교육코디','멘토링코디','비지터 호스트','도어퍼슨']
 },
 {
  id:'ch-visitor', cat:'우리 챕터', src:'챕터 소개 페이지 · 경청표 · 표준 운영규정 2.3항', eff:null, boost:9,
@@ -2827,6 +2865,46 @@ function drawMeetingDiagram(){
 }
 
 
+
+/* ===================== 7기 조직도 ===================== */
+const PHOTO = {'박두호':'parkdh','김수지':'kimsj','김재현':'kimjh','이병진':'leebj','이우람':'leewr','배가은':'baege','김동운':'kimdw','정희진':'junghj','김일연':'kimiy',
+ '안성민':'ansm','홍석강':'hongsg','김만식':'kimms','김은강':'kimek','장호연':'janghy','정주헌':'jungjh','박주영':'parkjy','강인혁':'kangih','김정률':'kimjr','최병문':'choibm',
+ '이선혜':'leesh','최진우':'choijw','김해람':'kimhr','박성훈':'parksh','배기영':'baegy','염윤선':'yeomys','한지섭':'hanjs','배종우':'baejw'};
+function avatar(n, cls){
+  const f = PHOTO[n];
+  return f ? '<img class="'+(cls||'rav')+'" src="img/org/'+f+'.jpg" alt="'+esc(n)+'" loading="lazy">'
+           : '<div class="'+(cls||'rav')+'">'+esc(n.slice(-2))+'</div>';
+}
+const ORG = {
+  chair: ['의장','박두호'], director: ['담당디렉터 · GD','김수지'],
+  exec: [['부의장','김재현'],['ST (서기 겸 재무)','이병진']],
+  committee: [['갱신','배가은'],['중재','김동운'],['출결','정희진'],['리퍼럴','김일연']],
+  teams: [
+    ['도어퍼슨 팀장','이우람',['박주영']],
+    ['교육 코디','안성민',['강인혁']],
+    ['멘토링 코디','홍석강',['김정률','최병문']],
+    ['성장 코디','김만식',['이선혜']],
+    ['이벤트 코디','김은강',['최진우']],
+    ['비지터 호스트 리더','장호연',['김해람','박성훈','배기영','염윤선','한지섭']],
+    ['PR 코디','정주헌',['배종우']]
+  ]
+};
+function orgHTML(){
+  const person = (r,n,cls) => '<div class="op '+(cls||'')+'">'+avatar(n,'oav')+'<span class="orl">'+esc(r)+'</span><b>'+esc(n)+'</b></div>';
+  let h = '<div class="org">';
+  h += '<div class="ogrp"><span class="ogl">의장단</span>'+
+       '<div class="otop">'+person(ORG.chair[0],ORG.chair[1],'big')+
+       '<div class="oexec">'+ORG.exec.map(x=>person(x[0],x[1])).join('')+'</div></div>'+
+       '<div class="odir">'+avatar(ORG.director[1],'oav sm')+'<span><small>'+ORG.director[0]+'</small><b>'+ORG.director[1]+'</b></span></div></div>';
+  h += '<div class="ogrp"><span class="ogl">멤버십위원회</span><div class="ocom">'+ORG.committee.map(x=>person(x[0],x[1])).join('')+'</div></div>';
+  h += '<div class="ogrp"><span class="ogl">석세스팀 · 도어퍼슨팀</span><div class="oteams">'+ORG.teams.map(function(t){
+    return '<div class="oteam"><div class="oth">'+avatar(t[1],'oav')+'<span><small>'+esc(t[0])+'</small><b>'+esc(t[1])+'</b></span></div>'+
+      '<div class="omem">'+t[2].map(n=>'<span class="om">'+avatar(n,'oav xs')+esc(n)+'</span>').join('')+'</div></div>';
+  }).join('')+'</div></div>';
+  h += '</div>';
+  return h;
+}
+
 /* ===================== 우리 챕터 : 멤버 · 담당자 · 비지터 · 신입 ===================== */
 /* 출처: 130회 프로페셔널챕터 6기 비즈니스 경청표 (2026.09.09) */
 const RGROUPS = [
@@ -2834,34 +2912,34 @@ const RGROUPS = [
  ['ps','웨딩·퍼스널'], ['fb','F&B·유통'], ['sp','공간·부동산']
 ];
 const ROSTER = [
- {n:'김동운', co:'법무법인 삼정', sp:'변호사', role:'멘토링코디', g:'bs', k:'법률 소송 계약 로펌 법무'},
- {n:'김정률', co:'세무법인 혜움', sp:'세무사', role:'멤버십위원회 · 갱신', g:'bs', k:'세금 세무 기장 신고 절세'},
- {n:'배가은', co:'노무법인 청람', sp:'노무사', role:'PR코디', g:'bs', k:'노무 인사 근로계약 급여 노동'},
- {n:'김해람', co:'해람법무사사무소', sp:'법무사', role:'이벤트코디', g:'bs', k:'등기 법인설립 법무'},
- {n:'최병문', co:'애즈금융서비스', sp:'법인보험', role:'신입회원', g:'bs', k:'보험 법인 기업보험'},
- {n:'김성숙', co:'유니월드해운항공', sp:'해외물류운송', role:'신입회원', g:'bs', k:'물류 수출 수입 운송 포워딩 배송'},
- {n:'한지섭', co:'코지코퍼레이션', sp:'기업 MRO', role:'성장코디', g:'mk', k:'소모품 사무용품 구매대행'},
- {n:'김만식', co:'비에이마케팅', sp:'온라인마케팅', role:'의장', g:'mk', k:'광고 마케팅 블로그 SNS 홍보'},
- {n:'강인혁', co:'강&강 국제특허법률사무소', sp:'변리사', role:'121마스터', g:'mk', k:'특허 상표 지식재산 디자인권'},
- {n:'김재현', co:'포레스트', sp:'영상프로덕션', role:'멤버십위원회 · 중재', g:'mk', k:'영상 촬영 유튜브 홍보영상 편집'},
- {n:'배종우', co:'휠라이프코리아', sp:'IT·웹사이트·앱개발', role:'비지터리더 · 이벤트팀', g:'mk', k:'홈페이지 웹 앱 개발 프로그램'},
- {n:'정주헌', co:'애드원솔루션', sp:'온라인마케팅교육', role:'교육팀', g:'mk', k:'마케팅 교육 강의 광고'},
- {n:'박지호', co:'스노우아라', sp:'판촉물·선물세트·굿즈', role:'신입회원', g:'mk', k:'판촉물 선물 굿즈 기념품 답례품'},
- {n:'정희진', co:'프라임에셋', sp:'개인보험', role:'부의장', g:'fi', k:'보험 개인 설계'},
- {n:'홍석강', co:'NPTI연구원', sp:'경제심리진단·솔루션', role:'성장팀', g:'fi', k:'진단 코칭 경제심리 재무상담'},
- {n:'이선혜', co:'㈜어게인', sp:'해외보험', role:'교육코디', g:'fi', k:'보험 해외 유학 여행'},
- {n:'염윤선', co:'더바른손해사정법인', sp:'손해사정사', role:'ST', g:'fi', k:'손해사정 보험금 사고 청구'},
- {n:'박두호', co:'오토컨설팅', sp:'자동차 할부·리스·렌트', role:'멤버십위원회 · 출결 · 리퍼럴리더', g:'fi', k:'자동차 차 리스 렌트 할부 신차 중고차'},
- {n:'최진우', co:'경희에스한의원', sp:'한의사', role:'비지터 호스트 코디', g:'ps', k:'한의원 한방 침 진료'},
+ {n:'김동운', co:'법무법인 삼정', sp:'변호사', role:'멤버십위원회 · 중재', g:'bs', k:'법률 소송 계약 로펌 법무'},
+ {n:'김정률', co:'세무법인 혜움', sp:'세무사', role:'멘토링팀', g:'bs', k:'세금 세무 기장 신고 절세'},
+ {n:'배가은', co:'노무법인 청람', sp:'노무사', role:'멤버십위원회 · 갱신', g:'bs', k:'노무 인사 근로계약 급여 노동'},
+ {n:'김해람', co:'해람법무사사무소', sp:'법무사', role:'비지터 호스트팀', g:'bs', k:'등기 법인설립 법무'},
+ {n:'최병문', co:'애즈금융서비스', sp:'법인보험', role:'멘토링팀', g:'bs', k:'보험 법인 기업보험'},
+ {n:'김성숙', co:'유니월드해운항공', sp:'해외물류운송', role:'', g:'bs', k:'물류 수출 수입 운송 포워딩 배송'},
+ {n:'한지섭', co:'코지코퍼레이션', sp:'기업 MRO', role:'비지터 호스트팀', g:'mk', k:'소모품 사무용품 구매대행'},
+ {n:'김만식', co:'비에이마케팅', sp:'온라인마케팅', role:'성장코디', g:'mk', k:'광고 마케팅 블로그 SNS 홍보'},
+ {n:'강인혁', co:'강&강 국제특허법률사무소', sp:'변리사', role:'교육팀', g:'mk', k:'특허 상표 지식재산 디자인권'},
+ {n:'김재현', co:'포레스트', sp:'영상프로덕션', role:'부의장', g:'mk', k:'영상 촬영 유튜브 홍보영상 편집'},
+ {n:'배종우', co:'휠라이프코리아', sp:'IT·웹사이트·앱개발', role:'PR팀', g:'mk', k:'홈페이지 웹 앱 개발 프로그램'},
+ {n:'정주헌', co:'애드원솔루션', sp:'온라인마케팅교육', role:'PR코디', g:'mk', k:'마케팅 교육 강의 광고'},
+ {n:'박지호', co:'스노우아라', sp:'판촉물·선물세트·굿즈', role:'', g:'mk', k:'판촉물 선물 굿즈 기념품 답례품'},
+ {n:'정희진', co:'프라임에셋', sp:'개인보험', role:'멤버십위원회 · 출결', g:'fi', k:'보험 개인 설계'},
+ {n:'홍석강', co:'NPTI연구원', sp:'경제심리진단·솔루션', role:'멘토링코디', g:'fi', k:'진단 코칭 경제심리 재무상담'},
+ {n:'이선혜', co:'㈜어게인', sp:'해외보험', role:'성장팀', g:'fi', k:'보험 해외 유학 여행'},
+ {n:'염윤선', co:'더바른손해사정법인', sp:'손해사정사', role:'비지터 호스트팀', g:'fi', k:'손해사정 보험금 사고 청구'},
+ {n:'박두호', co:'오토컨설팅', sp:'자동차 할부·리스·렌트', role:'의장', g:'fi', k:'자동차 차 리스 렌트 할부 신차 중고차'},
+ {n:'최진우', co:'경희에스한의원', sp:'한의사', role:'이벤트팀', g:'ps', k:'한의원 한방 침 진료'},
  {n:'배기영', co:'배기영힐링테라피', sp:'테라피스트', role:'비지터 호스트팀', g:'ps', k:'테라피 마사지 힐링 관리'},
- {n:'이병진', co:'포튼가먼트', sp:'맞춤정장', role:'멤버십위원회 · 리퍼럴', g:'ps', k:'정장 양복 수트 맞춤 셔츠'},
- {n:'김은강', co:'정육마트정육깡', sp:'육류 도소매', role:'멘토링팀', g:'fb', k:'정육 고기 육류 한우 식자재'},
- {n:'안성민', co:'에일스탬프', sp:'고객관리 플랫폼', role:'도어퍼슨장', g:'fb', k:'스탬프 적립 CRM 고객관리 매장'},
- {n:'박성훈', co:'유엔아이 모바일', sp:'KT 통신사 대리점', role:'121팀', g:'fb', k:'휴대폰 핸드폰 인터넷 통신 KT'},
- {n:'박주영', co:'태하유통', sp:'식용란 도소매', role:'신입회원', g:'fb', k:'계란 달걀 식자재 유통'},
- {n:'장호연', co:'간디자인', sp:'간판·사인물', role:'비지터 호스트팀', g:'sp', k:'간판 사인 현수막 디자인'},
- {n:'김일연', co:'어웨이크아이디', sp:'인테리어', role:'비지터 호스트팀', g:'sp', k:'인테리어 리모델링 시공 공사'},
- {n:'이우람', co:'멘토부동산중개법인', sp:'상가·사무실 임대차', role:'PR팀', g:'sp', k:'부동산 상가 사무실 임대 중개'}
+ {n:'이병진', co:'포튼가먼트', sp:'맞춤정장', role:'ST (서기 겸 재무)', g:'ps', k:'정장 양복 수트 맞춤 셔츠'},
+ {n:'김은강', co:'정육마트정육깡', sp:'육류 도소매', role:'이벤트코디', g:'fb', k:'정육 고기 육류 한우 식자재'},
+ {n:'안성민', co:'에일스탬프', sp:'고객관리 플랫폼', role:'교육코디', g:'fb', k:'스탬프 적립 CRM 고객관리 매장'},
+ {n:'박성훈', co:'유엔아이 모바일', sp:'KT 통신사 대리점', role:'비지터 호스트팀', g:'fb', k:'휴대폰 핸드폰 인터넷 통신 KT'},
+ {n:'박주영', co:'태하유통', sp:'식용란 도소매', role:'도어퍼슨팀', g:'fb', k:'계란 달걀 식자재 유통'},
+ {n:'장호연', co:'간디자인', sp:'간판·사인물', role:'비지터 호스트 리더', g:'sp', k:'간판 사인 현수막 디자인'},
+ {n:'김일연', co:'어웨이크아이디', sp:'인테리어', role:'멤버십위원회 · 리퍼럴', g:'sp', k:'인테리어 리모델링 시공 공사'},
+ {n:'이우람', co:'멘토부동산중개법인', sp:'상가·사무실 임대차', role:'도어퍼슨 팀장', g:'sp', k:'부동산 상가 사무실 임대 중개'}
 ];
 ROSTER.forEach(m=>{ m._s = norm(m.n+' '+m.co+' '+m.sp+' '+m.k); m._sp = norm(m.sp+' '+m.k); });
 const DIRECTOR = {n:'김수지', co:'드발롱(수지앤아티크)', role:'디렉터'};
@@ -2873,9 +2951,9 @@ function rosterMatch(q){
   return ROSTER.filter(m=> toks.every(t=> m._s.indexOf(t)!==-1));
 }
 function rosterRow(m){
-  return '<div class="rrow"><div class="rav">'+esc(m.n.slice(-2))+'</div>'+
+  return '<div class="rrow">'+avatar(m.n,'rav')+
     '<div class="rtx"><b>'+esc(m.n)+'<span class="rsp">'+esc(m.sp)+'</span></b><span>'+esc(m.co)+'</span></div>'+
-    '<span class="rrole">'+esc(m.role)+'</span></div>';
+    (m.role?'<span class="rrole">'+esc(m.role)+'</span>':'')+'</div>';
 }
 function renderRoster(){
   const box = $('#rlist'); if(!box) return;
@@ -2905,16 +2983,16 @@ function buildRoster(){
 }
 
 const WHO = [
- ['조퇴를 미리 알릴 때','박두호','멤버십위원회 출결 담당','late-leave'],
- ['대리인을 보낼 때','정희진','부의장','proxy-how'],
- ['갱신 지원서·인터뷰','김정률','멤버십위원회 갱신 담당','sup-review'],
- ['멤버 간 갈등·중재','김재현','멤버십위원회 중재 담당',''],
- ['리퍼럴 관련 문의','이병진','멤버십위원회 리퍼럴 담당',''],
- ['비지터 초대','최진우 · 배종우','비지터 호스트 코디 · 비지터리더','ch-visitor'],
- ['원투원','강인혁','121마스터',''],
- ['교육 점수','이선혜','교육코디',''],
- ['멘토·패스포트','김동운','멘토링코디','ch-newbie'],
- ['회비·참가비','염윤선','ST',''],
+ ['조퇴를 미리 알릴 때','정희진','멤버십위원회 출결 담당','late-leave'],
+ ['대리인을 보낼 때','김재현','부의장','proxy-how'],
+ ['갱신 지원서·인터뷰','배가은','멤버십위원회 갱신 담당','sup-review'],
+ ['멤버 간 갈등·중재','김동운','멤버십위원회 중재 담당',''],
+ ['리퍼럴 관련 문의','김일연','멤버십위원회 리퍼럴 담당',''],
+ ['비지터 초대','장호연','비지터 호스트 리더','ch-visitor'],
+ ['교육 점수','안성민','교육코디',''],
+ ['멘토·패스포트','홍석강','멘토링코디','ch-newbie'],
+ ['챕터 행사','김은강','이벤트코디',''],
+ ['회비·참가비','이병진','ST (서기 겸 재무)',''],
  ['다른 챕터 참관','방문할 챕터 ST','연락 후 디렉터 승인','visit-go']
 ];
 function whoHTML(){
@@ -2926,7 +3004,6 @@ function whoHTML(){
       (w[3]?'<span class="wgo">›</span>':'')+'</'+(w[3]?'button':'div')+'>';
   });
   h += '</div>';
-  h += '<div class="lead6"><b>6기 의장단</b> 의장 김만식 · 부의장 정희진 · ST 염윤선 <span>디렉터 김수지</span></div>';
   return h;
 }
 function stepsHTML(steps, foot){
@@ -2956,11 +3033,12 @@ function newbieHTML(){
   let h = stepsHTML(NEWBIE_STEPS);
   h += '<div class="terms"><b class="pk">처음 들으면 헷갈리는 용어</b><div class="tgrid">'+
     TERMS.map(t=>'<div class="term"><b>'+esc(t[0])+'</b><span>'+esc(t[1])+'</span></div>').join('')+'</div></div>';
-  h += '<p class="disc">처음부터 지킬 것: 첫 위클리 발표 전에 도착하고, 정장 또는 격식을 갖춘 복장으로 참석합니다. 멘토 관련 문의는 멘토링코디 김동운에게 하세요.</p>';
+  h += '<p class="disc">처음부터 지킬 것: 첫 위클리 발표 전에 도착하고, 정장 또는 격식을 갖춘 복장으로 참석합니다. 멘토 관련 문의는 멘토링코디 홍석강에게 하세요.</p>';
   return h;
 }
 function buildChapter(){
   buildRoster();
+  const ob = $('#orgBox'); if(ob && !ob.innerHTML) ob.innerHTML = orgHTML();
   const w = $('#whoBox'); if(w && !w.innerHTML) w.innerHTML = '<div class="chbox">'+whoHTML()+'</div>';
   const v = $('#visitorBox'); if(v && !v.innerHTML) v.innerHTML = '<div class="chbox">'+stepsHTML(VISITOR_STEPS,'같은 비지터는 BNI 코리아 전 챕터를 통틀어 <b>1년에 2회</b>까지 참석할 수 있습니다.')+
     '<a class="extlink" href="https://litt.ly/my_professional" target="_blank" rel="noopener">챕터 소개 페이지 열기 <span class="arr">↗</span></a></div>';
@@ -2982,6 +3060,7 @@ function specialtyHits(q){
 /* ===================== 최근 바뀐 내용 ===================== */
 const UPDATES = [
  {d:'2026-10-01', t:'대리인 제도 변경 시행 예정', s:'모든 멤버가 대리인을 쓸 수 있게 바뀝니다.', card:'proxy-new'},
+ {d:'2026-09-13', t:'7기 조직도 반영', s:'의장 박두호 · 부의장 김재현 · ST 이병진, 담당자 안내도 7기로 변경', cat:'우리 챕터'},
  {d:'2026-09-13', t:'「우리 챕터」 탭 추가', s:'멤버 찾기, 담당자 안내, 비지터 초대 가이드, 신입 멤버 첫 30일', cat:'우리 챕터'},
  {d:'2026-09-13', t:'갱신 일정 정리', s:'60일 전 갱신 멤버 발표, 갱신 후 30일 비어데이·디너', card:'sup-review'},
  {d:'2026-09-13', t:'조퇴 예외 추가', s:'기여를 멤버십위원회에 미리 전달하면 조퇴로 인정', card:'late-leave'},
