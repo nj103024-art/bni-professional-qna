@@ -2908,8 +2908,8 @@ function orgHTML(){
 /* ===================== 우리 챕터 : 멤버 · 담당자 · 비지터 · 신입 ===================== */
 /* 출처: 130회 프로페셔널챕터 6기 비즈니스 경청표 (2026.09.09) */
 const RGROUPS = [
- ['bs','비즈니스 서포트'], ['mk','마케팅·디자인'], ['fi','재무·보험'],
- ['ps','웨딩·퍼스널'], ['fb','F&B·유통'], ['sp','공간·부동산']
+ ['bs','비즈니스 서포트'], ['mk','마케팅 & 디자인 & 브랜딩'], ['fi','재무 & 보험 & 투자 & 손해사정'],
+ ['ps','웨딩 & 퍼스널 서비스'], ['fb','F&B & 식자재 유통'], ['sp','공간 & 부동산 & 인테리어']
 ];
 const ROSTER = [
  {n:'김동운', co:'법무법인 삼정', sp:'변호사', role:'멤버십위원회 · 중재', g:'bs', k:'법률 소송 계약 로펌 법무'},
@@ -2971,7 +2971,7 @@ function renderRoster(){
 function buildRoster(){
   const gb = $('#rgroups'); if(!gb || gb._built) return; gb._built = true;
   gb.innerHTML = '<button type="button" class="gchip" data-g="" aria-pressed="true">전체</button>'+
-    RGROUPS.map(g=>'<button type="button" class="gchip" data-g="'+g[0]+'" aria-pressed="false">'+esc(g[1])+'</button>').join('');
+    RGROUPS.map(g=>'<button type="button" class="gchip" data-g="'+g[0]+'" aria-pressed="false">'+esc(g[1].split(' & ').slice(0,2).join('·'))+'</button>').join('');
   gb.querySelectorAll('.gchip').forEach(b=> b.onclick = function(){
     rState.g = b.dataset.g;
     gb.querySelectorAll('.gchip').forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
