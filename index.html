@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>BNI 영등포 PROFESSIONAL · 변경 규정 Q&amp;A</title>
+<title>BNI 영등포 PROFESSIONAL · 규정 Q&amp;A</title>
 <style>
 :root{
   /* 네이비 중심 · 레드는 포인트만 */
@@ -734,6 +734,26 @@ img.rav{object-fit:cover;padding:0}
 .omem{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .om{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:99px;padding:3px 10px 3px 3px;font-size:13px;font-weight:600;color:var(--ink)}
 @media(min-width:760px){.otop{grid-template-columns:1.1fr 2fr;align-items:stretch}.oexec .op{height:100%;justify-content:center}}
+/* 날짜 전환 */
+button.al{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.bd.old{background:var(--soft);color:var(--ink3)}
+details.archive{background:transparent;padding:0;margin-top:6px}
+details.archive>summary{list-style:none;display:flex;justify-content:center;gap:6px;padding:14px;border-radius:14px;background:#fff;font-size:13px;font-weight:700;color:var(--ink3)}
+details.archive>summary::-webkit-details-marker{display:none}
+details.archive[open]>summary{margin-bottom:10px}
+details.archive .card{opacity:.72;margin-bottom:10px}
+details.archive>.disc{text-align:center;margin:0 0 10px}
+.cmp{margin-top:14px;border-radius:14px;background:var(--soft);overflow:hidden;font-size:13px}
+.cmph,.cmpr{display:grid;grid-template-columns:.8fr 1fr 1fr;gap:10px;padding:11px 14px;align-items:start}
+.cmph{background:var(--navy);color:#fff}
+.cmph b{font-size:12.5px}
+.cmph b:last-child{color:#F3C1C9}
+.cmpr+.cmpr{border-top:1px solid var(--line)}
+.cmpr span{font-weight:800;color:var(--ink);line-height:1.45}
+.cmpr em{font-style:normal;color:var(--ink2);line-height:1.5}
+.cmpr em:last-child{color:var(--navy);font-weight:600}
+.cmpr small{font-size:11px;color:var(--red-d)}
+@media(max-width:480px){.cmph,.cmpr{grid-template-columns:1fr 1fr;}.cmph span,.cmpr span{grid-column:1/-1}.cmph span{display:none}}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -748,7 +768,7 @@ footer{background:transparent;border:0;margin:0}
       <span class="bni">BNI</span>
       <span class="cn" id="chapName">영등포 PROFESSIONAL</span>
       <span class="sep">/</span>
-      <span class="pg">변경 규정 Q&amp;A</span>
+      <span class="pg">규정 Q&amp;A</span>
     </button>
     <span class="ver" id="docVer"></span>
   </div>
@@ -768,7 +788,7 @@ footer{background:transparent;border:0;margin:0}
   <div class="heroin">
     <span class="eyebrow">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
-      2026년 변경 규정 안내
+      우리 챕터 규정 안내
     </span>
     <h1>규정, <em>물어보면</em> 답해드립니다</h1>
     <p class="sub">규정집을 읽지 마세요.<br><span class="nw">궁금한 상황을 그대로 물어보면</span> <span class="nw">해당 조항만 찾아드립니다.</span></p>
@@ -973,7 +993,8 @@ const CATS = ['전체','우리 챕터','출결','복장','대리인','출석인�
 
 /* ===================== 규정 데이터 ===================== */
 /* 규정이 바뀌면 이 배열만 수정하세요.
-   eff: 시행일(YYYY-MM-DD) / null이면 현행 적용
+   eff: 시행일(YYYY-MM-DD) / null이면 현행 적용. 시행일이 지나면 출처 옆에 '개정'으로만 표시
+   until: 이 날짜까지만 적용. 지나면 목록·검색에서 빠지고 '지난 규정 보기'에만 남음
    check: 원문에 명시가 없어 확인이 필요한 항목 */
 const RULES = [
 /* ---------- 지각·조퇴 ---------- */
@@ -1263,11 +1284,30 @@ const RULES = [
 },
 /* ---------- 대리인 ---------- */
 {
- id:'proxy-now', cat:'대리인', src:'슬라이드 5', eff:null, boost:14, current:true, until:'2026-09-30',
- title:'대리인 누구를 보낼 수 있나요? (기존 규정 · 이번 기수까지)',
- verdict:'지금은 골드클럽 또는 그린클럽(그린 6개월 이상자) 또는 의장단만 대리인으로 참석할 수 있습니다.',
+ id:'proxy-compare', cat:'대리인', src:'슬라이드 5~6', eff:null, boost:16, until:'2026-09-30',
+ title:'신입도 대리인 보낼 수 있나요? (9월 30일까지 vs 10월 1일부터)',
+ verdict:'외부인 대리인은 두 기간 모두 누구나 보낼 수 있습니다. 달라지는 것은 BNI 멤버를 대리인으로 쓸 때의 조건입니다.',
+ table: function(){
+   return '<div class="cmp"><div class="cmph"><span></span><b>9월 30일까지</b><b>10월 1일부터</b></div>'+
+    '<div class="cmpr"><span>외부인을 대리인으로</span><em>누구나 가능</em><em>누구나 가능 <small>(우선)</small></em></div>'+
+    '<div class="cmpr"><span>BNI 멤버를 대리인으로</span><em>보내는·오는 멤버 모두<br>골드·그린(6개월 이상)<br>또는 의장단</em><em>보내는 멤버 조건 없음<br>오는 멤버는 디렉터·앰배서더·<br>어시스트 앰배서더만</em></div>'+
+    '<div class="cmpr"><span>횟수</span><em>6개월 3회까지<br>같은 대리인은 1년 2회</em><em>같음</em></div></div>';
+ },
  body:[
-  '이 규정은 <b>이번 기수까지</b> 적용됩니다.',
+  '<b>9월 30일까지</b> — 골드·그린클럽이 아닌 멤버(신입 포함)는 사실상 외부인만 대리인으로 보낼 수 있습니다.',
+  '<b>10월 1일부터</b> — 누구나 대리인을 보낼 수 있습니다. 다만 BNI 멤버가 대리인으로 올 수 있는 경우는 디렉터·앰배서더·어시스트 앰배서더뿐이라, 실제로는 외부인을 보내는 것이 기본입니다.',
+  '규정에 “가입 1년 미만” 같은 연차 기준은 없습니다.',
+  '보내기 전에 부의장에게 대리인 인적사항을 미리 알리는 것은 두 기간 모두 같습니다.'
+ ],
+ questions:['신입도 대리인 보낼 수 있어요?','1년 안 됐는데 대리인 돼요?','10월부터 대리인 뭐가 바뀌어요?','지금이랑 10월이랑 대리인 차이','대리인 규정 헷갈려요','골드 아니면 대리인 못 보내요?'],
+ keywords:['대리인','신입','1년','10월','비교','차이','변경','지금','골드','그린','외부인']
+},
+{
+ id:'proxy-now', cat:'대리인', src:'슬라이드 5', eff:null, boost:14, until:'2026-09-30',
+ title:'대리인 누구를 보낼 수 있나요? (9월 30일까지 기준)',
+ verdict:'9월 30일까지는 BNI 멤버를 대리인으로 쓸 때, 보내는 멤버와 대리인 모두 골드클럽·그린클럽(6개월 이상)·의장단이어야 합니다.',
+ body:[
+  '이 규정은 <b>2026년 9월 30일까지</b> 적용됩니다.',
   'BNI 멤버 중 대리인을 보내야 한다면 <b>골드클럽</b> 또는 <b>그린클럽(그린 6개월 이상자)</b> 또는 <b>의장단</b>만 대리인으로 참석할 수 있습니다.',
   '보내는 쪽과 받는 쪽 양쪽 모두 동일한 조건이 적용됩니다.',
   '조건이 동일한 대리인은 해당 챕터에 <b>1년에 2회까지만</b> 참석할 수 있습니다.',
@@ -1276,26 +1316,22 @@ const RULES = [
  ],
  questions:['대리인 누구 보낼 수 있어요?','대리인 자격이 뭐예요?','골드클럽만 대리인 되나요?','런칭 챕터 멤버도 대리인 되나요?','컨트롤 레터가 뭐예요?'],
  keywords:['대리인','대타','대신','골드클럽','그린클럽','의장단','2회','컨트롤 레터','런칭','자격','파견'],
- xref:'2026.10.1부터 대리인 제도가 바뀝니다 → 아래 「대리인 제도 변경」 카드를 함께 보세요.'
+ xref:'10월 1일부터는 「대리인은 누구를 보낼 수 있나요?」 기준이 적용됩니다.'
 },
 {
- id:'proxy-new', cat:'대리인', src:'슬라이드 6 · 표준 운영규정 2.2항 6)', eff:'2026-10-01', boost:5,
- title:'10월부터 대리인이 어떻게 바뀌나요? (변경 규정)',
- verdict:'2026.10.1부터 모든 멤버가 대리인을 보낼 수 있습니다. 한정되는 것은 “BNI 멤버를 대리인으로 보낼 때”뿐이고, 외부인 대리인은 지금처럼 가능합니다.',
+ id:'proxy-new', cat:'대리인', src:'슬라이드 6 · 표준 운영규정 2.2항 6)', eff:'2026-10-01', boost:14,
+ title:'대리인은 누구를 보낼 수 있나요?',
+ verdict:'모든 멤버가 대리인을 보낼 수 있습니다. 외부인을 우선 보내고, BNI 멤버를 대리인으로 보낼 때는 디렉터·앰배서더·어시스트 앰배서더만 가능합니다.',
  body:[
-  '<b>대리인 사용 자격 제한을 폐지</b>합니다 → 골드·그린·의장단이 아니어도 모든 멤버가 대리인을 보낼 수 있습니다.',
-  '<b>주의 — 흔한 오해</b>',
-  '“디렉터·앰배서더·어시스트 앰배서더만 대리인이 될 수 있다”가 아닙니다. 이 한정은 <b>BNI 멤버를 대리인으로 보내는 경우에만</b> 적용됩니다.',
-  '<b>외부인은 지금처럼 보낼 수 있고, 오히려 우선입니다</b> — 잠재 멤버, 자신의 고객사, 공무원, 대기업 직원 등 우리 멤버에게 리퍼럴이 될 수 있는 분을 먼저 보냅니다.',
-  '부득이 <b>BNI 멤버 중에서</b> 보내야 할 때만 <b>디렉터·앰배서더·어시스트 앰배서더(커뮤니티 빌더)</b>로 한정됩니다.',
-  '<b>연 2회 제한과 컨트롤 레터는 그대로 유지</b>됩니다. 멤버는 대리인으로서 1년간 2회까지만 참석할 수 있고, 3회 이상이면 초대한 멤버에게 컨트롤 레터가 발송되며 대리인이 속한 챕터 멤버십위원회에도 전달됩니다.',
-  '동일한 대리인은 한 챕터에 2회까지 참석할 수 있습니다. (멤버 대리인도 동일)',
-  '정책 취지 ① 출석 규정의 핵심 가치는 유지합니다.',
-  '정책 취지 ② 출장·개인 사정으로 인한 활동 중단을 방지합니다.',
-  '정책 취지 ③ 커뮤니티 빌더가 챕터 공동체를 연결하고 에너지를 유지하도록 지원합니다.'
+  '<b>보내는 멤버</b> — 등급이나 연차와 관계없이 모든 멤버가 대리인을 보낼 수 있습니다.',
+  '<b>외부인 대리인</b> — 잠재 멤버, 자신의 고객사, 공무원, 대기업 직원 등 우리 멤버에게 리퍼럴이 될 수 있는 분을 우선 보냅니다.',
+  '<b>BNI 멤버를 대리인으로</b> — 디렉터·앰배서더·어시스트 앰배서더(커뮤니티 빌더)만 대리인으로 참석할 수 있습니다.',
+  '같은 대리인은 한 챕터에 <b>1년 2회</b>까지 참석할 수 있습니다. 3회 이상이면 초대한 멤버에게 컨트롤 레터가 발송되고, 대리인이 속한 챕터 멤버십위원회에도 전달됩니다.',
+  '대리인을 쓸 수 있는 횟수는 <b>최근 6개월 3회</b>까지입니다.',
+  '제도 취지 — 출석 규정의 핵심 가치는 지키면서 출장·개인 사정으로 활동이 끊기지 않게 하고, 커뮤니티 빌더가 챕터를 연결하도록 돕습니다.'
  ],
- questions:['10월부터 대리인 뭐가 바뀌어요?','이제 아무나 대리인 보낼 수 있나요?','커뮤니티 빌더가 뭐예요?','앰배서더가 대리인 되나요?','외부인도 대리인 되나요?','고객사 직원 보내도 되나요?','대리인 제도 변경 언제부터예요?'],
- keywords:['대리인','변경','디렉터','앰배서더','어시스트 앰배서더','커뮤니티 빌더','자격 폐지','10월','시행','외부인','비회원','고객사','오해']
+ questions:['대리인 누구 보낼 수 있어요?','대리인 자격이 뭐예요?','신입도 대리인 보낼 수 있어요?','다른 챕터 멤버를 대리인으로 보내도 돼요?','커뮤니티 빌더가 뭐예요?','앰배서더가 대리인으로 올 수 있어요?','이제 아무나 대리인 보낼 수 있나요?'],
+ keywords:['대리인','대타','대신','자격','디렉터','앰배서더','어시스트 앰배서더','커뮤니티 빌더','외부인','비회원','고객사','잠재 멤버','2회','컨트롤 레터']
 },
 {
  id:'proxy-limit', cat:'대리인', src:'표준 운영규정 2.2항 5)', eff:null, boost:8,
@@ -1341,16 +1377,15 @@ const RULES = [
 /* ---------- 출석인정 ---------- */
 {
  id:'attend-away', cat:'출석인정', src:'슬라이드 7 · 표준 운영규정 2.2항 3)', eff:'2026-04-01', boost:7,
- title:'출장 가는데 출석은 어떻게 하나요? (출석 인정 기준 완화)',
- verdict:'소속 지역 기준 100km 이상 이동하는 장거리 출장이면 타 지역 챕터를 방문해 출석으로 인정받을 수 있고, 기존 6개월 1회에서 6개월 3회로 확대되었습니다.',
+ title:'출장 가는데 출석은 어떻게 하나요?',
+ verdict:'소속 지역에서 100km 이상 이동하는 출장이면 그 지역 챕터를 방문해 출석으로 인정받을 수 있습니다. 최근 6개월에 3회까지 인정됩니다.',
  body:[
-  '기존 <b>6개월 1회</b> → 변경 <b>6개월 3회</b>로 확대되었습니다.',
+  '인정 횟수는 <b>최근 6개월에 3회</b>까지입니다.',
   '장거리 출장 시 <b>타 지역 챕터 방문 출석</b>을 인정합니다.',
   '적용 기준: <b>소속 지역 기준 100km 이상 이동</b> 시 (국내 출장 포함).',
   '표준 운영규정에도 <b>“출장 지역 챕터를 방문한 경우 최근 6개월 내 3회 인정”</b>으로 명시되어 있습니다. 즉 3회는 타 지역 챕터 방문 출석 인정 횟수입니다.',
   '증빙(현장 인증 사진 등)을 멤버십위원회에 제출해야 인정됩니다.',
-  '정책 취지 ① 전국·글로벌 단위로 활동하는 비즈니스 멤버 증가를 반영합니다.',
-  '정책 취지 ② 출석 부담을 완화해 활동 지속성을 강화합니다.'
+  '제도 취지 — 전국·글로벌로 활동하는 멤버가 늘어난 것을 반영해, 출석 부담을 줄이고 활동이 이어지게 합니다.'
  ],
 
  questions:['출장 가는데 출석 어떻게 해요?','부산 출장이면 타 챕터 가도 돼요?','출장 가면 출석 인정돼요?','몇 km부터 인정돼요?','타 지역 챕터 방문 몇 번까지 돼요?','해외 출장도 되나요?'],
@@ -1546,7 +1581,7 @@ const RULES = [
 },
 /* ---------- 원투원 ---------- */
 {
- id:'one2one-other', cat:'원투원', src:'표준 운영규정 6.2항 (2026.4.1 변경)', eff:'2026-04-01', boost:8,
+ id:'one2one-other', cat:'원투원', src:'표준 운영규정 6.2항', eff:'2026-04-01', boost:8,
  title:'타 챕터 멤버와 원투원해도 점수가 인정되나요?',
  verdict:'인정됩니다. 가입 1년 이상 멤버는 타 챕터 멤버와의 원투원 기록이 그대로 인정됩니다.',
  body:[
@@ -2031,7 +2066,14 @@ const RULES = [
 ];
 
 /* ===================== 공통 유틸 ===================== */
-const TODAY = new Date();
+const TODAY = (function(){
+  const m = location.search.match(/[?&]today=(\d{4})-(\d{2})-(\d{2})/);
+  return m ? new Date(+m[1], +m[2]-1, +m[3]) : new Date();
+})();
+/* 날짜 기준 조항 상태: until이 지나면 '지난 규정', eff 전이면 '시행 전' */
+function isArchived(r){ return !!(r.until && dayDiff(TODAY, parseYmd(r.until)) > 0); }
+function isPending(r){ return !!(r.eff && dayDiff(parseYmd(r.eff), TODAY) > 0); }
+function activeRules(){ return RULES.filter(r=>!isArchived(r)); }
 const $ = s => document.querySelector(s);
 function esc(s){return String(s).replace(/&(?!(amp|lt|gt|quot|#\d+);)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 /* 본문에는 <b> 태그만 허용 */
@@ -2058,10 +2100,12 @@ function krw(n){
 
 /* ===================== 시행 상태 ===================== */
 function effState(r){
+  if(isArchived(r)) return {cls:'old', label:'지난 규정 · '+fmtDot(r.until)+'까지'};
+  if(r.until) return {cls:'soon', label:fmtDot(r.until)+'까지 적용'};
   if(!r.eff) return {cls:'now', label:'현행 적용'};
   const d = parseYmd(r.eff);
   if(dayDiff(d,TODAY) > 0) return {cls:'soon', label:'시행 전 · '+fmtDot(r.eff)+' 시행', pre:true};
-  return {cls:'live', label:'시행 중 · '+fmtDot(r.eff)+'~'};
+  return {cls:'now', label:'현행 적용'};
 }
 
 /* ===================== 검색 ===================== */
@@ -2089,15 +2133,16 @@ function scoreOne(r, tk){
 }
 function search(query){
   const raw = String(query||'').trim();
-  if(!raw) return RULES.slice();
+  if(!raw) return activeRules();
   const joined = norm(raw);
   const tokens = raw.split(/\s+/).map(norm).filter(Boolean);
 
   // 1단계: 공백 무시 전체 일치
-  let hits = RULES.map(r=>({r, s:scoreOne(r, joined)})).filter(x=>x.s>0);
+  const POOL = activeRules();
+  let hits = POOL.map(r=>({r, s:scoreOne(r, joined)})).filter(x=>x.s>0);
   // 2단계: 여러 단어 AND
   if(!hits.length && tokens.length>1){
-    hits = RULES.map(r=>{
+    hits = POOL.map(r=>{
       let sum=0;
       for(const t of tokens){ const s=scoreOne(r,t); if(s===0) return {r,s:0}; sum+=s; }
       return {r,s:sum};
@@ -2105,7 +2150,7 @@ function search(query){
   }
   // 3단계: OR
   if(!hits.length && tokens.length>1){
-    hits = RULES.map(r=>{
+    hits = POOL.map(r=>{
       let sum=0; for(const t of tokens) sum+=scoreOne(r,t);
       return {r,s:sum};
     }).filter(x=>x.s>0);
@@ -2113,7 +2158,6 @@ function search(query){
   hits.forEach(x=>{
     x.s += (x.r.boost||0);
     // 적용 기간이 끝난 조항(예: 기존 대리인 규정)은 뒤로 보냅니다
-    if(x.r.until && dayDiff(TODAY, parseYmd(x.r.until)) > 0) x.s -= 30;
     // 아직 시행 전인 조항은 지금 적용 중인 조항보다 한 칸 뒤에 둡니다
     if(x.r.eff && dayDiff(parseYmd(x.r.eff), TODAY) > 0) x.s -= 25;
   });
@@ -2235,8 +2279,8 @@ function primerProxy(){
   const W=620;
   let h='<svg viewBox="0 0 '+W+' 228" role="img" aria-label="대리인 제도 기존과 변경 비교">';
   h+=G(R(0,26,266,158,{f:'#FCFCFB'})+
-      T(4,16,'지금 ~ 2026. 9. 30',{s:11,w:800,f:C_SUB,ls:'.02em'})+
-      T(22,52,'대리인을 보낼 수 있는 사람',{s:10.5,w:700,f:C_MID})+
+      T(4,16,'~ 2026. 9. 30',{s:11,w:800,f:C_SUB,ls:'.02em'})+
+      T(22,52,'BNI 멤버 대리인 (보내는·오는 멤버 모두)',{s:10.5,w:700,f:C_MID})+
       ['골드클럽','그린클럽 (그린 6개월 이상)','의장단'].map(function(t,i){
         return R(22,62+i*28,222,22,{r:7})+T(34,77+i*28,'· '+t,{s:11,w:600});
       }).join('')+
@@ -2247,10 +2291,10 @@ function primerProxy(){
 
   h+=G(R(320,26,300,158,{f:'#FCF3F4',s:'#E9C8CD'})+
       T(324,16,'2026. 10. 1 부터',{s:11,w:800,f:C_RED,ls:'.02em'})+
-      T(342,52,'보내는 사람 제한 없음',{s:10.5,w:700,f:C_MID})+
+      T(342,52,'보내는 멤버 조건 없음',{s:10.5,w:700,f:C_MID})+
       R(342,62,256,26,{s:'#E9C8CD',r:7})+
       T(470,79,'모든 멤버가 사용 가능 · 외부인 우선',{s:11,w:800,f:C_RED,a:'middle'})+
-      T(342,110,'BNI 멤버를 보낼 때만 대상 한정',{s:10.5,w:700,f:C_MID})+
+      T(342,110,'BNI 멤버가 대리인으로 올 때만',{s:10.5,w:700,f:C_MID})+
       ['디렉터','앰배서더','어시스트 앰배서더 (커뮤니티 빌더)'].map(function(t,i){
         return T(354,128+i*18,'· '+t,{s:11,w:600});
       }).join(''), '변경 규정');
@@ -2261,10 +2305,36 @@ function primerProxy(){
   return h;
 }
 
+/* 대리인 (현행) */
+function primerProxyNow(){
+  const W=620;
+  let h='<svg viewBox="0 0 '+W+' 196" role="img" aria-label="대리인 보내는 기준">';
+  h+=G(R(0,26,176,130,{f:'#FCFCFB'})+
+      T(4,16,'누가 보내나',{s:11,w:800,f:C_SUB})+
+      T(88,84,'모든 멤버',{s:15,w:800,a:'middle'})+
+      T(88,106,'등급·연차 무관',{s:10.5,w:600,f:C_SUB,a:'middle'}), '보내는 멤버');
+  h+='<g><path d="M186 91 h14 M196 86 l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>';
+  h+=G(R(212,26,196,130,{f:'#FCF3F4',s:'#E9C8CD'})+
+      T(216,16,'누가 오나 ① 우선',{s:11,w:800,f:C_RED})+
+      T(310,60,'외부인',{s:15,w:800,f:C_RED,a:'middle'})+
+      ['잠재 멤버','자신의 고객사','공무원 · 대기업 직원'].map(function(t,i){
+        return T(310,86+i*19,t,{s:11,w:600,a:'middle'});
+      }).join(''), '외부인');
+  h+=G(R(424,26,196,130,{f:'#FCFCFB'})+
+      T(428,16,'누가 오나 ② BNI 멤버라면',{s:11,w:800,f:C_SUB})+
+      T(522,60,'커뮤니티 빌더만',{s:15,w:800,a:'middle'})+
+      ['디렉터','앰배서더','어시스트 앰배서더'].map(function(t,i){
+        return T(522,86+i*19,t,{s:11,w:600,a:'middle'});
+      }).join(''), 'BNI 멤버');
+  h+=T(0,180,'※ 대리인은 최근 6개월 3회까지, 같은 대리인은 한 챕터에 1년 2회까지입니다.',{s:10,f:C_SUB});
+  h+='</svg>';
+  return h;
+}
+
 /* 출석 인정 */
 function primerAway(){
   const W=620;
-  let h='<svg viewBox="0 0 '+W+' 208" role="img" aria-label="출석 인정 완화 기준">';
+  let h='<svg viewBox="0 0 '+W+' 208" role="img" aria-label="출장 시 출석 인정 기준">';
   h+=G(R(0,26,346,150,{f:'#FCFCFB'})+
       T(4,16,'장거리 출장이면 타 지역 챕터 방문도 출석',{s:11,w:800,f:C_SUB})+
       '<circle cx="76" cy="98" r="34" fill="#fff" stroke="'+C_LINE+'"/>'+
@@ -2278,18 +2348,13 @@ function primerAway(){
       T(268,150,'타 지역 챕터',{s:10.5,w:700,f:C_MID,a:'middle'}), '거리 기준');
 
   h+=G(R(362,26,258,150,{f:'#FCFCFB'})+
-      T(366,16,'인정 횟수 확대',{s:11,w:800,f:C_SUB})+
-      T(386,66,'기존',{s:11,w:700,f:C_SUB})+
-      '<circle cx="452" cy="61" r="12" fill="#fff" stroke="'+C_LINE+'"/>'+
-      T(452,65.5,'1',{s:11.5,w:800,f:C_SUB,a:'middle'})+
-      T(476,66,'회 / 6개월',{s:11,w:600,f:C_SUB})+
-      '<line x1="386" y1="86" x2="596" y2="86" stroke="'+C_LINE+'"/>'+
-      T(386,118,'변경',{s:11,w:800,f:C_RED})+
+      T(366,16,'인정 횟수',{s:11,w:800,f:C_SUB})+
+      T(491,66,'최근 6개월 동안',{s:11,w:700,f:C_SUB,a:'middle'})+
       [0,1,2].map(function(i){
-        return '<circle cx="'+(452+i*34)+'" cy="113" r="12" fill="#FCF3F4" stroke="#E9C8CD"/>'+
-               T(452+i*34,117.5,String(i+1),{s:11.5,w:800,f:C_RED,a:'middle'});
+        return '<circle cx="'+(457+i*34)+'" cy="100" r="13" fill="#FCF3F4" stroke="#E9C8CD"/>'+
+               T(457+i*34,104.5,String(i+1),{s:12,w:800,f:C_RED,a:'middle'});
       }).join('')+
-      T(491,152,'6개월 안에 3회까지 인정',{s:12,w:800,f:C_RED,a:'middle'}), '횟수 확대');
+      T(491,146,'3회까지 출석 인정',{s:12,w:800,f:C_RED,a:'middle'}), '횟수 확대');
 
   h+=T(0,200,'※ 국내 출장 포함. 소속 지역 기준 100km 이상 이동한 경우에 적용됩니다.',{s:10,f:C_SUB});
   h+='</svg>';
@@ -2428,7 +2493,7 @@ function primerOne2One(){
       T(470,86,'우리 챕터 멤버와 원투원  ✓',{s:11.5,w:800,f:C_OK,a:'middle'})+
       R(344,106,252,34,{s:'#DCEAE3',f:'#F0F7F3',r:8})+
       T(470,128,'타 챕터 멤버와 원투원  ✓',{s:11.5,w:800,f:C_OK,a:'middle'})+
-      T(470,158,'2026.4.1 변경 — 타 챕터도 점수로 인정',{s:10,w:700,f:C_RED,a:'middle'}),'1년 이상');
+      T(470,158,'타 챕터 원투원도 점수로 인정',{s:10,w:700,f:C_RED,a:'middle'}),'1년 이상');
   h+=T(0,202,'※ 신규 멤버는 패스포트 담당 멤버 멘토·담당 멘토·리더십팀과 먼저 원투원합니다. (보통 8~12명)',{s:10,f:C_SUB});
   h+=T(0,216,'※ 우선 대상을 마쳐야 그 외 멤버 또는 타 챕터 멤버와 원투원할 수 있습니다.',{s:10,f:C_SUB});
   h+='</svg>';
@@ -2638,22 +2703,31 @@ const PRIMERS = [
         ['6개월에 3회면 보호관찰','지각과 조퇴를 <b>합산</b>합니다. 지각 2회 + 조퇴 1회 = 3회입니다.']],
   src:'슬라이드 2~4'},
 
- {cat:'대리인', title:'10월부터 "누가 보내나"가 아니라 "누가 오나"로 바뀝니다',
-  lead:'지금은 <b>보내는 멤버의 등급</b>을 따졌지만, 2026년 10월 1일부터는 누구나 대리인을 보낼 수 있습니다. 대상이 한정되는 것은 <b>BNI 멤버를 대리인으로 보낼 때</b>뿐이고, 외부인 대리인은 지금처럼 가능합니다.',
+ {cat:'대리인', until:'2026-09-30', title:'9월 30일까지와 10월 1일부터 대리인 기준이 다릅니다',
+  lead:'<b>외부인 대리인은 두 기간 모두 누구나</b> 보낼 수 있습니다. 달라지는 것은 BNI 멤버를 대리인으로 쓸 때입니다. <b>9월 30일까지</b>는 보내는 멤버와 오는 멤버 모두 골드·그린(6개월 이상)·의장단이어야 하고, <b>10월 1일부터</b>는 누구나 보낼 수 있되 오는 멤버는 디렉터·앰배서더·어시스트 앰배서더만 가능합니다.',
   svg:primerProxy,
-  keys:[['지금은 골드·그린 6개월 이상·의장단만','같은 조건의 대리인은 한 챕터에 1년 2회까지입니다.'],
-        ['3회 넘으면 컨트롤 레터','초대한 멤버에게 발송되고, 대리인이 속한 챕터 멤버십위원회에도 전달됩니다.'],
-        ['10월부터는 모든 멤버가 사용 가능','골드·그린·의장단이 아니어도 대리인을 보낼 수 있습니다.'],
-        ['대상 한정은 “BNI 멤버를 보낼 때”만','외부인(잠재 멤버·고객사·공무원·대기업 직원)은 지금처럼 보낼 수 있고 오히려 우선입니다. BNI 멤버를 보낼 때만 디렉터·앰배서더·어시스트 앰배서더로 한정됩니다.'],
-        ['출장·개인 사정으로 활동이 끊기지 않게 하려는 취지','출석 규정의 핵심 가치는 그대로 유지합니다.']],
+  keys:[['9월 30일까지: BNI 멤버 대리인은 골드·그린·의장단','보내는 멤버와 대리인으로 오는 멤버 모두 조건을 갖춰야 합니다.'],
+        ['10월 1일부터: 보내는 사람 조건이 없어집니다','골드·그린·의장단이 아니어도, 신입이어도 대리인을 보낼 수 있습니다.'],
+        ['10월 1일부터: 오는 BNI 멤버는 커뮤니티 빌더만','디렉터·앰배서더·어시스트 앰배서더만 대리인으로 올 수 있어, 외부인을 보내는 것이 기본이 됩니다.'],
+        ['두 기간 모두 같은 것','대리인은 6개월 3회까지, 같은 대리인은 한 챕터에 1년 2회까지이고 넘으면 컨트롤 레터가 발송됩니다.']],
   src:'슬라이드 5~6'},
 
+ {cat:'대리인', eff:'2026-10-01', title:'대리인은 외부인이 기본입니다',
+  lead:'모든 멤버가 대리인을 보낼 수 있습니다. <b>우리 멤버에게 리퍼럴이 될 수 있는 외부인</b>을 우선 보내고, BNI 멤버를 대리인으로 보낼 때는 <b>디렉터·앰배서더·어시스트 앰배서더</b>만 가능합니다.',
+  svg:primerProxyNow,
+  keys:[['누구나 보낼 수 있습니다','등급이나 연차와 관계없이 모든 멤버가 대리인을 쓸 수 있습니다.'],
+        ['외부인이 우선','잠재 멤버, 고객사, 공무원, 대기업 직원처럼 동료 멤버에게 도움이 될 분을 보냅니다.'],
+        ['BNI 멤버는 커뮤니티 빌더만','디렉터·앰배서더·어시스트 앰배서더만 대리인으로 올 수 있습니다.'],
+        ['6개월 3회, 같은 대리인은 1년 2회','넘으면 대리인을 보내도 결석이고, 같은 대리인이 3회 이상 오면 컨트롤 레터가 발송됩니다.'],
+        ['보내기 전에 부의장에게','대리인의 인적사항과 나와의 관계를 미리 알립니다.']],
+  src:'슬라이드 6 · 표준 운영규정 2.2항'},
+
  {cat:'출석인정', title:'멀리 가면, 그 지역 챕터에 가도 출석입니다',
-  lead:'소속 지역에서 <b>100km 이상</b> 이동하는 장거리 출장이라면 그 지역 챕터를 방문해 출석으로 인정받을 수 있습니다. 인정 횟수도 6개월 1회에서 <b>3회</b>로 늘었습니다.',
+  lead:'소속 지역에서 <b>100km 이상</b> 이동하는 장거리 출장이라면 그 지역 챕터를 방문해 출석으로 인정받을 수 있습니다. 인정 횟수는 최근 6개월에 <b>3회</b>까지입니다.',
   svg:primerAway,
   keys:[['기준은 거리, 100km','소속 지역 기준 100km 이상 이동한 경우입니다. 국내 출장도 포함됩니다.'],
-        ['6개월에 3회까지','기존 1회에서 3회로 확대되었습니다. 2026년 4월 1일부터 이미 시행 중입니다.'],
-        ['전국·글로벌로 뛰는 멤버를 위한 완화','출석 부담을 줄여 활동이 끊기지 않게 하려는 취지입니다.']],
+        ['6개월에 3회까지','최근 6개월 동안 3회까지 출석으로 인정됩니다. 현장 인증 사진 등 증빙을 멤버십위원회에 냅니다.'],
+        ['전국·글로벌로 뛰는 멤버를 위한 기준','출석 부담을 줄여 활동이 끊기지 않게 하려는 취지입니다.']],
   src:'슬라이드 7'},
 
  {cat:'감사장', title:'업종마다 적는 금액이 다릅니다',
@@ -2744,7 +2818,7 @@ function primerHTML(pr){
 function renderPrimers(){
   const box = document.getElementById('primers'), sec = document.getElementById('primerSec');
   if(!box || state.q.trim() || state.cat==='전체') return;
-  const list = state.cat==='전체' ? PRIMERS : PRIMERS.filter(p=>p.cat===state.cat);
+  const list = PRIMERS.filter(p=> p.cat===state.cat && !isArchived(p) && !isPending(p));
   document.getElementById('primerCount').textContent = state.cat==='전체' ? '6개 분야' : state.cat;
   box.innerHTML = list.length ? list.map(primerHTML).join('')
     : '<p class="disc">이 분야는 아래 조항을 확인해 주세요.</p>';
@@ -2764,7 +2838,8 @@ function cardHTML(r, open, no){
   h += '<div class="cbadges">'+badges.join('')+'</div>';
   h += '<h3>'+esc(r.title)+'</h3>';
   h += '<div class="verdict">'+rich(r.verdict)+'</div>';
-  if(r.xref) h += '<div class="xref">'+esc(r.xref)+'</div>';
+  if(r.xref && !isArchived(r)) h += '<div class="xref">'+esc(r.xref)+'</div>';
+  if(r.table) h += r.table();
   h += '<details class="more"'+(open?' open':'')+'><summary>자세한 근거 보기</summary><ul>';
   (r.body||[]).forEach(b=> h += '<li>'+rich(b)+'</li>');
   h += '</ul>';
@@ -2775,7 +2850,8 @@ function cardHTML(r, open, no){
   }
   h += '</details>';
   if(r.calc) h += tyCalcHTML();
-  h += '<div class="src">출처 · '+esc(r.src)+'</div>';
+  const rev = (r.eff && !isPending(r)) ? ' · '+fmtDot(r.eff)+' 개정' : '';
+  h += '<div class="src">출처 · '+esc(r.src)+rev+'</div>';
   h += '</article>';
   return h;
 }
@@ -2814,7 +2890,7 @@ function render(){
   if(mi){
     show('#toolRenew', false);
     cnt.textContent = '이름으로 조회했습니다';
-    const rest = list.length ? list : RULES.filter(r=>r.cat==='갱신');
+    const rest = list.length ? list : activeRules().filter(r=>r.cat==='갱신');
     box.innerHTML = head + memberCardHTML(mi) + rest.map((r,i)=>cardHTML(r,false,i+1)).join('');
     bindTyCalc(); bindFX();
     return;
@@ -2836,11 +2912,14 @@ function render(){
     return;
   }
   cnt.textContent = asked ? list.length+'개 조항을 찾았습니다' : list.length+'개 조항';
+  const olds = (!asked && state.cat !== '전체') ? RULES.filter(r=> r.cat===state.cat && isArchived(r)) : [];
+  const oldBlock = olds.length ? '<details class="archive span2"><summary>지난 규정 보기 ('+olds.length+')</summary>'+
+    '<p class="disc">지금은 적용되지 않는 규정입니다. 기록용으로만 남겨 둡니다.</p>'+olds.map(r=>cardHTML(r,false)).join('')+'</details>' : '';
   const sh = asked ? specialtyHits(state.q) : [];
   const showMem = sh.length && (WHO_INTENT.test(state.q) || sh.length <= 4);
   const memBlock = showMem ? '<article class="card span2 memhit"><div class="cbadges"><span class="bd cat">우리 챕터 멤버</span></div>'+
     '<h3>이 분야 멤버 '+sh.length+'명</h3>'+sh.map(rosterRow).join('')+'</article>' : '';
-  box.innerHTML = head + memBlock + list.map((r,i)=>cardHTML(r, asked && list.length<=3, i+1)).join('');
+  box.innerHTML = head + memBlock + list.map((r,i)=>cardHTML(r, asked && list.length<=3, i+1)).join('') + oldBlock;
   bindTyCalc(); bindFX();
 }
 
@@ -3059,7 +3138,8 @@ function specialtyHits(q){
 
 /* ===================== 최근 바뀐 내용 ===================== */
 const UPDATES = [
- {d:'2026-10-01', t:'대리인 제도 변경 시행 예정', s:'모든 멤버가 대리인을 쓸 수 있게 바뀝니다.', card:'proxy-new'},
+ {d:'2026-10-01', t:'대리인 기준 개정', s:'누구나 보낼 수 있고, BNI 멤버 대리인은 디렉터·앰배서더·어시스트 앰배서더만', card:'proxy-new', cardPre:'proxy-compare'},
+ {d:'2026-09-14', t:'현행 규정 중심으로 정리', s:'날짜가 지나면 끝난 규정은 자동으로 「지난 규정」으로 이동', cat:'대리인'},
  {d:'2026-09-13', t:'7기 조직도 반영', s:'의장 박두호 · 부의장 김재현 · ST 이병진, 담당자 안내도 7기로 변경', cat:'우리 챕터'},
  {d:'2026-09-13', t:'「우리 챕터」 탭 추가', s:'멤버 찾기, 담당자 안내, 비지터 초대 가이드, 신입 멤버 첫 30일', cat:'우리 챕터'},
  {d:'2026-09-13', t:'갱신 일정 정리', s:'60일 전 갱신 멤버 발표, 갱신 후 30일 비어데이·디너', card:'sup-review'},
@@ -3072,7 +3152,8 @@ function buildUpdates(){
   box.innerHTML = UPDATES.map(function(u){
     const dd = dayDiff(parseYmd(u.d), TODAY);
     const tag = dd > 0 ? '<span class="bd soon">예정</span>' : '';
-    return '<button type="button" class="urow" '+(u.card?'data-card="'+u.card+'"':'data-cat="'+u.cat+'"')+'>'+
+    const cid = (dd > 0 && u.cardPre) ? u.cardPre : u.card;
+    return '<button type="button" class="urow" '+(cid?'data-card="'+cid+'"':'data-cat="'+u.cat+'"')+'>'+
       '<span class="ud">'+u.d.slice(5).replace('-','.')+'</span>'+
       '<span class="utx"><b>'+esc(u.t)+tag+'</b><span>'+esc(u.s)+'</span></span><span class="wgo">›</span></button>';
   }).join('');
@@ -3092,7 +3173,7 @@ function goCard(id){
 const HOME_DESC = {
  '우리 챕터':'멤버 찾기, 담당자, 비지터 초대, 신입 안내',
  '출결':'지각·조퇴·결석, 몇 번까지 괜찮은지',
- '대리인':'누구를 보낼 수 있고, 10월부터 무엇이 바뀌는지',
+ '대리인':'누구를 보낼 수 있고, 몇 번까지 되는지',
  '출석인정':'출장 갔을 때 출석을 인정받는 조건',
  '감사장':'내 업종은 얼마를 적어야 하는지',
  '갱신':'언제부터 준비하고 무엇을 내야 하는지',
@@ -3104,7 +3185,7 @@ const HOME_DESC = {
 };
 function buildHome(){
   $('#home').innerHTML = CATS.filter(c=>c!=='전체').map(function(c){
-    const n = RULES.filter(r=>r.cat===c).length;
+    const n = activeRules().filter(r=>r.cat===c).length;
     return '<button class="hcard spot reveal" type="button" data-cat="'+c+'">'+
       icon(c,22,'hi')+'<b>'+c+'</b><span>'+HOME_DESC[c]+'</span>'+
       '<span class="hn">조항 '+n+'개 <span class="arr">›</span></span></button>';
@@ -3120,7 +3201,7 @@ function syncChips(){
 }
 function buildChips(){
   $('#chips').innerHTML = '<div class="lbl">분야별로 보기</div>' + CATS.map(function(c){
-    const n = c==='전체' ? RULES.length : RULES.filter(r=>r.cat===c).length;
+    const n = c==='전체' ? activeRules().length : activeRules().filter(r=>r.cat===c).length;
     return '<button class="chip" type="button" data-cat="'+c+'" aria-pressed="'+(c==='전체')+'">'+
            icon(c,16)+'<span>'+c+'</span><span class="n">'+n+'</span></button>';
   }).join('');
@@ -3131,7 +3212,7 @@ function buildChips(){
 }
 
 /* ===================== 추천 질문 ===================== */
-const SUGGESTS = ['출장 가면 출석 인정돼요?','7시 10분 도착하면 지각인가요?','10월부터 대리인 뭐가 바뀌나요?','보험 감사장 얼마로 쓰나요?','다른 챕터 참관 가도 되나요?','패딩 입고 가도 되나요?'];
+const SUGGESTS = ['출장 가면 출석 인정돼요?','7시 10분 도착하면 지각인가요?','신입도 대리인 보낼 수 있어요?','보험 감사장 얼마로 쓰나요?','다른 챕터 참관 가도 되나요?','패딩 입고 가도 되나요?'];
 function buildSuggests(){
   $('#suggests').innerHTML = SUGGESTS.map(q=>'<button class="sg" type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>').join('');
   document.querySelectorAll('#suggests .sg').forEach(b=> b.onclick = ()=>{
@@ -3144,13 +3225,15 @@ function buildSuggests(){
 function buildAlerts(){
   const left = dayDiff(parseYmd('2026-10-01'), TODAY);
   const dot = c => '<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.3" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>';
-  const chk = '<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16704A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
-  $('#alerts').innerHTML =
-    '<div class="al soon">'+dot('#C8102E')+'<span><b>대리인 제도 변경 · 2026.10.1 시행</b>'+
-      '<span>'+(left>0 ? '시행까지 D-'+left+'. 현재는 기존 규정(골드·그린 6개월 이상·의장단)이 적용됩니다.'
-                       : '모든 멤버가 대리인을 쓸 수 있고, 대리인 역할은 디렉터·앰배서더·어시스트 앰배서더만 가능합니다.')+'</span></span></div>'+
-    '<div class="al live">'+chk+'<span><b>출석 인정 완화 · 2026.4.1 시행 중</b>'+
-      '<span>6개월 1회 → 3회 확대. 100km 이상 이동 시 타 지역 챕터 방문으로 출석 인정.</span></span></div>';
+  const box = $('#alerts');
+  // 시행 전 전환기에만 보여주고, 시행일이 지나면 자동으로 사라집니다
+  if(left > 0){
+    box.innerHTML = '<button type="button" class="al soon" data-card="proxy-compare">'+dot('#C8102E')+'<span><b>10월 1일부터 대리인 기준이 바뀝니다 · D-'+left+'</b>'+
+      '<span>누구나 대리인을 보낼 수 있고, BNI 멤버가 대리인으로 올 때는 디렉터·앰배서더·어시스트 앰배서더만 가능합니다. 눌러서 비교해 보세요.</span></span></button>';
+    box.querySelector('[data-card]').onclick = ()=> goCard('proxy-compare');
+  } else {
+    box.innerHTML = ''; box.hidden = true;
+  }
 }
 
 /* ===================== 감사장 간이 계산기 ===================== */
@@ -3530,7 +3613,7 @@ function bindFX(){
 /* ===================== 초기화 ===================== */
 function boot(){
   $('#chapName').textContent = CHAPTER.name;
-  $('#docVer').textContent = CHAPTER.docVersion;
+  $('#docVer').textContent = '멤버십 운영 규정 Ver.2026-04-03 기준';
   $('#docVer2').textContent = CHAPTER.docVersion;
   $('#cOpen').value = CHAPTER.openNetworkingEnd;
   $('#cStart').value = CHAPTER.meetingStart;
