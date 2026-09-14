@@ -754,6 +754,16 @@ details.archive>.disc{text-align:center;margin:0 0 10px}
 .cmpr em:last-child{color:var(--navy);font-weight:600}
 .cmpr small{font-size:11px;color:var(--red-d)}
 @media(max-width:480px){.cmph,.cmpr{grid-template-columns:1fr 1fr;}.cmph span,.cmpr span{grid-column:1/-1}.cmph span{display:none}}
+/* 모바일 분야 칩: 흐린 끝 + 넘김 표시 */
+@media(max-width:959px){
+  .shell.on-home .side{display:none}
+  .side{position:relative}
+  .snav{scroll-padding:0 48px;padding-right:44px!important}
+  .side::after{content:'›';position:absolute;right:0;top:0;bottom:2px;width:64px;display:flex;align-items:center;justify-content:flex-end;
+    padding-right:6px;font-size:22px;font-weight:700;color:var(--ink3);pointer-events:none;
+    background:linear-gradient(90deg,rgba(243,244,246,0),var(--bg) 62%);transition:opacity .2s}
+  .side.at-end::after{opacity:0}
+}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -2858,6 +2868,10 @@ function cardHTML(r, open, no){
 
 function render(){
   const asked = !!state.q.trim();
+  // 첫 화면(분야 카드가 모두 보이는 곳)에서는 모바일 칩 줄을 숨김
+  const shell = document.querySelector('.shell');
+  if(shell) shell.classList.toggle('on-home', !asked && state.cat === '전체');
+  if(state.cat !== '전체'){ centerChip(); setTimeout(nudgeChips, 0); }
   const mi = asked ? findMember(state.q) : null;
   let list = search(state.q);
   // 질문했을 때는 분야와 관계없이 전체 조항에서 찾습니다
@@ -3198,6 +3212,38 @@ function buildHome(){
 function syncChips(){
   document.querySelectorAll('#chips .chip').forEach(b=>
     b.setAttribute('aria-pressed', String(b.dataset.cat === state.cat)));
+  centerChip();
+}
+/* 모바일: 선택한 칩을 가로 가운데로, 끝에 닿았는지 표시 */
+const MOBILE_NAV = window.matchMedia ? window.matchMedia('(max-width: 959px)') : {matches:false};
+function centerChip(){
+  const nav = $('#chips'); if(!nav || !MOBILE_NAV.matches) return;
+  const on = nav.querySelector('.chip[aria-pressed="true"]'); if(!on) return;
+  setTimeout(function(){
+    const left = Math.max(0, on.offsetLeft - nav.offsetLeft - (nav.clientWidth - on.offsetWidth)/2);
+    nav.scrollTo({left: left, behavior: document.hidden ? 'auto' : 'smooth'});
+    setTimeout(function(){ if(window.updChipEnd) updChipEnd(); }, 500);
+  }, 30);
+}
+function bindChipScroll(){
+  const nav = $('#chips'), side = document.querySelector('.side'); if(!nav || !side) return;
+  const upd = window.updChipEnd = ()=> side.classList.toggle('at-end', nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 4);
+  nav.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+}
+/* 처음 한 번만 칩 줄을 살짝 밀었다 돌려놓아 옆으로 넘길 수 있다는 걸 알려줌 */
+function nudgeChips(){
+  const nav = $('#chips'); if(!nav || !MOBILE_NAV.matches || nav._nudged) return;
+  let seen = false; try { seen = localStorage.getItem('chipNudge') === '1'; } catch(e){}
+  if(seen) return;
+  nav._nudged = true;
+  setTimeout(function(){
+    if(nav.scrollLeft > 0) return;
+    nav.scrollTo({left: 72, behavior:'smooth'});
+    setTimeout(function(){ nav.scrollTo({left: 0, behavior:'smooth'}); }, 650);
+    try { localStorage.setItem('chipNudge','1'); } catch(e){}
+  }, 500);
 }
 function buildChips(){
   $('#chips').innerHTML = '<div class="lbl">분야별로 보기</div>' + CATS.map(function(c){
@@ -3624,6 +3670,7 @@ function boot(){
 
   buildAlerts();
   buildChips();
+  bindChipScroll();
   $('#homeBtn').onclick = goHome;
   buildSuggests();
   drawDiagrams();
