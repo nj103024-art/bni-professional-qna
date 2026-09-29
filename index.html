@@ -764,6 +764,23 @@ details.archive>.disc{text-align:center;margin:0 0 10px}
     background:linear-gradient(90deg,rgba(243,244,246,0),var(--bg) 62%);transition:opacity .2s}
   .side.at-end::after{opacity:0}
 }
+/* 트래픽라이트 계산기 */
+.cmp.tl .cmph,.cmp.tl .cmpr{grid-template-columns:1.2fr .8fr .8fr}
+.cmp.tl .cmpr em:last-child{font-weight:800}
+.tlres{margin-top:16px;background:var(--soft);border-radius:16px;padding:16px}
+.tlsum{display:flex;align-items:baseline;gap:8px;justify-content:center;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.tlsum span{font-size:12.5px;font-weight:700;color:var(--ink3)}
+.tlsum b{font-size:34px;font-weight:800;color:var(--navy);letter-spacing:-.03em}
+.tlsum small{font-size:12.5px;color:var(--ink3)}
+.tlbars{display:grid;gap:9px}
+.tlres .tlrow{display:grid;grid-template-columns:62px 1fr 52px;gap:8px;align-items:center}
+.tlk{font-size:12.5px;font-weight:700;color:var(--ink)}
+.tlbar{height:9px;border-radius:99px;background:#E6E8EC;overflow:hidden}
+.tlbar i{display:block;height:100%;background:var(--red);border-radius:99px;transition:width .25s}
+.tlp{font-size:13px;font-weight:800;color:var(--navy);text-align:right}
+.tlp small{font-size:10.5px;font-weight:600;color:var(--ink4)}
+.tln{grid-column:2/-1;font-size:11.5px;color:var(--ink3);line-height:1.45;margin-top:-2px}
+.tln b{color:var(--red-d);font-weight:700}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -903,6 +920,29 @@ footer{background:transparent;border:0;margin:0}
       </div></div>
     </section>
 
+    <section class="sec" id="toolTL" hidden>
+      <div class="sech"><h2>내 트래픽라이트 점수</h2><span>최근 6개월 실적을 넣으면 항목별 점수가 나옵니다</span></div>
+      <div class="tools"><div class="tool">
+        <div class="toolh">
+          <h3><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C8102E" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg> 점수 계산기</h3>
+          <p>BNI Connect에서 최근 6개월 수치를 보고 그대로 넣어 보세요.</p>
+        </div>
+        <div class="toolb">
+          <div class="two">
+            <div class="field"><label for="tlV">비지터 <span>(6개월, 명)</span></label><input type="number" id="tlV" inputmode="numeric" value="0"></div>
+            <div class="field"><label for="tlR">리퍼럴 <span>(6개월, 건)</span></label><input type="number" id="tlR" inputmode="numeric" value="0"></div>
+          </div>
+          <div class="field"><label for="tlO">원투원 <span>(6개월, 회)</span></label><input type="number" id="tlO" inputmode="numeric" value="0"></div>
+          <label class="check"><input type="checkbox" id="tlA"><span>출석 <b>95% 이상</b> 유지 중</span></label>
+          <label class="check"><input type="checkbox" id="tlC"><span>교육(CEU) <b>6개월 13 이상</b></span></label>
+          <label class="check"><input type="checkbox" id="tlS"><span><b>스폰서</b> 실적 있음</span></label>
+          <label class="check"><input type="checkbox" id="tlT"><span><b>감사장(TYFCB)</b> 기여 있음</span></label>
+          <div id="tlOut"></div>
+          <p class="disc">주당 수치는 6개월을 26주로 나눠 계산합니다. 그린·앰버·레드 커트라인은 지역 최종 기준 확인이 필요해 표시하지 않습니다.</p>
+        </div>
+      </div></div>
+    </section>
+
     <section class="sec" id="toolRenew" hidden>
       <div class="sech"><h2>내 갱신 일정</h2><span>이름을 넣으면 진행 상황까지 나옵니다</span></div>
       <div class="tools"><div class="tool">
@@ -999,7 +1039,7 @@ const MEMBERS = [
   {n:'김성숙', join:'26.09', due:'2027-08-30', r210:'27.03', itv:'27.06'}
 ];
 
-const CATS = ['전체','우리 챕터','출결','복장','대리인','출석인정','감사장','원투원','갱신','가입·탈퇴','타챕터·참관','멤버 지원'];
+const CATS = ['전체','우리 챕터','출결','트래픽라이트','복장','대리인','출석인정','감사장','원투원','갱신','가입·탈퇴','타챕터·참관','멤버 지원'];
 
 /* ===================== 규정 데이터 ===================== */
 /* 규정이 바뀌면 이 배열만 수정하세요.
@@ -1202,6 +1242,117 @@ const RULES = [
  ],
  questions:['위클리 몇 초예요?','발표 시간 얼마나 돼요?','기여 발표 몇 초?','피쳐 프레젠테이션 몇 분이에요?','60초 맞나요?'],
  keywords:['위클리','발표 시간','60초','30초','15초','기여 발표','피쳐','네트워킹 교육','10분','의제','오픈 네트워킹','미팅 진행']
+},
+/* ---------- 트래픽라이트 ---------- */
+{
+ id:'tl-change', cat:'트래픽라이트', src:'영등포 지역 트래픽라이트 변경 안내', eff:'2026-10-01', boost:14,
+ title:'트래픽라이트 점수는 어떻게 매겨지나요? (배점 기준)',
+ verdict:'비지터 25점, 리퍼럴 25점, 원투원 20점으로 이 세 가지가 70점입니다. 출석 10점, 교육(CEU) 10점, 스폰서 5점, 감사장 5점을 더해 100점입니다.',
+ table: function(){
+   return '<div class="cmp tl"><div class="cmph"><span>항목</span><b>기존</b><b>변경</b></div>'+
+    [['비지터','20점','25점'],['리퍼럴','20점','25점'],['원투원','10점','20점'],
+     ['세 항목 합계','50점','70점'],['출석 관련','최대 25점','10점'],['감사장(TYFCB)','15점','5점'],
+     ['교육(CEU)','10점','10점'],['스폰서','–','5점']].map(function(r){
+      return '<div class="cmpr"><span>'+r[0]+'</span><em>'+r[1]+'</em><em>'+r[2]+'</em></div>';
+    }).join('')+'</div>';
+ },
+ body:[
+  '<b>성실하게 출석만 해서는 그린라이트를 유지하기 어려워집니다.</b> 출석은 점수를 잃지 않기 위한 기본 조건이 되고, 챕터에 실제로 기여하는 활동이 점수의 중심이 됩니다.',
+  '비지터 초대, 리퍼럴, 원투원 세 가지가 <b>100점 중 70점</b>입니다.',
+  '출석 관련 점수는 최대 25점에서 <b>10점</b>으로, 감사장은 15점에서 <b>5점</b>으로 줄었습니다.',
+  '교육(CEU)은 10점으로 같고, <b>스폰서 5점</b>이 새로 생겼습니다.',
+  '활동을 하고도 <b>BNI Connect에 기록하지 않으면 점수로 잡히지 않습니다.</b> 특히 비지터는 등록 기록을 기준으로 반영됩니다.'
+ ],
+ questions:['트래픽라이트 점수 어떻게 계산해요?','배점이 어떻게 되나요?','10월부터 트래픽라이트 뭐가 바뀌어요?','그린라이트 기준이 뭐예요?','신호등 점수 기준'],
+ keywords:['트래픽라이트','신호등','점수','배점','그린라이트','그린','앰버','레드','100점','비지터','리퍼럴','원투원','CEU','스폰서','감사장','변경']
+},
+{
+ id:'tl-min', cat:'트래픽라이트', src:'영등포 지역 트래픽라이트 변경 안내', eff:'2026-10-01', boost:13,
+ title:'그린라이트를 유지하려면 뭘 하면 되나요? (최소 기준 5가지)',
+ verdict:'월 1비지터, 주 1리퍼럴, 주 1원투원, 주 0.5 교육, 출석 95%. 이 다섯 가지가 새로운 그린라이트 습관입니다.',
+ body:[
+  '<b>비지터</b> — 6개월에 5명 이상. 월 1명씩 초대하면 만점입니다.',
+  '<b>리퍼럴</b> — 매주 1건 이상. 월 4~5건을 유지하면 됩니다.',
+  '<b>원투원</b> — 매주 1회 이상. 6개월 26회 이상입니다.',
+  '<b>교육(CEU)</b> — 매주 0.5 이상. 6개월 13 이상입니다.',
+  '<b>출석</b> — 95% 이상 유지가 기본 조건입니다.',
+  '이 다섯 가지를 <b>Green Light 5-1-1</b>로 기억하세요. 6개월 비지터 <b>5</b>명, 매주 리퍼럴 <b>1</b>건, 매주 원투원 <b>1</b>회입니다.'
+ ],
+ questions:['그린라이트 유지하려면 어떻게 해요?','뭘 얼마나 해야 해요?','최소 기준이 뭐예요?','5-1-1이 뭐예요?','그린 유지 방법'],
+ keywords:['그린라이트','유지','최소','기준','5-1-1','습관','비지터','리퍼럴','원투원','CEU','출석','루틴']
+},
+{
+ id:'tl-visitor', cat:'트래픽라이트', src:'영등포 지역 트래픽라이트 변경 안내', eff:'2026-10-01', boost:9,
+ title:'비지터 점수는 몇 명부터 만점인가요?',
+ verdict:'최근 6개월 동안 5명 이상 초대하면 25점 만점입니다. 1명당 5점씩 올라갑니다.',
+ body:[
+  '주당 평균이 아니라 <b>최근 6개월 동안 초대한 비지터 수</b>로 계산합니다.',
+  '0명 0점 · 1명 5점 · 2명 10점 · 3명 15점 · 4명 20점 · <b>5명 이상 25점</b>',
+  '<b>월 1명</b>씩 꾸준히 초대하면 만점입니다.',
+  '초대할 사람이 떠오르지 않으면 거래처, 협력업체, 고객, 파트너사, 지역 사업자 순으로 후보를 적어 보세요.',
+  '<b>BNI Connect 등록 기록</b>을 기준으로 반영되므로, 초대한 비지터가 기록되었는지 꼭 확인하세요.'
+ ],
+ questions:['비지터 몇 명 데려와야 해요?','비지터 점수 기준','비지터 만점이 몇 명이에요?','비지터 안 데려오면 몇 점?'],
+ keywords:['비지터','초대','25점','5명','6개월','만점','손님','게스트','BNI Connect','기록']
+},
+{
+ id:'tl-referral', cat:'트래픽라이트', src:'영등포 지역 트래픽라이트 변경 안내', eff:'2026-10-01', boost:9,
+ title:'리퍼럴은 몇 건을 줘야 하나요?',
+ verdict:'주당 1건이면 20점으로 안정권이고, 주당 1.25건 이상이면 25점 만점입니다. 6개월로는 약 26건이 기본, 32~33건이면 만점입니다.',
+ body:[
+  '주당 평균 건수로 계산합니다.',
+  '0.25건 미만 0점 · 0.25~0.5건 5점 · 0.5~0.75건 10점 · 0.75~1건 15점 · <b>1~1.25건 20점</b> · <b>1.25건 이상 25점</b>',
+  '6개월 기준으로는 약 <b>26건</b>이 기본 유지선, <b>32~33건 이상</b>이면 만점입니다.',
+  '리퍼럴이 나오게 하려면 <b>“누구를 소개받고 싶은지”</b>를 구체적으로 말할 수 있어야 합니다.',
+  '위클리 프레젠테이션을 <b>소개 요청형</b>으로 바꿔 보세요. “이번 주 제가 만나고 싶은 사람은 ○○입니다.”',
+  '원투원이 끝나면 <b>“내가 이 사람에게 소개해 줄 수 있는 사람은 누구인가”</b>를 꼭 정리하세요.'
+ ],
+ questions:['리퍼럴 몇 건 줘야 해요?','리퍼럴 점수 기준','주당 몇 건이에요?','리퍼럴 만점 기준'],
+ keywords:['리퍼럴','소개장','25점','주당','1건','1.25건','26건','만점','위클리','요청']
+},
+{
+ id:'tl-one2one', cat:'트래픽라이트', src:'영등포 지역 트래픽라이트 변경 안내', eff:'2026-10-01', boost:9,
+ title:'원투원은 몇 번 해야 하나요?',
+ verdict:'매주 1회 이상이면 20점 만점입니다. 원투원 배점이 10점에서 20점으로 올라 가장 크게 바뀐 항목입니다.',
+ body:[
+  '주당 평균 횟수로 계산합니다.',
+  '0.25회 미만 0점 · 0.25~0.5회 5점 · 0.5~0.75회 10점 · 0.75~1회 15점 · <b>1회 이상 20점</b>',
+  '6개월 기준 <b>26회 이상</b>이면 만점입니다.',
+  '원투원을 하지 않으면 한 항목에서만 <b>20점 차이</b>가 나기 때문에 그린라이트 유지가 매우 어려워집니다.',
+  '신입 멤버는 첫 90일 안에 10명 이상 원투원하면 초기 관계 형성이 빨라집니다.',
+  '기존 멤버는 <b>매주 1명</b>을 캘린더에 먼저 예약해 두세요. 바쁠수록 먼저 잡아야 합니다.',
+  '진행하고도 <b>기록을 빠뜨리면 점수에 반영되지 않습니다.</b>'
+ ],
+ questions:['원투원 몇 번 해야 해요?','121 점수 기준','원투원 만점 기준','원투원 안 하면 어떻게 돼요?'],
+ keywords:['원투원','121','1-2-1','20점','주 1회','26회','만점','기록','습관']
+},
+{
+ id:'tl-support', cat:'트래픽라이트', src:'영등포 지역 트래픽라이트 변경 안내', eff:'2026-10-01', boost:8,
+ title:'출석·교육·감사장·스폰서는 몇 점인가요?',
+ verdict:'출석 10점, 교육(CEU) 10점, 스폰서 5점, 감사장 5점입니다. 네 가지를 합쳐 30점으로, 보조 항목이 되었습니다.',
+ body:[
+  '<b>출석 10점</b> — 95% 이상 유지가 기본 조건입니다. 출석은 점수를 만드는 항목이 아니라 <b>잃지 않기 위한 조건</b>이 되었습니다.',
+  '<b>교육(CEU) 10점</b> — 매주 0.5 이상, 6개월 13 이상이 기준입니다. 교육만 열심히 들어도 그린라이트는 만들 수 없습니다.',
+  '<b>스폰서 5점</b> — 이번에 새로 생긴 항목입니다.',
+  '<b>감사장(TYFCB) 5점</b> — 기존 15점에서 줄었습니다. 금액이 커도 비지터·리퍼럴·원투원이 약하면 전체 점수는 낮게 나옵니다.'
+ ],
+ questions:['교육 점수 몇 점이에요?','CEU 얼마나 들어야 해요?','출석 점수 몇 점이에요?','감사장 점수 줄었나요?','스폰서 점수가 뭐예요?'],
+ keywords:['출석','교육','CEU','점수','감사장','TYFCB','스폰서','10점','5점','보조']
+},
+{
+ id:'tl-risk', cat:'트래픽라이트', src:'영등포 지역 트래픽라이트 변경 안내', eff:'2026-10-01', boost:8,
+ title:'예전에는 괜찮았는데 점수가 떨어지는 경우가 있나요?',
+ verdict:'출석만 좋은 멤버, 감사장 금액만 큰 멤버, 교육만 듣는 멤버, 활동하고 기록하지 않는 멤버는 점수가 크게 떨어집니다.',
+ body:[
+  '<b>① 출석은 좋지만 활동이 적은 경우</b> — 출석 관련 점수가 25점에서 10점으로 줄어 출석만으로는 채울 수 없습니다.',
+  '<b>② 감사장 금액은 크지만 활동량이 적은 경우</b> — 감사장이 15점에서 5점으로 줄었습니다.',
+  '<b>③ 교육은 열심히 듣지만 관계 활동이 부족한 경우</b> — 교육은 10점짜리 보조 항목입니다.',
+  '<b>④ 활동은 하는데 BNI Connect에 기록하지 않는 경우</b> — 기록 누락은 곧 점수 손실입니다.',
+  '<b>같은 활동량 비교</b> — 비지터 5명·리퍼럴 주 1.25건·원투원 주 1회면 100점이지만, 비지터 2명·리퍼럴 주 0.75건·원투원 주 0.5회면 약 55점입니다.',
+  '예전 기준에서는 출석과 감사장으로 보완할 수 있었지만, 이제는 회복이 어렵습니다. 부족한 항목은 미리 채워 두세요.'
+ ],
+ questions:['점수가 왜 떨어졌어요?','출석 잘하는데 점수가 낮아요','감사장 많이 썼는데 왜 낮아요?','기록 안 하면 어떻게 돼요?'],
+ keywords:['점수 하락','위험','앰버','레드','기록','BNI Connect','출석','감사장','교육','시뮬레이션','55점','100점']
 },
 /* ---------- 복장 ---------- */
 {
@@ -1686,6 +1837,27 @@ const RULES = [
  ],
  questions:['갱신 관리 언제부터 해요?','트래픽라이트 언제 반영돼요?','10월 갱신이면 언제부터 준비해요?','성숙한 챕터가 뭐예요?'],
  keywords:['성숙한 챕터','4월','트래픽라이트','10월 1일','상담','승인','M&M','협조','관리']
+},
+{
+ id:'renew-fee', cat:'갱신', src:'BNI 갱신지원서 (250408)', eff:null, boost:11,
+ title:'갱신비는 어떻게 내나요? (금액·납부 방법·연체료)',
+ verdict:'은행 이체 또는 카드 결제로만 낼 수 있습니다. 카드는 내셔널오피스에 연락해야 하고, 갱신 마감일 30일 전까지 처리해야 합니다.',
+ body:[
+  '<b>참가비</b> — 2025년 1월 1일 이후 기준 1,210,000원(부가세 포함)입니다.',
+  '<b>지불 방법은 두 가지뿐</b>입니다. 은행 이체 또는 카드 결제.',
+  '<b>계좌이체</b> — 우리은행 1005-402-565908 (예금주: 비즈파워 커뮤니케이션)',
+  '<b>카드결제</b> — 내셔널오피스(02-6261-8838)로 연락하거나 직접 내방합니다. 멤버가 혼자 바로 결제하는 방식이 아니라 본부 업무 시간에 통화가 돼야 합니다.',
+  '<b>처리 기한</b> — 갱신은 갱신 마감일 <b>30일 전까지</b> 처리되어야 합니다.',
+  '<b>연체료</b> — 갱신 처리일에서 15일을 초과하면 55,000원이 부과됩니다.',
+  '<b>재등록비</b> — 30일을 초과하면 시스템에서 삭제되어 재등록비 550,000원을 내야 합니다.',
+  '<b>환불</b> — 갱신 승인 완료 후에는 환불되지 않습니다. 기간 중 자발적으로 그만두는 경우에는 남은 기간을 재가입 시 쓸 수 있는 크레딧으로 주며, 발행일로부터 2년간 유효합니다.',
+  '갱신지원서를 낼 때 <b>명함 한 장</b>을 함께 제출합니다.'
+ ],
+ check:[
+  '참가비가 <b>2026년 10월부터 인상</b>된다는 안내가 있었습니다. 변경 금액과 인상 전 금액 적용 기준일(이체일 기준인지, 카드 결제 승인일 기준인지)은 ST 또는 내셔널오피스 확인이 필요합니다.'
+ ],
+ questions:['갱신비 얼마예요?','카드로 결제되나요?','갱신비 어디로 입금해요?','갱신비 안 내면 어떻게 돼요?','연체료 얼마예요?','재등록비가 뭐예요?','갱신비 환불되나요?'],
+ keywords:['갱신비','참가비','연회비','금액','납부','입금','계좌','카드','카드결제','내셔널오피스','이체','연체료','재등록비','환불','크레딧','명함','기한']
 },
 {
  id:'renew-refund', cat:'갱신', src:'슬라이드 11', eff:null, boost:8,
@@ -2179,6 +2351,7 @@ function search(query){
 /* ===================== 아이콘 · 도식 ===================== */
 const ICONS = {
  '전체':'<path d="M4 6h16M4 12h16M4 18h11"/>',
+ '트래픽라이트':'<rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/>',
  '우리 챕터':'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4M16 4.8a3 3 0 0 1 0 6.2M18.5 14.9c1.5.8 2.4 2.5 2.5 5.1"/>',
  '출결':'<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/>',
  '대리인':'<path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20"/><circle cx="9.5" cy="7" r="3.2"/><path d="M17 11l2 2 4-4"/>',
@@ -2311,6 +2484,26 @@ function primerProxy(){
 
   h+=T(0,202,'※ 잠재 멤버·고객사·공무원·대기업 직원 등 외부인을 우선 보냅니다. 연 2회 제한과 컨트롤 레터는 변경 후에도 유지됩니다.',{s:10,f:C_SUB});
   h+=T(0,216,'※ 런칭 중인 챕터의 멤버는 대리인으로 참석할 수 없습니다.',{s:10,f:C_SUB});
+  h+='</svg>';
+  return h;
+}
+
+/* 트래픽라이트 배점 */
+function primerTL(){
+  const W=620, L=96, IW=W-L-118, MAX=25;
+  const rows=[['비지터',25,'6개월 5명'],['리퍼럴',25,'주 1.25건'],['원투원',20,'주 1회'],
+              ['출석',10,'95% 이상'],['교육 CEU',10,'주 0.5'],['스폰서',5,'—'],['감사장',5,'—']];
+  let h='<svg viewBox="0 0 '+W+' 250" role="img" aria-label="트래픽라이트 항목별 배점">';
+  h+=T(0,14,'100점 기준 항목별 배점',{s:11,w:800,f:C_SUB});
+  rows.forEach(function(r,i){
+    const y=30+i*26, w=r[1]/MAX*IW, core=i<3;
+    h+=G(T(0,y+14,r[0],{s:11.5,w:core?800:600})+
+        R(L,y,w,18,{r:5,f:core?'#FCF3F4':'#F3F4F6',s:core?'#E9C8CD':C_LINE})+
+        T(L+w+8,y+14,r[1]+'점',{s:11.5,w:800,f:core?C_RED:C_MID})+
+        T(W-4,y+14,r[2],{s:10.5,f:C_SUB,a:'end'}), r[0]);
+  });
+  h+='<line x1="0" y1="222" x2="'+W+'" y2="222" stroke="'+C_LINE+'"/>';
+  h+=T(0,242,'비지터 · 리퍼럴 · 원투원 세 항목이 70점',{s:11,w:800,f:C_RED});
   h+='</svg>';
   return h;
 }
@@ -2796,6 +2989,16 @@ const PRIMERS = [
         ['남은 기간은 CoC로 살릴 수 있습니다','멤버십비는 환불되지 않지만, 자진 개방한 경우 신용확인서(CoC)가 자동 발행되어 2년간 쓸 수 있습니다. 강제 개방이나 분쟁 중에는 발행되지 않습니다.']],
   src:'표준 운영규정 3·9·10·11항 (보충)'},
 
+ {cat:'트래픽라이트', eff:'2026-10-01', title:'점수의 70%가 비지터·리퍼럴·원투원입니다',
+  lead:'새 트래픽라이트는 <b>누가 자리에 있었는지</b>가 아니라 <b>누가 챕터 성장에 기여했는지</b>를 보여주는 표입니다. 비지터·리퍼럴·원투원 세 항목이 100점 중 70점을 차지하고, 출석과 감사장 비중은 줄었습니다.',
+  svg:primerTL,
+  keys:[['비지터 25점 — 6개월 5명','월 1명씩 초대하면 만점입니다. BNI Connect 등록 기록이 기준입니다.'],
+        ['리퍼럴 25점 — 주 1건 이상','주 1건이면 20점 안정권, 주 1.25건 이상이면 만점입니다. 6개월 약 26건이 기본 유지선입니다.'],
+        ['원투원 20점 — 주 1회','10점에서 20점으로 가장 크게 오른 항목입니다. 한 항목에서만 20점 차이가 납니다.'],
+        ['출석·교육·스폰서·감사장은 30점','출석 10점은 점수를 만드는 항목이 아니라 잃지 않기 위한 기본 조건입니다.'],
+        ['기록하지 않으면 점수가 없습니다','활동을 하고도 BNI Connect에 남기지 않으면 반영되지 않습니다.']],
+  src:'영등포 지역 트래픽라이트 변경 안내'},
+
  {cat:'복장', title:'조찬은 사업하는 자리입니다',
   lead:'복장은 권장이 아니라 <b>가입할 때 약속한 조건</b>입니다. 신입 인터뷰에서 확인하고 부의장이 점검합니다. 남녀 기준은 같고, 계절이 바뀌어도 <b>격식을 갖춘다</b>는 원칙은 변하지 않습니다.',
   svg:primerDress,
@@ -2886,6 +3089,8 @@ function render(){
   show('#chapterSec',!asked && state.cat === '우리 챕터');
   show('#primerSec', !asked && state.cat !== '전체' && state.cat !== '우리 챕터');
   show('#toolLate',  !asked && state.cat === '출결');
+  show('#toolTL',    !asked && state.cat === '트래픽라이트');
+  if(!asked && state.cat === '트래픽라이트') bindTLCalc();
   show('#toolRenew', !asked && (state.cat === '갱신' || (asked && mi)));
   show('#listSec',   asked || state.cat !== '우리 챕터');
 
@@ -3152,6 +3357,7 @@ function specialtyHits(q){
 
 /* ===================== 최근 바뀐 내용 ===================== */
 const UPDATES = [
+ {d:'2026-10-01', t:'트래픽라이트 배점 개편', s:'비지터·리퍼럴·원투원이 70점, 출석·감사장 비중 축소', card:'tl-change'},
  {d:'2026-10-01', t:'대리인 기준 개정', s:'누구나 보낼 수 있고, BNI 멤버 대리인은 디렉터·앰배서더·어시스트 앰배서더만', card:'proxy-new', cardPre:'proxy-compare'},
  {d:'2026-09-14', t:'현행 규정 중심으로 정리', s:'날짜가 지나면 끝난 규정은 자동으로 「지난 규정」으로 이동', cat:'대리인'},
  {d:'2026-09-13', t:'7기 조직도 반영', s:'의장 박두호 · 부의장 김재현 · ST 이병진, 담당자 안내도 7기로 변경', cat:'우리 챕터'},
@@ -3186,6 +3392,7 @@ function goCard(id){
 /* ===================== 홈 : 분야 안내 ===================== */
 const HOME_DESC = {
  '우리 챕터':'멤버 찾기, 담당자, 비지터 초대, 신입 안내',
+ '트래픽라이트':'그린라이트 유지 기준과 점수 계산',
  '출결':'지각·조퇴·결석, 몇 번까지 괜찮은지',
  '대리인':'누구를 보낼 수 있고, 몇 번까지 되는지',
  '출석인정':'출장 갔을 때 출석을 인정받는 조건',
@@ -3330,6 +3537,54 @@ function bindTyCalc(){
     upd();
   });
   [a,mth].forEach(el=> el.addEventListener('input', upd));
+  upd();
+}
+
+
+/* ===================== 도구 : 트래픽라이트 점수 ===================== */
+const TL_WEEKS = 26;
+function tlVisitor(n){ return Math.max(0, Math.min(5, Math.floor(n))) * 5; }
+function tlBand(per, steps, cap){
+  // steps: 구간 하한값 배열 (0.25 단위), 5점씩 증가
+  let sc = 0;
+  steps.forEach(function(v,i){ if(per >= v) sc = (i+1)*5; });
+  return Math.min(sc, cap);
+}
+function tlScore(v, r, o, chk){
+  const rw = r / TL_WEEKS, ow = o / TL_WEEKS;
+  const items = [
+    {k:'비지터', s:tlVisitor(v), max:25, now:Math.floor(v)+'명', next: v>=5 ? '' : '1명 더 초대하면 +5점'},
+    {k:'리퍼럴', s:tlBand(rw,[0.25,0.5,0.75,1,1.25],25), max:25, now:'주 '+rw.toFixed(2)+'건',
+     next: rw>=1.25 ? '' : (Math.ceil((Math.min(1.25, Math.floor(rw/0.25)*0.25+0.25))*TL_WEEKS) - r)+'건 더 주면 +5점'},
+    {k:'원투원', s:tlBand(ow,[0.25,0.5,0.75,1],20), max:20, now:'주 '+ow.toFixed(2)+'회',
+     next: ow>=1 ? '' : (Math.ceil((Math.min(1, Math.floor(ow/0.25)*0.25+0.25))*TL_WEEKS) - o)+'회 더 하면 +5점'},
+    {k:'출석',   s:chk.a?10:0, max:10, now:chk.a?'95% 이상':'미충족', next:chk.a?'':'출석 95% 유지하면 +10점'},
+    {k:'교육 CEU', s:chk.c?10:0, max:10, now:chk.c?'6개월 13 이상':'미충족', next:chk.c?'':'6개월 13 이상이면 +10점'},
+    {k:'스폰서', s:chk.s?5:0, max:5, now:chk.s?'있음':'없음', next:''},
+    {k:'감사장', s:chk.t?5:0, max:5, now:chk.t?'있음':'없음', next:''}
+  ];
+  return {items:items, total:items.reduce((a,b)=>a+b.s,0)};
+}
+function bindTLCalc(){
+  const ids = ['tlV','tlR','tlO','tlA','tlC','tlS','tlT'].map(i=>$('#'+i));
+  if(ids.some(e=>!e) || ids[0]._bound) return;
+  ids[0]._bound = true;
+  const upd = function(){
+    const v = Number($('#tlV').value)||0, r = Number($('#tlR').value)||0, o = Number($('#tlO').value)||0;
+    const res = tlScore(v, r, o, {a:$('#tlA').checked, c:$('#tlC').checked, s:$('#tlS').checked, t:$('#tlT').checked});
+    let h = '<div class="tlres"><div class="tlsum"><span>합계</span><b>'+res.total+'</b><small>/ 100점</small></div>';
+    h += '<div class="tlbars">';
+    res.items.forEach(function(it){
+      h += '<div class="tlrow"><span class="tlk">'+it.k+'</span>'+
+           '<span class="tlbar"><i style="width:'+(it.s/it.max*100)+'%"></i></span>'+
+           '<span class="tlp">'+it.s+'<small>/'+it.max+'</small></span>'+
+           '<span class="tln">'+esc(it.now)+(it.next?' · <b>'+esc(it.next)+'</b>':'')+'</span></div>';
+    });
+    h += '</div></div>';
+    $('#tlOut').innerHTML = h;
+    tieAll();
+  };
+  ids.forEach(e=> e.addEventListener('input', upd));
   upd();
 }
 
