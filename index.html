@@ -781,6 +781,15 @@ details.archive>.disc{text-align:center;margin:0 0 10px}
 .tlp small{font-size:10.5px;font-weight:600;color:var(--ink4)}
 .tln{grid-column:2/-1;font-size:11.5px;color:var(--ink3);line-height:1.45;margin-top:-2px}
 .tln b{color:var(--red-d);font-weight:700}
+/* 챕터 요일표 */
+.days{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+@media(min-width:720px){.days{grid-template-columns:repeat(4,1fr)}}
+.day{background:var(--soft);border-radius:14px;padding:12px}
+.dayh{display:block;font-size:12px;font-weight:800;color:var(--red-d);margin-bottom:8px}
+.chapt{display:block;background:#fff;border-radius:9px;padding:7px 10px;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.chapt:last-child{margin-bottom:0}
+.chapt.me{background:var(--navy);color:#fff;font-weight:800}
+.chapt small{font-size:10.5px;font-weight:600;color:rgba(255,255,255,.65);margin-left:3px}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -2054,6 +2063,32 @@ const RULES = [
  keywords:['리퍼럴','감사장','인정','같은 전문분야','타 챕터','중복','업종 중복','실적']
 },
 {
+ id:'visit-chapters', cat:'타챕터·참관', src:'영등포 지역 챕터 조찬 요일', eff:null, boost:15,
+ title:'영등포 지역 챕터는 무슨 요일에 모이나요? (참관 요일표)',
+ verdict:'화요일 3개, 수요일 4개, 목요일 2개, 금요일 2개 챕터가 모입니다. 우리 프로페셔널은 수요일입니다.',
+ table: function(){
+   const days = [['화','골든','에이스','퍼스트'],['수','프로페셔널','트러스트','밀리언','그로우'],
+                 ['목','챔피언','레버리지'],['금','시너지','프라임']];
+   return '<div class="days">'+days.map(function(d){
+     return '<div class="day"><span class="dayh">'+d[0]+'요일</span>'+
+       d.slice(1).map(function(n){
+         return '<span class="chapt'+(n==='프로페셔널'?' me':'')+'">'+n+(n==='프로페셔널'?' <small>우리</small>':'')+'</span>';
+       }).join('')+'</div>';
+   }).join('')+'</div>';
+ },
+ body:[
+  '<b>화요일</b> — 골든 · 에이스 · 퍼스트',
+  '<b>수요일</b> — 프로페셔널(우리 챕터) · 트러스트 · 밀리언 · 그로우',
+  '<b>목요일</b> — 챔피언 · 레버리지',
+  '<b>금요일</b> — 시너지 · 프라임',
+  '우리 조찬이 수요일이므로 <b>화·목·금 챕터</b>는 일정이 겹치지 않아 참관하기 좋습니다.',
+  '참관 전에 반드시 <b>방문할 챕터의 ST에게 먼저 연락</b>해 디렉터 승인을 받으세요. 시간과 장소도 그때 함께 확인하면 됩니다.',
+  '참관은 BNI 코리아 전 챕터를 통틀어 1년 2회까지이고, 참가비는 본인 부담입니다. (「다른 챕터에 참관 가도 되나요?」 카드 참고)'
+ ],
+ questions:['다른 챕터 무슨 요일이에요?','영등포 챕터 뭐가 있어요?','참관 갈 챕터 요일','수요일 말고 다른 챕터 있나요?','트러스트 챕터 언제 해요?','챕터 목록'],
+ keywords:['챕터','요일','영등포','참관','골든','에이스','퍼스트','프로페셔널','트러스트','밀리언','그로우','챔피언','레버리지','시너지','프라임','화요일','수요일','목요일','금요일','목록','일정']
+},
+{
  id:'visit-go', cat:'타챕터·참관', src:'YDP 표준 운영규정 (2026.04.11) 5항', eff:null, boost:14,
  title:'다른 챕터에 참관 가도 되나요?',
  verdict:'가능합니다. 다만 방문 전에 해당 챕터 ST에게 연락해 디렉터 승인을 받아야 하고, 1년에 2회까지입니다.',
@@ -2995,7 +3030,8 @@ const PRIMERS = [
   keys:[['협업 자체는 제한 없음','협업이 가능한 전문분야가 있다면 얼마든지 협업하시기 바랍니다.'],
         ['우리 챕터에 같은 전문분야가 있으면 인정 안 됨','리퍼럴과 감사장에만 해당하는 조건입니다.'],
         ['"파워팀"이라는 표현은 쓰지 않습니다','"협업" 또는 "협업팀"으로 표현합니다.'],
-        ['다른 챕터 참관은 사전 승인이 필요합니다','방문 전 해당 챕터 ST에게 연락해 디렉터 승인을 받으세요. 1년 2회까지이고 참가비는 본인 부담입니다.']],
+        ['다른 챕터 참관은 사전 승인이 필요합니다','방문 전 해당 챕터 ST에게 연락해 디렉터 승인을 받으세요. 1년 2회까지이고 참가비는 본인 부담입니다.'],
+        ['우리는 수요일, 화·목·금 챕터는 겹치지 않습니다','영등포 지역은 화요일 3개, 수요일 4개, 목요일 2개, 금요일 2개 챕터가 모입니다. 아래 「참관 요일표」에서 확인하세요.']],
   src:'슬라이드 12 · 표준 운영규정 5항 (보충)'},
 
  {cat:'멤버 지원', title:'혼자 고민하지 마세요, 물어보면 됩니다',
