@@ -492,3 +492,10 @@ Product UI composites use `srcset` with art-direction crops at major breakpoints
 5. Default body to `{typography.body-md}` (15px); use `{typography.body-tabular}` for any money / numeric cell.
 6. Apply `ss01` globally on the body; apply `tnum` per-element on numeric content.
 7. The gradient mesh is non-negotiable on marketing heroes — bare-canvas heroes break the brand.
+
+---
+## 히어로 배경 영상 출처
+media/hero.mp4 · media/hero-poster.jpg
+Pexels 무료 영상 (Pexels License — 상업적 사용 가능, 출처 표기 불필요)
+원본: https://www.pexels.com/video/drone-shot-of-downtown-atlanta-at-sunrise-33134653/
+가공: 14초 컷 · 1600px · 무음 · H.264 crf31 (778KB)
