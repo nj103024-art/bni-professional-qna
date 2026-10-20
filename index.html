@@ -718,8 +718,12 @@ img.rav{object-fit:cover;padding:0}
 .op.big .orl{color:#E9B9C1;font-size:12.5px}
 .op.big b{color:#fff;font-size:18px}
 .oexec{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.odir{display:flex;align-items:center;gap:12px;margin-top:8px;padding:10px 12px;border-radius:14px;box-shadow:inset 0 0 0 1.5px #E6D9B8;background:#FFFCF4}
+.odir{display:grid;gap:8px;margin-top:8px;padding:10px 12px;border-radius:14px;box-shadow:inset 0 0 0 1.5px #E6D9B8;background:#FFFCF4}
+@media(min-width:560px){.odir{grid-template-columns:1fr 1fr}}
+.odrow{display:flex;align-items:center;gap:12px;min-width:0}
 .odir small{display:block;font-size:11.5px;color:#8A6D2B;font-weight:700}
+.odrow+.odrow{border-top:1px solid #EFE4C8;padding-top:8px}
+@media(min-width:560px){.odrow+.odrow{border-top:0;border-left:1px solid #EFE4C8;padding-top:0;padding-left:12px}}
 .odir b{font-size:15px;color:var(--navy)}
 .ocom{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(min-width:760px){.ocom{grid-template-columns:repeat(4,1fr)}}
@@ -2369,7 +2373,7 @@ const RULES = [
   '<b>챕터 행사</b> — 이벤트코디 김은강',
   '<b>회비·참가비</b> — ST(서기 겸 재무) 이병진',
   '<b>다른 챕터 참관</b> — 방문할 챕터의 ST에게 연락해 디렉터 승인',
-  '7기 조직도 기준입니다. 의장 박두호 · 담당디렉터(GD) 김수지.'
+  '7기 조직도 기준입니다. 의장 박두호 · 디렉터 김수지 · 앰배서더 구춘길.'
  ],
  questions:['누구한테 말해요?','조퇴 누구한테 알려요?','담당자가 누구예요?','출결 담당 누구예요?','갱신 담당 누구예요?','의장이 누구예요?','리더십팀 누구예요?'],
  keywords:['담당자','누구','리더십팀','의장단','의장','부의장','ST','코디','멤버십위원회','연락','문의','출결 담당','갱신 담당','중재','조직도','석세스팀','이벤트코디','교육코디','멘토링코디','비지터 호스트','도어퍼슨']
@@ -3443,14 +3447,14 @@ function drawMeetingDiagram(){
 /* ===================== 7기 조직도 ===================== */
 const PHOTO = {'박두호':'parkdh','김수지':'kimsj','김재현':'kimjh','이병진':'leebj','이우람':'leewr','배가은':'baege','김동운':'kimdw','정희진':'junghj','김일연':'kimiy',
  '안성민':'ansm','홍석강':'hongsg','김만식':'kimms','김은강':'kimek','장호연':'janghy','정주헌':'jungjh','박주영':'parkjy','강인혁':'kangih','김정률':'kimjr','최병문':'choibm',
- '이선혜':'leesh','최진우':'choijw','김해람':'kimhr','박성훈':'parksh','배기영':'baegy','염윤선':'yeomys','한지섭':'hanjs','배종우':'baejw'};
+ '이선혜':'leesh','최진우':'choijw','김해람':'kimhr','박성훈':'parksh','배기영':'baegy','염윤선':'yeomys','한지섭':'hanjs','배종우':'baejw','구춘길':'koock'};
 function avatar(n, cls){
   const f = PHOTO[n];
   return f ? '<img class="'+(cls||'rav')+'" src="img/org/'+f+'.jpg" alt="'+esc(n)+'" loading="lazy">'
            : '<div class="'+(cls||'rav')+'">'+esc(n.slice(-2))+'</div>';
 }
 const ORG = {
-  chair: ['의장','박두호'], director: ['담당디렉터 · GD','김수지'],
+  chair: ['의장','박두호'], director: ['디렉터','김수지'], ambassador: ['앰배서더','구춘길'],
   exec: [['부의장','김재현'],['ST (서기 겸 재무)','이병진']],
   committee: [['갱신','배가은'],['중재','김동운'],['출결','정희진'],['리퍼럴','김일연']],
   teams: [
@@ -3469,7 +3473,9 @@ function orgHTML(){
   h += '<div class="ogrp"><span class="ogl">의장단</span>'+
        '<div class="otop">'+person(ORG.chair[0],ORG.chair[1],'big')+
        '<div class="oexec">'+ORG.exec.map(x=>person(x[0],x[1])).join('')+'</div></div>'+
-       '<div class="odir">'+avatar(ORG.director[1],'oav sm')+'<span><small>'+ORG.director[0]+'</small><b>'+ORG.director[1]+'</b></span></div></div>';
+       '<div class="odir">'+[ORG.director, ORG.ambassador].map(function(x){
+         return '<div class="odrow">'+avatar(x[1],'oav sm')+'<span><small>'+esc(x[0])+'</small><b>'+esc(x[1])+'</b></span></div>';
+       }).join('')+'</div></div>';
   h += '<div class="ogrp"><span class="ogl">멤버십위원회</span><div class="ocom">'+ORG.committee.map(x=>person(x[0],x[1])).join('')+'</div></div>';
   h += '<div class="ogrp"><span class="ogl">석세스팀 · 도어퍼슨팀</span><div class="oteams">'+ORG.teams.map(function(t){
     return '<div class="oteam"><div class="oth">'+avatar(t[1],'oav')+'<span><small>'+esc(t[0])+'</small><b>'+esc(t[1])+'</b></span></div>'+
