@@ -790,6 +790,23 @@ details.archive>.disc{text-align:center;margin:0 0 10px}
 .chapt:last-child{margin-bottom:0}
 .chapt.me{background:var(--navy);color:#fff;font-weight:800}
 .chapt small{font-size:10.5px;font-weight:600;color:rgba(255,255,255,.65);margin-left:3px}
+/* 참관 기준 */
+.vgrid{display:grid;gap:8px;margin-top:14px}
+@media(min-width:760px){.vgrid{grid-template-columns:1fr 1fr}}
+.vbox{background:var(--soft);border-radius:14px;padding:14px 16px}
+.vh{display:block;font-size:12px;font-weight:800;color:var(--red-d);margin-bottom:10px}
+.vq{display:block;background:#fff;border-radius:10px;padding:9px 12px;font-size:13.5px;line-height:1.5;margin-bottom:6px;color:var(--ink2)}
+.vq.on{color:var(--navy);font-weight:700;box-shadow:inset 0 0 0 1.5px var(--navy)}
+.vq small{display:block;font-size:11px;font-weight:600;color:var(--ink3);margin-top:2px}
+.vnote{display:block;font-size:12px;color:var(--ink3);line-height:1.5;margin-top:8px}
+.vs{display:grid;grid-template-columns:22px 1fr;gap:4px 10px;margin-bottom:10px}
+.vs:last-child{margin-bottom:0}
+.vs i{grid-row:span 2;width:22px;height:22px;border-radius:99px;background:var(--navy);color:#fff;font-size:11px;font-weight:800;font-style:normal;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.vs b{font-size:13.5px;font-weight:800;color:var(--navy);line-height:1.4}
+.vs em{font-style:normal;font-size:12px;color:var(--ink3);line-height:1.45}
+.vsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.vsum span{background:var(--soft);border-radius:12px;padding:11px 10px;text-align:center;font-size:11.5px;color:var(--ink3);line-height:1.4}
+.vsum b{display:block;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:2px}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -2160,23 +2177,44 @@ const RULES = [
 },
 {
  id:'visit-go', cat:'타챕터·참관', src:'YDP 표준 운영규정 (2026.04.11) 5항', eff:null, boost:14,
- title:'다른 챕터에 참관 가도 되나요?',
- verdict:'누구나 되는 것은 아닙니다. 골드클럽·그린라이트·의장단으로 활동하거나 담당 디렉터 승인을 받은 멤버가, 방문할 챕터 ST를 통해 승인받고 1년 2회까지 갈 수 있습니다.',
+ title:'다른 챕터에 참관 가도 되나요? (자격·절차·횟수)',
+ verdict:'누구나 가는 것은 아닙니다. 골드클럽·그린라이트·의장단으로 활동하거나 담당 디렉터 승인을 받은 멤버가, 방문할 챕터 ST를 통해 승인받고 1년 2회까지 갈 수 있습니다.',
+ table: function(){
+   const q = [['골드클럽 · 그린라이트 · 의장단으로 활동하는 멤버', 1],
+              ['담당 디렉터가 교육상 필요하다고 승인한 멤버', 1],
+              ['해외 챕터 멤버', 0],
+              ['챕터 결성을 준비 중인 사업가와 담당 디렉터 <small>쇼케이스 챕터만</small>', 0]];
+   const st = [['방문할 챕터 ST에게 연락','우리 챕터가 아니라 가려는 챕터의 ST입니다.'],
+               ['ST가 의장단과 상의 후 디렉터 승인','승인 없이 그냥 찾아가면 안 됩니다.'],
+               ['승인 결과를 받고 방문','시간·장소도 이때 함께 확인하세요.']];
+   let h = '<div class="vgrid">';
+   h += '<div class="vbox"><span class="vh">누가 갈 수 있나</span>'+
+     q.map(function(x){ return '<span class="vq'+(x[1]?' on':'')+'">'+x[0]+'</span>'; }).join('')+
+     '<span class="vnote">가입 연차는 기준이 아닙니다. 1년이 넘었어도 위에 해당하지 않으면 디렉터 승인이 필요합니다.</span></div>';
+   h += '<div class="vbox"><span class="vh">어떻게 신청하나</span>'+
+     st.map(function(x,i){ return '<span class="vs"><i>'+(i+1)+'</i><b>'+x[0]+'</b><em>'+x[1]+'</em></span>'; }).join('')+
+     '</div>';
+   h += '</div>';
+   h += '<div class="vsum"><span><b>1년 2회</b>BNI 코리아 전 챕터 합산</span><span><b>+1회</b>타 지역은 지역 책임자 판단 시</span><span><b>본인 부담</b>참가비</span></div>';
+   return h;
+ },
  body:[
-  '<b>참관 절차</b> — 참관을 희망하는 멤버는 방문 전에 해당 챕터의 <b>ST(서기겸재무담당임원)에게 먼저 연락</b>합니다.',
-  'ST가 의장단과 상의한 뒤 <b>디렉터 승인</b>을 받고, 승인 여부를 신청자에게 알려줍니다. 승인 없이 그냥 찾아가면 안 됩니다.',
-  '<b>횟수</b> — 참관은 보통의 비지터와 같은 조건으로, BNI 코리아 모든 챕터를 통틀어 <b>1년 최대 2회</b>까지입니다.',
-  '단, 타 지역 챕터 참관에 한해 지역 책임자가 필요하다고 판단하면 추가 1회 승인이 가능합니다.',
+  '<b>자격 — 네 가지 중 하나</b>',
+  '① 골드클럽 · 그린라이트 · 의장단으로 활동하는 멤버',
+  '② 담당 디렉터가 교육상 참관이 필요하다고 판단해 승인한 멤버',
+  '③ 해외 챕터 멤버',
+  '④ BNI 챕터 결성을 준비 중인 사업가와 담당 디렉터 (지역 책임자가 지정한 <b>쇼케이스 챕터</b>만 가능)',
+  '<b>가입 연차는 기준이 아닙니다.</b> 1년이 지났어도 ①에 해당하지 않으면 담당 디렉터 승인을 받아야 합니다.',
+  '<b>가입 150~210일 신임 멤버</b>는 담당 디렉터 승인과 <b>의장단 동행</b>이 있어야 하고, 원칙적으로 쇼케이스 챕터만 참관합니다. 교육상 도움이 된다고 판단되면 디렉터 승인하에 다른 챕터도 가능합니다.',
+  '<b>절차</b> — 방문 전 해당 챕터 <b>ST에게 먼저 연락</b> → ST가 의장단과 상의한 뒤 디렉터 승인 → 승인 여부를 신청자에게 통보. 승인 없이 찾아가면 안 됩니다.',
+  '<b>횟수</b> — BNI 코리아 전 챕터를 통틀어 <b>1년 2회</b>. 타 지역 챕터에 한해 지역 책임자가 필요하다고 판단하면 1회 추가 승인이 가능합니다.',
   '<b>참가비는 참관인 본인이 지불</b>합니다.',
-  '<b>참관할 수 있는 사람</b> — ① BNI 챕터 결성을 준비 중인 사업가와 담당 디렉터 ② 해외 챕터 멤버 ③ <b>골드클럽 · 그린라이트 · 의장단으로 활동하는 멤버</b> ④ 담당 디렉터가 교육상 필요하다고 판단해 승인한 멤버',
-  '<b>가입 연차는 기준이 아닙니다.</b> 1년이 지났어도 골드클럽·그린라이트·의장단이 아니라면 담당 디렉터의 승인을 받아야 참관할 수 있습니다.',
-  '참관은 지역 책임자가 <b>모범적으로 운영되는 챕터</b>로 안내하는 것이 기본입니다. 아무 챕터나 임의로 고르는 것이 아니라 ST·디렉터와 상의해 정합니다.',
-  '챕터 결성을 준비 중인 사업가의 참관은 지역 책임자가 지정한 <b>쇼케이스 챕터</b>에만 가능합니다.',
-  '<b>가입 150~210일 사이의 신임 멤버</b>는 담당 디렉터의 승인과 의장단 동행이 있을 때만 쇼케이스 챕터를 참관할 수 있습니다. 교육상 도움이 된다고 판단되면 담당 디렉터 승인하에 쇼케이스가 아닌 챕터도 참관할 수 있습니다.',
-  '참관인은 위클리 프레젠테이션·기여 발표를 하지 않고, 참관한 챕터의 <b>대리인 역할도 할 수 없습니다</b>.'
+  '<b>어느 챕터로</b> — 지역 책임자가 모범적으로 운영되는 챕터로 안내하는 것이 기본입니다. ST·디렉터와 상의해 정합니다.',
+  '참관인은 위클리 프레젠테이션·기여 발표를 하지 않고, 참관한 챕터의 <b>대리인 역할도 할 수 없습니다</b>.',
+  '우리 조찬이 수요일이므로 화·목·금 챕터는 일정이 겹치지 않습니다. (「참관 요일표」 카드 참고)'
  ],
- questions:['다른 챕터 참관 가도 되나요?','참관 어떻게 신청해요?','참관 몇 번까지 되나요?','신입도 참관 갈 수 있나요?','1년 넘으면 참관 돼요?','참관 자격이 뭐예요?','그린라이트면 참관 가능한가요?','쇼케이스 챕터가 뭐예요?'],
- keywords:['참관','방문','타 챕터','다른 챕터','ST','디렉터 승인','2회','참가비','쇼케이스','신임 멤버','150일','210일','자격','연차','1년','골드클럽','그린라이트','의장단','절차'],
+ questions:['다른 챕터 참관 가도 되나요?','참관 어떻게 신청해요?','참관 몇 번까지 되나요?','신입도 참관 갈 수 있나요?','1년 넘으면 참관 돼요?','참관 자격이 뭐예요?','그린라이트면 참관 가능한가요?','쇼케이스 챕터가 뭐예요?','참관 참가비 누가 내요?'],
+ keywords:['참관','방문','타 챕터','다른 챕터','ST','디렉터 승인','2회','참가비','쇼케이스','신임 멤버','150일','210일','자격','연차','1년','골드클럽','그린라이트','의장단','절차','기준']
 },
 {
  id:'visit-manner', cat:'타챕터·참관', src:'표준 운영규정 5.4항 (보충)', eff:null, boost:5,
@@ -3102,7 +3140,8 @@ const PRIMERS = [
   keys:[['협업 자체는 제한 없음','협업이 가능한 전문분야가 있다면 얼마든지 협업하시기 바랍니다.'],
         ['우리 챕터에 같은 전문분야가 있으면 인정 안 됨','리퍼럴과 감사장에만 해당하는 조건입니다.'],
         ['"파워팀"이라는 표현은 쓰지 않습니다','"협업" 또는 "협업팀"으로 표현합니다.'],
-        ['다른 챕터 참관은 사전 승인이 필요합니다','방문 전 해당 챕터 ST에게 연락해 디렉터 승인을 받으세요. 1년 2회까지이고 참가비는 본인 부담입니다.'],
+        ['참관 자격은 연차가 아니라 활동 상태','골드클럽·그린라이트·의장단으로 활동하거나, 담당 디렉터가 교육상 필요하다고 승인한 멤버가 갈 수 있습니다.'],
+        ['신청은 방문할 챕터 ST에게','ST가 의장단과 상의한 뒤 디렉터 승인을 받아 알려줍니다. 1년 2회까지이고 참가비는 본인 부담입니다.'],
         ['우리는 수요일, 화·목·금 챕터는 겹치지 않습니다','영등포 지역은 화요일 3개, 수요일 4개, 목요일 2개, 금요일 2개 챕터가 모입니다. 아래 「참관 요일표」에서 확인하세요.']],
   src:'슬라이드 12 · 표준 운영규정 5항 (보충)'},
 
