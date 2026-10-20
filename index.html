@@ -1348,6 +1348,44 @@ footer p{font-size:12.5px;color:var(--ink3);line-height:1.65}
   .ppw{grid-column:2}
   .ppw:not(:empty)::before{content:'과제 · '}
 }
+
+/* 패스포트 박스 */
+.ppgrid{display:grid;gap:8px}
+.ppbox{background:var(--surface);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.ppbox[open]{border-color:#CFCEC8}
+.ppbox>summary{list-style:none;display:grid;grid-template-columns:34px 1fr auto 20px;gap:12px;align-items:center;
+  padding:16px 18px;cursor:pointer;transition:background .15s}
+.ppbox>summary::-webkit-details-marker{display:none}
+.ppbox>summary:hover{background:var(--soft)}
+.ppno{font-size:11.5px;font-weight:700;color:var(--ink4);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.pptt b{display:block;font-size:16px;font-weight:600;color:var(--navy);letter-spacing:-.025em}
+.pptt em{display:block;font-style:normal;font-size:12px;color:var(--ink3);margin-top:2px}
+.ppbs{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.ppb{font-size:10.5px;font-weight:600;border-radius:2px;padding:3px 8px;white-space:nowrap}
+.ppb.one{background:var(--red-w);color:var(--red-d)}
+.ppb.task{background:var(--soft);color:var(--ink3)}
+.ppar{font-size:15px;color:var(--ink4);text-align:center}
+.ppbox[open]>summary{border-bottom:1px solid var(--line2);background:var(--soft)}
+.ppbox[open] .ppar{transform:rotate(45deg)}
+.ppbody{padding:4px 18px 20px}
+.ppitem{padding:18px 0;border-bottom:1px solid var(--line2)}
+.ppitem:last-child{border-bottom:0}
+.ppitem h4{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:8px;line-height:1.45}
+.ppv{font-size:14.5px;color:var(--ink2);line-height:1.7;border-left:2px solid var(--red);padding-left:12px}
+.ppul{margin:12px 0 0;padding-left:18px}
+.ppul li{font-size:14px;color:var(--ink2);line-height:1.72;margin-bottom:7px}
+.ppul li:last-child{margin-bottom:0}
+.ppchkwrap{margin-top:18px;padding-top:18px;border-top:1px solid var(--line2)}
+.ppchkwrap .pk{display:block;margin-bottom:10px}
+.ppfoot{margin-top:14px}
+@media(max-width:600px){
+  .ppbox>summary{grid-template-columns:28px 1fr 18px;gap:4px 10px;padding:14px}
+  .ppno{grid-row:span 2}
+  .ppar{grid-row:span 2;align-self:center}
+  .ppbs{grid-column:2;justify-content:flex-start;margin-top:4px}
+  .ppbody{padding:4px 14px 18px}
+  .ppitem .pdiag.mini-d{margin-left:-14px;margin-right:-14px;border-left:0;border-right:0}
+}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -1501,16 +1539,6 @@ footer{background:transparent;border:0;margin:0}
       </div></div>
     </section>
 
-    <section class="sec" id="toolPP" hidden>
-      <div class="sech"><h2>설명 점검</h2><span>다 설명했는지 확인하고 서명하세요</span></div>
-      <div class="tool"><div class="toolb">
-        <div class="chk" id="ppChk"></div>
-        <div class="chkbar"><span id="ppNum">0 / 0</span><span class="bar"><i id="ppBar"></i></span><button type="button" id="ppReset">초기화</button></div>
-        <p class="disc">체크는 이 기기에만 저장됩니다. 다음 신입 멤버를 진행할 때는 초기화를 누르세요.</p>
-        <a class="extlink" href="passport.html">인쇄용 설명 자료 열기 <span class="arr">↗</span></a>
-      </div></div>
-    </section>
-
     <section class="sec" id="toolTL" hidden>
       <div class="sech"><h2>내 트래픽라이트 점수</h2><span>최근 6개월 실적을 넣으면 항목별 점수가 나옵니다</span></div>
       <div class="tools"><div class="tool">
@@ -1549,6 +1577,14 @@ footer{background:transparent;border:0;margin:0}
           <div id="renewOut"></div>
         </div>
       </div></div>
+    </section>
+
+    <section class="sec" id="ppSec" hidden>
+      <div class="sech"><h2>패스포트 진행 안내</h2><span>멤버멘토용 · 파트를 누르면 설명 요점이 열립니다</span></div>
+      <div class="ppgrid" id="ppGrid"></div>
+      <div class="ppfoot">
+        <a class="extlink" href="passport.html">부의장 파트 인쇄용 자료 <span class="arr">↗</span></a>
+      </div>
     </section>
 
     <section class="sec" id="listSec">
@@ -1631,7 +1667,7 @@ const MEMBERS = [
   {n:'김성숙', join:'26.09', due:'2027-08-30', r210:'27.03', itv:'27.06'}
 ];
 
-const CATS = ['전체','우리 챕터','패스포트','출결','트래픽라이트','복장','대리인','출석인정','감사장','원투원','갱신','가입·탈퇴','타챕터·참관','멤버 지원'];
+const CATS = ['전체','우리 챕터','출결','트래픽라이트','복장','대리인','출석인정','감사장','원투원','갱신','가입·탈퇴','타챕터·참관','멤버 지원'];
 
 /* ===================== 규정 데이터 ===================== */
 /* 규정이 바뀌면 이 배열만 수정하세요.
@@ -3299,7 +3335,15 @@ function activeRules(){ return RULES.filter(r=>!isArchived(r)); }
 const $ = s => document.querySelector(s);
 function esc(s){return String(s).replace(/&(?!(amp|lt|gt|quot|#\d+);)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 /* 본문에는 <b> 태그만 허용 */
-function rich(s){return esc(s).replace(/&lt;b&gt;/g,'<b>').replace(/&lt;\/b&gt;/g,'</b>');}
+function rich(s){
+  return esc(s).replace(/&lt;b&gt;/g,'<b>').replace(/&lt;\/b&gt;/g,'</b>')
+    // 안전한 링크만 복원합니다 (상대 경로 또는 https)
+    .replace(/&lt;a class="inl" href="((?:https:\/\/|[\w.\-\/]+)[^"&]*)"(?: target="_blank")?(?: rel="noopener")?&gt;([^&<]*)&lt;\/a&gt;/g,
+      function(m, href, txt){
+        const ext = /^https:/.test(href);
+        return '<a class="inl" href="'+href+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+txt+'</a>';
+      });
+}
 function toMin(t){ if(!t) return null; const m=/^(\d{1,2}):(\d{2})$/.exec(t); if(!m) return null; return (+m[1])*60 + (+m[2]); }
 function hhmm(min){ const h=Math.floor(min/60), m=min%60; return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'); }
 function ymd(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -4235,8 +4279,8 @@ function render(){
   show('#primerSec', !asked && state.cat !== '전체' && state.cat !== '우리 챕터');
   show('#toolLate',  !asked && state.cat === '출결');
   show('#toolTL',    !asked && state.cat === '트래픽라이트');
-  show('#toolPP',    !asked && state.cat === '패스포트');
-  if(!asked && state.cat === '패스포트') buildPPChk();
+  show('#ppSec',     !asked && state.cat === '전체');
+  if(!asked && state.cat === '전체') buildPassport();
   if(!asked && state.cat === '트래픽라이트') bindTLCalc();
   show('#toolRenew', !asked && (state.cat === '갱신' || (asked && mi)));
   show('#listSec',   asked || state.cat !== '우리 챕터');
@@ -4400,6 +4444,57 @@ function buildPPChk(){
     st = {}; box.querySelectorAll('input').forEach(function(el){ el.checked = false; }); paint();
   };
   paint();
+}
+
+
+/* ===================== 패스포트 : 파트별 박스 ===================== */
+const PP_PARTS = [
+  {n:1,  t:'의장 패스포트',        role:'의장',                 one:true,  task:'', ids:['pp-chair']},
+  {n:2,  t:'부의장 패스포트',      role:'부의장 (멤버십코디네이터)', one:true, task:'', ids:['pp-flow','pp-why','pp-rules','pp-palms','pp-tl','pp-renew','pp-mc'], chk:true},
+  {n:3,  t:'ST 패스포트',          role:'ST (서기 겸 재무)',     one:true,  task:'신상명세표', ids:['pp-st']},
+  {n:4,  t:'출석·대리인 패스포트', role:'멤버십위원 (출결)',      one:false, task:'', ids:['pp-att']},
+  {n:5,  t:'교육 패스포트',        role:'교육 코디',             one:false, task:'', ids:['pp-edu']},
+  {n:6,  t:'원투원 패스포트',      role:'멘토링 코디',           one:true,  task:'질문지 VCP', ids:['one2one-vcp','one2one-proof','one2one-etiquette']},
+  {n:7,  t:'챕터 도구 패스포트',   role:'멤버십위원 (소개장 점검)', one:false, task:'', ids:['pp-tools']},
+  {n:8,  t:'비지터 패스포트',      role:'이벤트 코디',           one:true,  task:'비지터 초대', ids:['pp-visitor']},
+  {n:9,  t:'비지터 호스트 패스포트', role:'비호 리더',           one:false, task:'호스팅 경험', ids:['pp-host']},
+  {n:10, t:'PR 패스포트',          role:'PR 코디',               one:true,  task:'동의서 · 위클리 PPT', ids:['pp-pr']},
+  {n:11, t:'리퍼럴팀 패스포트',    role:'성장 코디',             one:false, task:'작업표 2종', ids:['pp-team']}
+];
+function ppCardHTML(r){
+  if(!r) return '';
+  let h = '<div class="ppitem"><h4>'+esc(r.title.replace(/^\[\d+\]\s*/,'').replace(/^[^—]*—\s*/,''))+'</h4>';
+  h += '<p class="ppv">'+rich(r.verdict)+'</p>';
+  if(r.table) h += r.table();
+  h += '<ul class="ppul">'+(r.body||[]).map(b=>'<li>'+rich(b)+'</li>').join('')+'</ul>';
+  h += '</div>';
+  return h;
+}
+function buildPassport(){
+  const box = $('#ppGrid'); if(!box || box._built) return; box._built = true;
+  box.innerHTML = PP_PARTS.map(function(pt){
+    const cards = pt.ids.map(id=> RULES.find(r=>r.id===id)).filter(Boolean);
+    const badges = (pt.one?'<span class="ppb one">원투원 함께</span>':'') +
+                   (pt.task?'<span class="ppb task">과제 · '+esc(pt.task)+'</span>':'');
+    return '<details class="ppbox"><summary>'+
+      '<span class="ppno">'+(pt.n<10?'0':'')+pt.n+'</span>'+
+      '<span class="pptt"><b>'+esc(pt.t)+'</b><em>'+esc(pt.role)+'</em></span>'+
+      '<span class="ppbs">'+badges+'</span><span class="ppar">＋</span></summary>'+
+      '<div class="ppbody">'+cards.map(ppCardHTML).join('')+
+      (pt.chk?'<div class="ppchkwrap"><b class="pk">설명 점검</b><div class="chk" id="ppChk"></div>'+
+        '<div class="chkbar"><span id="ppNum">0 / 0</span><span class="bar"><i id="ppBar"></i></span>'+
+        '<button type="button" id="ppReset">초기화</button></div></div>':'')+
+      '</div></details>';
+  }).join('');
+  buildPPChk();
+  box.querySelectorAll('.ppbox').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if(!d.open) return;
+      bindMotion();
+      d.querySelectorAll('.pdiag').forEach(function(el){ animateDiagram(el); });
+    });
+  });
+  tieAll();
 }
 
 /* ===================== 조찬 일정 ===================== */
@@ -4733,7 +4828,6 @@ function bindHeroVideo(){
 const HOME_DESC = {
  '우리 챕터':'멤버 찾기, 담당자, 비지터 초대, 신입 안내',
  '트래픽라이트':'그린라이트 유지 기준과 점수 계산',
- '패스포트':'파트별 설명 요점 (멤버멘토용)',
  '출결':'지각·조퇴·결석, 몇 번까지 괜찮은지',
  '대리인':'누구를 보낼 수 있고, 몇 번까지 되는지',
  '출석인정':'출장 갔을 때 출석을 인정받는 조건',
