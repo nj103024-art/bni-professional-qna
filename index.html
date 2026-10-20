@@ -807,6 +807,63 @@ details.archive>.disc{text-align:center;margin:0 0 10px}
 .vsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
 .vsum span{background:var(--soft);border-radius:12px;padding:11px 10px;text-align:center;font-size:11.5px;color:var(--ink3);line-height:1.4}
 .vsum b{display:block;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:2px}
+
+/* 조찬 일정 */
+.nextmeet{margin-bottom:10px}
+.nmhead{display:flex;align-items:center;gap:8px;margin:2px 0 10px}
+.nmhead b{font-size:18px;font-weight:800;color:var(--navy)}
+.srow{display:flex;gap:12px;background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:6px}
+.sched .srow{background:var(--soft)}
+.srow:last-child{margin-bottom:0}
+.srow.today{box-shadow:inset 0 0 0 2px var(--red)}
+.srow.isoff{opacity:.62}
+.sdate{flex:0 0 42px;text-align:center}
+.sdate b{display:block;font-size:15px;font-weight:800;color:var(--navy);line-height:1.2}
+.sdate span{display:block;font-size:11px;color:var(--ink3);margin-top:1px}
+.stx{min-width:0;flex:1}
+.sline{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.sline b{font-size:14px;font-weight:800;color:var(--ink)}
+.skind{font-size:11px;font-weight:800;color:var(--navy);background:#E7EAF2;border-radius:99px;padding:2px 8px}
+.skind.off{background:#EEF0F3;color:var(--ink3)}
+.skind.eve{background:#FCF3F4;color:var(--red-d)}
+.splace{font-size:12px;color:var(--ink3)}
+.snow{font-size:11px;font-weight:800;color:#fff;background:var(--red);border-radius:99px;padding:2px 8px}
+.snext{font-size:11px;font-weight:800;color:var(--red-d);background:var(--red-w);border-radius:99px;padding:2px 8px}
+.sdet{display:grid;gap:3px;margin-top:7px}
+.sdet span{font-size:12.5px;color:var(--ink2);line-height:1.5}
+.sdet i{display:inline-block;font-style:normal;font-size:11px;font-weight:800;color:var(--ink4);min-width:52px}
+.mysch{margin-top:12px;background:var(--soft);border-radius:14px;padding:12px 14px}
+.myrow{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.myrow:last-child{border-bottom:0}
+.myd{flex:0 0 42px;font-size:13px;font-weight:800;color:var(--navy)}
+.myrow b{flex:1;font-size:13.5px;font-weight:700;color:var(--ink)}
+.mydd{font-size:11.5px;font-weight:800;color:var(--red-d)}
+
+/* 상단 검색 */
+.tbq{display:none;align-items:center;gap:7px;flex:1;min-width:0;background:var(--soft);border-radius:11px;padding:7px 12px;margin-left:6px}
+.tbq svg{color:var(--ink3);flex:none}
+.tbq input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-family:inherit;font-size:16px;color:var(--ink)}
+.tbq input::placeholder{color:var(--ink4)}
+.tbq input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.topbar.compact .tbq{display:flex}
+.topbar.compact .mark .cn,.topbar.compact .mark .sep,.topbar.compact .mark .pg,.topbar.compact .ver{display:none}
+@media(min-width:760px){.topbar.compact .mark .cn{display:inline}.tbq{max-width:360px;flex:0 1 360px;margin-left:auto}}
+/* 전체 조항 목록 */
+.listhint{margin:-6px 4px 12px;font-size:12.5px;color:var(--ink3)}
+.idxwrap>summary{list-style:none;display:flex;justify-content:center;gap:6px;padding:15px;border-radius:16px;background:#fff;font-size:13.5px;font-weight:700;color:var(--navy)}
+.idxwrap>summary::-webkit-details-marker{display:none}
+.idxwrap>summary::after{content:"＋";color:var(--ink3);font-weight:400}
+.idxwrap[open]>summary{margin-bottom:8px}
+.idxwrap[open]>summary::after{content:"－"}
+.cards.index{display:block}
+.idxg{background:#fff;border-radius:16px;padding:6px;margin-bottom:8px}
+.idxh{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;padding:10px 10px 8px;font:inherit;color:inherit;text-align:left}
+.idxh b{font-size:14.5px;font-weight:800;color:var(--navy)}
+.idxh .ci{color:var(--red)}
+.idxh span{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--ink4)}
+.idxi{display:block;width:100%;border:0;background:transparent;padding:9px 10px;font:inherit;font-size:13.5px;color:var(--ink2);text-align:left;line-height:1.5;border-top:1px solid var(--line2);border-radius:8px}
+@media(hover:hover){.idxi:hover{background:var(--soft);color:var(--navy)}}
+.idxi:active{background:var(--soft)}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -823,6 +880,10 @@ footer{background:transparent;border:0;margin:0}
       <span class="sep">/</span>
       <span class="pg">규정 Q&amp;A</span>
     </button>
+    <form class="tbq" id="tbq" role="search" autocomplete="off">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q2" type="search" placeholder="규정 검색" enterkeyhint="search">
+    </form>
     <span class="ver" id="docVer"></span>
   </div>
 </div>
@@ -881,8 +942,11 @@ footer{background:transparent;border:0;margin:0}
     </section>
 
     <section class="sec" id="chapterSec" hidden>
-      <div class="sech"><h2>7기 조직도</h2><span>의장단 · 멤버십위원회 · 석세스팀</span></div>
+      <div class="sech sp"><h2>7기 조직도</h2><span>의장단 · 멤버십위원회 · 석세스팀</span></div>
       <div id="orgBox"></div>
+
+      <div class="sech"><h2>조찬 일정</h2><span>도어퍼슨 · 피처 · 네트워킹 교육</span></div>
+      <div id="schedBox"></div>
 
       <div class="sech sp"><h2>멤버 찾기</h2><span>전문분야, 회사, 이름 무엇으로든 찾을 수 있습니다</span></div>
       <div class="tool finder">
@@ -988,6 +1052,7 @@ footer{background:transparent;border:0;margin:0}
 
     <section class="sec" id="listSec">
       <div class="sech"><h2 id="listTitle">규정 전체</h2><span id="count"></span></div>
+      <p class="listhint" id="listHint" hidden>제목을 누르면 해당 조항이 열립니다. 찾는 상황을 검색창에 그대로 적으면 더 빠릅니다.</p>
       <div id="list" class="cards"></div>
     </section>
   </main>
@@ -2259,6 +2324,20 @@ const RULES = [
 },
 /* ---------- 멤버 지원 ---------- */
 {
+ id:'ch-schedule', cat:'우리 챕터', src:'챕터 일정표', eff:null, boost:8,
+ title:'다음 조찬은 언제인가요? (일정·도어퍼슨·피처)',
+ verdict:'「우리 챕터」 탭 맨 위에 다음 조찬과 앞으로 8주 일정이 나옵니다. 도어퍼슨·피처·네트워킹 교육 담당도 함께 표시됩니다.',
+ body:[
+  '매주 <b>수요일 오전 6:20</b>, 페어필드 바이 메리어트 서울에서 모입니다. 장소가 바뀌는 주차도 있으니 일정에서 확인하세요.',
+  '일정에는 <b>휴회 · 석찬 · 워크샵 · 합동조찬</b> 같은 특별 일정도 표시됩니다.',
+  '<b>내 차례 확인</b> — 검색창에 본인 이름을 넣으면 다가오는 피처 프레젠테이션·도어퍼슨·네트워킹 교육 차례가 나옵니다.',
+  '<b>도어퍼슨을 바꿔야 할 때</b> — 다른 멤버와 교체한 뒤 ST에게 알려주세요.',
+  '피처 프레젠테이션 순서는 조찬에서 발표한 <b>향후 6주는 고정</b>이며, FA(신입 졸업)한 멤버는 발표된 순서 직후에 들어갑니다.'
+ ],
+ questions:['다음 조찬 언제예요?','이번 주 조찬 있나요?','휴회 언제예요?','내 피처 언제예요?','도어퍼슨 언제예요?','교육 주제가 뭐예요?','조찬 장소 바뀌었나요?','일정표'],
+ keywords:['일정','조찬','스케줄','캘린더','다음','휴회','석찬','워크샵','합동조찬','도어퍼슨','피처','프레젠테이션','네트워킹 교육','강사','순번','날짜']
+},
+{
  id:'ch-find', cat:'우리 챕터', src:'7기 조직도 · 비즈니스 경청표 (2026.09.09)', eff:null, boost:7,
  title:'이 분야 하는 멤버 있나요? (전문분야로 멤버 찾기)',
  verdict:'「우리 챕터」 탭의 멤버 찾기에서 전문분야·회사·이름으로 바로 찾을 수 있습니다. 검색창에 "세무사 누구"처럼 물어봐도 됩니다.',
@@ -3284,7 +3363,10 @@ function render(){
   if(!asked && (state.cat === '출결')) drawMeetingDiagram();
   if(!asked && (state.cat === '갱신')) { const d=$('#diagRenew'); if(d) d.innerHTML = diagramRenew(); }
 
-  title.textContent = asked ? '답변' : (state.cat === '전체' ? '규정 전체' : state.cat + ' 조항');
+  const isIndex = !asked && state.cat === '전체';
+  title.textContent = asked ? '답변' : (isIndex ? '전체 조항 둘러보기' : state.cat + ' 조항');
+  box.classList.toggle('index', isIndex);
+  const listHint = $('#listHint'); if(listHint) listHint.hidden = !isIndex;
   const head = asked ? '<div class="qline span2">'+
     '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">'+
     '<path d="M20.5 14.5a3 3 0 0 1-3 3H8.5L4 21V6.5a3 3 0 0 1 3-3h10.5a3 3 0 0 1 3 3z"/></svg>'+
@@ -3315,6 +3397,16 @@ function render(){
     return;
   }
   cnt.textContent = asked ? list.length+'개 조항을 찾았습니다' : list.length+'개 조항';
+  if(isIndex){
+    box.innerHTML = '<details class="idxwrap"><summary>분야별 조항 제목 모두 보기 ('+list.length+')</summary>'+CATS.filter(c=>c!=='전체').map(function(c){
+      const rs = list.filter(r=> r.cat===c); if(!rs.length) return '';
+      return '<div class="idxg"><button class="idxh" type="button" data-cat="'+esc(c)+'">'+icon(c,15,'ci')+'<b>'+esc(c)+'</b><span>'+rs.length+'</span></button>'+
+        rs.map(r=>'<button class="idxi" type="button" data-id="'+r.id+'">'+esc(r.title)+'</button>').join('')+'</div>';
+    }).join('')+'</details>';
+    box.querySelectorAll('[data-id]').forEach(b=> b.onclick = ()=> goCard(b.dataset.id));
+    box.querySelectorAll('.idxh').forEach(b=> b.onclick = ()=> goCat(b.dataset.cat));
+    return;
+  }
   const olds = (!asked && state.cat !== '전체') ? RULES.filter(r=> r.cat===state.cat && isArchived(r)) : [];
   const oldBlock = olds.length ? '<details class="archive span2"><summary>지난 규정 보기 ('+olds.length+')</summary>'+
     '<p class="disc">지금은 적용되지 않는 규정입니다. 기록용으로만 남겨 둡니다.</p>'+olds.map(r=>cardHTML(r,false)).join('')+'</details>' : '';
@@ -3385,6 +3477,94 @@ function orgHTML(){
   }).join('')+'</div></div>';
   h += '</div>';
   return h;
+}
+
+
+/* ===================== 조찬 일정 ===================== */
+/* 출처: 챕터 일정표 (구글 시트) — 날짜 d / 종류 k / 장소 p / 내용 n / 도어퍼슨 dp / 피처 f / 교육 주제 t · 강사 tr */
+const SCHED = [
+ {"d": "2026-09-02", "dp": ["김일연", "한지섭"], "f": "배종우", "t": "C단계 원투원 잘하기", "tr": "강인혁"},
+ {"d": "2026-09-09", "n": "온라인", "t": "리퍼럴을 부르는 위클리", "tr": "홍석강"},
+ {"d": "2026-09-16", "n": "7기 예행 시작", "dp": ["배가은", "강인혁"], "f": "박성훈", "t": "트래픽라이트 및 BNI 운영 가이드", "tr": "정희진"},
+ {"d": "2026-09-23", "k": "휴회", "n": "추석"},
+ {"d": "2026-09-30", "n": "7기 예행(6기 마감보고,감사장)", "dp": ["박주영"], "f": "배기영", "t": "6기 마감 보고", "tr": "김만식"},
+ {"d": "2026-10-07", "dp": ["박주영"], "f": "염윤선", "t": "동계 복장 + BNI 지켜야할 애티튜드", "tr": "김재현"},
+ {"d": "2026-10-14", "p": "더링크", "dp": ["김동운"], "f": "김해람", "t": "BNI통해 성장하기", "tr": "김은강"},
+ {"d": "2026-10-21", "dp": ["정희진"], "f": "이병진", "t": "오픈네트워킹의 중요성", "tr": "이선혜"},
+ {"d": "2026-10-28", "n": "워크샵"},
+ {"d": "2026-11-04", "p": "영등포YDP", "n": "클로징조찬", "t": "BNI에서 협업구조를 만드는 방법", "tr": "김만식"},
+ {"d": "2026-11-11", "dp": ["최진우"], "f": "안성민", "t": "멤버십위원회의 역할", "tr": "김동운"},
+ {"d": "2026-11-18", "n": "1차 BCD", "dp": ["김정률"], "f": "최병문", "t": "AI활용법", "tr": "강인혁"},
+ {"d": "2026-11-25", "dp": ["홍석강"], "f": "박주영", "t": "멘토링의 중요성", "tr": "홍석강"},
+ {"d": "2026-12-02", "dp": ["김만식"], "f": "박지호"},
+ {"d": "2026-12-09", "n": "합동조찬", "dp": ["김은강"], "f": "김동운"},
+ {"d": "2026-12-16", "dp": ["이선혜"], "f": "정희진"},
+ {"d": "2026-12-23", "k": "석찬", "n": "송년회 석찬예정", "t": "석찬예정"},
+ {"d": "2026-12-30", "k": "휴회"},
+ {"d": "2027-01-06", "dp": ["염윤선"], "f": "장호연"},
+ {"d": "2027-01-13", "dp": ["안성민"], "f": "최진우"},
+ {"d": "2027-01-20", "k": "석찬", "n": "신년회 석찬예정", "t": "석찬예정"},
+ {"d": "2027-01-27", "dp": ["박성훈"], "f": "김정률"},
+ {"d": "2027-02-03", "dp": ["배기영"], "f": "홍석강"},
+ {"d": "2027-02-10", "k": "휴회", "n": "설날"},
+ {"d": "2027-02-17", "dp": ["최병문"], "f": "한지섭"},
+ {"d": "2027-02-24", "n": "2차 BCD", "dp": ["박지호"], "f": "김만식"},
+ {"d": "2027-03-03", "dp": ["김성숙"], "f": "강인혁"},
+ {"d": "2027-03-10", "k": "석찬", "f": "김은강"},
+ {"d": "2027-03-17", "dp": ["배종우"], "f": "김재현"},
+ {"d": "2027-03-24", "dp": ["김해람"], "f": "배가은"},
+ {"d": "2027-03-31", "f": "박두호"}
+];
+const SCH_WD = ['일','월','화','수','목','금','토'];
+function schedRows(){ return SCHED.map(function(x){ const dt=parseYmd(x.d); return Object.assign({}, x, {dt:dt, dd:dayDiff(dt, TODAY)}); }); }
+function nextMeet(){ const r=schedRows().filter(x=>x.dd>=0); return r.length?r[0]:null; }
+function schedChip(x){
+  const k = x.k || '조찬';
+  return '<span class="skind'+(k==='휴회'?' off':(k==='석찬'?' eve':''))+'">'+esc(k)+'</span>';
+}
+function schedCard(x, open){
+  const dt = x.dt;
+  let h = '<div class="srow'+(x.dd===0?' today':'')+(x.k==='휴회'?' isoff':'')+'">';
+  h += '<div class="sdate"><b>'+(dt.getMonth()+1)+'/'+dt.getDate()+'</b><span>'+SCH_WD[dt.getDay()]+'</span></div>';
+  h += '<div class="stx"><div class="sline">'+schedChip(x)+
+       (x.n?'<b>'+esc(x.n)+'</b>':'')+
+       (x.p?'<span class="splace">'+esc(x.p)+'</span>':'')+
+       (x.dd===0?'<span class="snow">오늘</span>':(x.dd>0&&x.dd<=7?'<span class="snext">D-'+x.dd+'</span>':''))+'</div>';
+  const det = [];
+  if(x.f) det.push(['피처', x.f]);
+  if(x.dp && x.dp.length) det.push(['도어퍼슨', x.dp.join(' · ')]);
+  if(x.t) det.push(['교육', x.t + (x.tr ? ' — ' + x.tr : '')]);
+  if(det.length) h += '<div class="sdet">'+det.map(d=>'<span><i>'+d[0]+'</i>'+esc(d[1])+'</span>').join('')+'</div>';
+  h += '</div></div>';
+  return h;
+}
+function myScheduleHTML(name){
+  const mine = schedRows().filter(x=> x.dd>=0 && ((x.f===name) || (x.dp||[]).indexOf(name)!==-1 || x.tr===name));
+  if(!mine.length) return '';
+  let h = '<div class="mysch"><b class="pk">'+esc(name)+' 님 일정</b>';
+  mine.slice(0,4).forEach(function(x){
+    const role = x.f===name ? '피쳐 프레젠테이션' : (x.tr===name ? '네트워킹 교육 (' + esc(x.t||'') + ')' : '도어퍼슨');
+    h += '<div class="myrow"><span class="myd">'+(x.dt.getMonth()+1)+'/'+x.dt.getDate()+'</span><b>'+role+'</b><span class="mydd">D-'+x.dd+'</span></div>';
+  });
+  h += '</div>';
+  return h;
+}
+function buildSched(){
+  const box = $('#schedBox'); if(!box || box._built) return; box._built = true;
+  const rows = schedRows(), nx = nextMeet();
+  let h = '';
+  if(nx){
+    h += '<div class="chbox nextmeet"><span class="pk">다음 조찬</span>'+
+      '<div class="nmhead"><b>'+fmtDate(nx.dt)+'</b>'+(nx.dd===0?'<span class="snow">오늘</span>':'<span class="snext">D-'+nx.dd+'</span>')+'</div>'+
+      '<div class="nmbody">'+schedCard(nx)+'</div></div>';
+  }
+  const future = rows.filter(x=> x.dd >= 0).slice(1, 9);
+  const past = rows.filter(x=> x.dd < 0).slice(-3).reverse();
+  h += '<div class="chbox sched"><span class="pk">그다음 일정</span>'+future.map(x=>schedCard(x)).join('')+
+       '<details class="archive"><summary>지난 조찬 보기</summary>'+past.map(x=>schedCard(x)).join('')+'</details>'+
+       '<p class="disc">챕터 일정표 기준입니다. 장소와 일정은 공지에 따라 달라질 수 있습니다. 도어퍼슨 교체는 타 멤버와 바꾼 뒤 ST에게 알려주세요.</p></div>';
+  box.innerHTML = h;
+  tieAll();
 }
 
 /* ===================== 우리 챕터 : 멤버 · 담당자 · 비지터 · 신입 ===================== */
@@ -3519,6 +3699,7 @@ function newbieHTML(){
   return h;
 }
 function buildChapter(){
+  buildSched();
   buildRoster();
   const ob = $('#orgBox'); if(ob && !ob.innerHTML) ob.innerHTML = orgHTML();
   const w = $('#whoBox'); if(w && !w.innerHTML) w.innerHTML = '<div class="chbox">'+whoHTML()+'</div>';
@@ -3615,6 +3796,28 @@ function centerChip(){
     nav.scrollTo({left: left, behavior: document.hidden ? 'auto' : 'smooth'});
     setTimeout(function(){ if(window.updChipEnd) updChipEnd(); }, 500);
   }, 30);
+}
+function bindTopSearch(){
+  const bar = document.querySelector('.topbar'), q2 = $('#q2'), q = $('#q'), form = $('#tbq');
+  if(!bar || !q2) return;
+  let on = false, tick = false;
+  const upd = ()=>{
+    const want = window.scrollY > 300;
+    if(want !== on){ on = want; bar.classList.toggle('compact', on); }
+    tick = false;
+  };
+  window.addEventListener('scroll', ()=>{ if(!tick){ tick = true; requestAnimationFrame(upd); } }, {passive:true});
+  upd();
+  form.addEventListener('submit', e=> e.preventDefault());
+  q2.addEventListener('input', ()=>{
+    q.value = q2.value; state.q = q2.value; $('#qclear').hidden = !q2.value;
+    if(q2.value.trim() && state.cat !== '전체'){ state.cat = '전체'; syncChips(); }
+    clearTimeout(q2._t); q2._t = setTimeout(function(){
+      render();
+      const t = document.getElementById('listTitle');
+      if(q2.value.trim() && t && t.getBoundingClientRect().top < 60) t.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 160);
+  });
 }
 function bindChipScroll(){
   const nav = $('#chips'), side = document.querySelector('.side'); if(!nav || !side) return;
@@ -3973,6 +4176,7 @@ function memberCardHTML(mi){
   } else {
     h += '<div class="verdict">갱신 만료일 '+fmtDate(mi.expiry)+' · 오늘부터 <b>D-'+mi.dday+'</b></div>';
   }
+  h += myScheduleHTML(mi.name);
   h += flowHTML(mi);
   h += '<div class="mnext"><b>챕터 일정상 다음 단계</b>'+esc(next.t)+'<span>'+fmtDate(next.date)+' · '+
        (next.dday>0?'D-'+next.dday:(next.dday===0?'오늘 진행':'완료된 일정'))+'</span></div>';
@@ -4110,6 +4314,7 @@ function boot(){
   buildAlerts();
   buildChips();
   bindChipScroll();
+  bindTopSearch();
   $('#homeBtn').onclick = goHome;
   buildSuggests();
   drawDiagrams();
@@ -4117,6 +4322,7 @@ function boot(){
   const q = $('#q');
   q.addEventListener('input', ()=>{
     state.q = q.value; $('#qclear').hidden = !q.value;
+    const q2 = $('#q2'); if(q2 && q2.value !== q.value) q2.value = q.value;
     if(q.value.trim() && state.cat !== '전체'){ state.cat = '전체'; syncChips(); }
     clearTimeout(q._t); q._t = setTimeout(render, 140);
   });
