@@ -1617,7 +1617,7 @@ const RULES = [
  keywords:['지연','늦게 끝','종료','마무리','공지','정상 출석','조찬미팅','8:35','8:30','오래 끌']
 },
 {
- id:'abs-limit', cat:'출결', src:'표준 운영규정 일반규정 5 · 2.2항', eff:null, boost:7,
+ id:'abs-limit', table: function(){ return '<div class="pdiag mini-d">'+diagramAbsence()+'</div><p class="dswipe">← 도식을 좌우로 밀어서 보세요 →</p>'; }, cat:'출결', src:'표준 운영규정 일반규정 5 · 2.2항', eff:null, boost:7,
  title:'결석은 몇 번까지 괜찮나요?',
  verdict:'최근 6개월 내 3회까지만 허용됩니다. 2회부터 컨트롤 레터가 발송되고, 4회 이상이면 전문분야가 개방됩니다.',
  body:[
@@ -2353,7 +2353,7 @@ const RULES = [
 },
 /* ---------- 갱신 ---------- */
 {
- id:'renew-cycle', cat:'갱신', src:'슬라이드 10', eff:null, boost:5,
+ id:'renew-cycle', table: function(){ return '<div class="pdiag mini-d">'+diagramFirstYear()+'</div><p class="dswipe">← 도식을 좌우로 밀어서 보세요 →</p>'; }, cat:'갱신', src:'슬라이드 10', eff:null, boost:5,
  title:'1년차 멤버는 1년 동안 무엇을 하나요? (멤버 주기)',
  verdict:'입회 → 오리엔테이션·MSP → 30일 디너 → 90일·150일·210일 리뷰 → 갱신 대상자 예비 통보 → 발표 → 갱신 기간 순서로 진행됩니다.',
  body:[
@@ -2793,7 +2793,7 @@ const RULES = [
  keywords:['비지터','초대','손님','게스트','찾는 업종','소개 페이지','주차','장소','시간','기여 발표','비지터 호스트']
 },
 {
- id:'ch-newbie', cat:'우리 챕터', src:'슬라이드 10 · 표준 운영규정 · 경청표', eff:null, boost:9,
+ id:'ch-newbie', table: function(){ return '<div class="pdiag mini-d">'+diagramFirstYear()+'</div><p class="dswipe">← 도식을 좌우로 밀어서 보세요 →</p>'; }, cat:'우리 챕터', src:'슬라이드 10 · 표준 운영규정 · 경청표', eff:null, boost:9,
  title:'신입 멤버는 처음 30일 동안 무엇을 하나요?',
  verdict:'입회식·오리엔테이션 → MSP 1차 → 패스포트 원투원(8~12명) → 30일 디너 순서로 진행합니다.',
  body:[
@@ -3147,6 +3147,55 @@ function primerProxy(){
 
   h+=T(0,202,'※ 잠재 멤버·고객사·공무원·대기업 직원 등 외부인을 우선 보냅니다. 연 2회 제한과 컨트롤 레터는 변경 후에도 유지됩니다.',{s:10,f:C_SUB});
   h+=T(0,216,'※ 런칭 중인 챕터의 멤버는 대리인으로 참석할 수 없습니다.',{s:10,f:C_SUB});
+  h+='</svg>';
+  return h;
+}
+
+/* 결석 횟수와 결과 */
+function diagramAbsence(){
+  const W=620, Y=52, BH=30, BW=108, GAP=14;
+  const steps=[['0~1회','괜찮습니다','#EDF2EF',C_OK],
+               ['2회','컨트롤 레터','#FDF7EA',C_AMB],
+               ['3회','여기까지 허용','#FAF0F1',C_RED],
+               ['4회 이상','전문분야 개방','#F5DEE2',C_RED]];
+  let h='<svg viewBox="0 0 '+W+' 170" role="img" aria-label="최근 6개월 결석 횟수에 따른 결과">';
+  h+=T(0,18,'최근 6개월 기준',{s:11,w:800,f:C_SUB});
+  steps.forEach(function(st,i){
+    const x=i*(BW+GAP);
+    h+=G(R(x,Y,BW,BH,{f:st[2],s:null,r:3})+
+        T(x+BW/2,Y+20,st[0],{s:12.5,w:800,f:st[3],a:'middle'})+
+        T(x+BW/2,Y+50,st[1],{s:11.5,w:600,f:C_MID,a:'middle'}), st[0]);
+    if(i<3) h+=T(x+BW+GAP/2,Y+20,'›',{s:13,f:'#C9CDD3',a:'middle'});
+  });
+  h+='<line x1="0" y1="36" x2="'+(4*BW+3*GAP)+'" y2="36" stroke="'+C_LINE+'"/>';
+  h+=T(0,128,'대리인을 보내면 결석이 아닙니다. 단, 대리인도 6개월 3회까지입니다.',{s:11,w:600,f:C_MID});
+  h+='<line x1="0" y1="144" x2="'+W+'" y2="144" stroke="'+C_LINE+'"/>';
+  h+=T(0,162,'지각·조퇴는 따로 계산합니다. 합산 3회면 보호관찰 대상입니다.',{s:10.5,f:C_SUB});
+  h+='</svg>';
+  return h;
+}
+/* 신입 첫 1년 흐름 */
+function diagramFirstYear(){
+  const W=620, L=54, IW=W-112, AX=78;
+  const pts=[[0,'입회식','오리엔테이션'],[1,'MSP 1차',''],[2,'패스포트','6~8명 원투원'],
+             [3,'30일 디너',''],[4,'90일 리뷰',''],[6,'150일 리뷰','심화교육·MSP 2차'],
+             [8,'210일 리뷰','멤버십 상담'],[10,'예비 통보','갱신 준비'],[12,'갱신','']];
+  const x = m => L + m/12*IW;
+  let h='<svg viewBox="0 0 '+W+' 176" role="img" aria-label="신입 멤버 첫 1년 흐름">';
+  h+=T(0,18,'입회부터 첫 갱신까지',{s:11,w:800,f:C_SUB});
+  h+='<line x1="'+L+'" y1="'+AX+'" x2="'+(L+IW)+'" y2="'+AX+'" stroke="'+C_LINE+'" stroke-width="1.4"/>';
+  h+='<rect x="'+L+'" y="'+(AX-2)+'" width="'+(x(3)-L)+'" height="4" fill="#F0D7DB" rx="2"/>';
+  pts.forEach(function(pt,i){
+    const cx=x(pt[0]), up=(i%2===0);
+    const ty=up?AX-34:AX+30, sy=up?AX-18:AX+46;
+    h+=G('<circle cx="'+cx+'" cy="'+AX+'" r="'+(pt[0]<=3?4.5:3.5)+'" fill="'+(pt[0]<=3?C_RED:'#fff')+'" stroke="'+(pt[0]<=3?C_RED:'#A7AAB1')+'" stroke-width="1.6"/>'+
+        T(cx,ty,pt[1],{s:11,w:800,a:'middle'})+
+        (pt[2]?T(cx,sy,pt[2],{s:9.5,f:C_SUB,a:'middle'}):''), pt[1]);
+  });
+  h+=T(L,AX+70,'0개월',{s:10,f:C_SUB});
+  h+=T(L+IW,AX+70,'12개월',{s:10,f:C_SUB,a:'end'});
+  h+='<line x1="0" y1="150" x2="'+W+'" y2="150" stroke="'+C_LINE+'"/>';
+  h+=T(0,168,'붉은 구간(첫 30일)이 패스포트 기간입니다. 이때 리더십팀과 먼저 원투원합니다.',{s:10.5,f:C_SUB});
   h+='</svg>';
   return h;
 }
@@ -4134,12 +4183,13 @@ const VISITOR_STEPS = [
 const NEWBIE_STEPS = [
  ['입회식·오리엔테이션','챕터가 운영되는 방식과 규정을 안내받습니다.'],
  ['MSP 1차 듣기','멤버 성공 프로그램(MSP) 기본 과정입니다. 1년차는 MSP 1.0을 듣습니다.'],
- ['패스포트 원투원','멤버 멘토, 담당 멘토, 리더십팀과 먼저 원투원합니다. 보통 <b>8~12명</b>입니다.'],
+ ['패스포트 원투원','멤버 멘토, 담당 멘토, 리더십팀과 먼저 원투원합니다. YDP 기준 보통 <b>6~8명</b>이며, 이때 한 원투원은 의무 1-2-1로 인정됩니다.'],
  ['30일 디너','입회 한 달 무렵 함께하는 자리입니다. 다음 단계는 90일 리뷰입니다.']
 ];
 const TERMS = [['리퍼럴','잘 준비된 소개'],['원투원','멤버 간 1:1 미팅'],['트래픽라이트','BNI 5대 핵심 활동 목표 지수'],['T1','멤버 간 비즈니스 거래'],['T2','외부에서 멤버 사업을 소개'],['감사장','매출이 생기면 금액을 발표해 감사 전달']];
 function newbieHTML(){
-  let h = stepsHTML(NEWBIE_STEPS);
+  let h = '<div class="pdiag mini-d">'+diagramFirstYear()+'</div><p class="dswipe">← 도식을 좌우로 밀어서 보세요 →</p>';
+  h += stepsHTML(NEWBIE_STEPS);
   h += '<div class="terms"><b class="pk">처음 들으면 헷갈리는 용어</b><div class="tgrid">'+
     TERMS.map(t=>'<div class="term"><b>'+esc(t[0])+'</b><span>'+esc(t[1])+'</span></div>').join('')+'</div></div>';
   h += '<p class="disc">처음부터 지킬 것: 첫 위클리 발표 전에 도착하고, 정장 또는 격식을 갖춘 복장으로 참석합니다. 멘토 관련 문의는 멘토링코디 홍석강에게 하세요.</p>';
