@@ -742,8 +742,12 @@ img.rav{object-fit:cover;padding:0}
 .oth .oav{width:48px;height:48px}
 .oth small{display:block;font-size:11.5px;font-weight:700;color:var(--red-d);line-height:1.3}
 .oth b{display:block;font-size:15.5px;font-weight:800;color:var(--navy);line-height:1.35}
-.omem{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
-.om{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:99px;padding:3px 10px 3px 3px;font-size:13px;font-weight:600;color:var(--ink)}
+.omem{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:12px 8px;
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.om{display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;padding:0}
+.om em{font-style:normal;font-size:11.5px;font-weight:500;color:var(--ink2);line-height:1.3;text-align:center;letter-spacing:-.02em}
+.oav.sm2{width:38px;height:38px}
+.oteam{align-self:start}
 @media(min-width:760px){.otop{grid-template-columns:1.1fr 2fr;align-items:stretch}.oexec .op{height:100%;justify-content:center}}
 /* 날짜 전환 */
 button.al{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
@@ -4735,7 +4739,7 @@ function orgHTML(){
   h += '<div class="ogrp"><span class="ogl">멤버십위원회</span><div class="ocom">'+ORG.committee.map(x=>person(x[0],x[1])).join('')+'</div></div>';
   h += '<div class="ogrp"><span class="ogl">석세스팀 · 도어퍼슨팀</span><div class="oteams">'+ORG.teams.map(function(t){
     return '<div class="oteam"><div class="oth">'+avatar(t[1],'oav')+'<span><small>'+esc(t[0])+'</small><b>'+esc(t[1])+'</b></span></div>'+
-      '<div class="omem">'+t[2].map(n=>'<span class="om">'+avatar(n,'oav xs')+esc(n)+'</span>').join('')+'</div></div>';
+      '<div class="omem">'+t[2].map(n=>'<span class="om">'+avatar(n,'oav sm2')+'<em>'+esc(n)+'</em></span>').join('')+'</div></div>';
   }).join('')+'</div></div>';
   if(ORG.newbies && ORG.newbies.length){
     h += '<div class="ogrp"><span class="ogl">신입 멤버</span><div class="onew">'+
