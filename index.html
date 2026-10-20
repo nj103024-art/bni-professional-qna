@@ -1386,6 +1386,52 @@ footer p{font-size:12.5px;color:var(--ink3);line-height:1.65}
   .ppbody{padding:4px 14px 18px}
   .ppitem .pdiag.mini-d{margin-left:-14px;margin-right:-14px;border-left:0;border-right:0}
 }
+
+/* 패스포트 카드 · 상세 */
+@media(min-width:960px){.shell.ppmode{grid-template-columns:minmax(0,1fr)}}
+.shell.ppmode #ppDetail{max-width:860px;margin:0 auto}
+.ppcard{display:grid;grid-template-columns:34px 1fr auto 16px;gap:4px 12px;width:100%;text-align:left;
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:16px 18px;font:inherit;color:inherit;
+  transition:border-color .15s,background .15s}
+@media(hover:hover){.ppcard:hover{border-color:#CFCEC8;background:var(--soft)}}
+.ppcard .pptt{grid-column:2}
+.ppsum{grid-column:2;font-size:12.5px;color:var(--ink3);line-height:1.5}
+.ppcard .ppbs{grid-column:2;margin-top:6px;justify-content:flex-start}
+.ppcard .ppno{grid-row:span 3;padding-top:2px}
+.ppgo{grid-row:span 3;align-self:center;font-size:18px;color:var(--ink4)}
+@media(min-width:760px){
+  .ppcard{grid-template-columns:34px minmax(200px,1.1fr) minmax(0,1.4fr) auto 16px}
+  .ppcard .pptt{grid-column:2;grid-row:1/4;align-self:center}
+  .ppsum{grid-column:3;grid-row:1/4;align-self:center}
+  .ppcard .ppbs{grid-column:4;grid-row:1/4;align-self:center;margin-top:0;justify-content:flex-end}
+  .ppgo{grid-column:5}
+}
+.ppback{border:0;background:transparent;color:var(--ink3);font:inherit;font-size:13px;padding:0 0 18px}
+.ppback:hover{color:var(--navy)}
+.ppdh{border-top:1.5px solid var(--navy);padding-top:16px;margin-bottom:20px}
+.ppdno{font-size:10.5px;font-weight:700;letter-spacing:.16em;color:var(--red)}
+.ppdh h2{font-size:30px;font-weight:600;color:var(--navy);margin:10px 0 6px;letter-spacing:-.035em}
+@media(max-width:600px){.ppdh h2{font-size:24px}}
+.ppdh p{font-size:13px;color:var(--ink3)}
+.ppmeta{display:grid;gap:8px;margin-bottom:34px}
+@media(min-width:720px){.ppmeta{grid-template-columns:repeat(4,1fr)}}
+.ppmeta>div{background:var(--soft);border-radius:3px;padding:14px 16px}
+.ppmeta small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--ink3);margin-bottom:8px}
+.ppmeta ul{margin:0;padding-left:15px}
+.ppmeta li{font-size:12.5px;color:var(--ink2);line-height:1.6;margin-bottom:3px}
+.ppsec{margin-bottom:36px}
+.ppsh{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+.ppsh span{font-size:11px;font-weight:700;color:var(--red);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.ppsh h3{font-size:19px;font-weight:600;color:var(--navy)}
+@media(max-width:600px){.ppsh h3{font-size:17px}}
+.ppsec .ppul{margin:0;padding-left:19px}
+.ppsec .ppul li{font-size:14.5px;line-height:1.78;color:var(--ink2);margin-bottom:10px}
+.ppnav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+.ppnav button{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:16px 18px;
+  font:inherit;font-size:14.5px;font-weight:600;color:var(--navy);text-align:left;transition:border-color .15s}
+.ppnav button.nx{text-align:right}
+.ppnav button:hover{border-color:#CFCEC8}
+.ppnav small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--ink4);margin-bottom:5px}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -1578,6 +1624,8 @@ footer{background:transparent;border:0;margin:0}
         </div>
       </div></div>
     </section>
+
+    <section class="sec" id="ppDetail" hidden></section>
 
     <section class="sec" id="ppSec" hidden>
       <div class="sech"><h2>패스포트 진행 안내</h2><span>멤버멘토용 · 파트를 누르면 설명 요점이 열립니다</span></div>
@@ -3622,6 +3670,254 @@ function diagramFirstYear(){
   return h;
 }
 
+/* ── 패스포트 파트별 도식 ── */
+/* 1 의장 : 조직도 */
+function dgOrg(){
+  const W=620;
+  const groups=[['의장단',['의장','부의장','ST'],'#FBF2F3',C_RED],
+                ['멤버십위원회',['갱신','중재','소개장 점검','출결'],'#F5F5F2',C_MID],
+                ['LT 코디',['교육','멘토링','성장','이벤트','PR','비호'],'#F5F5F2',C_MID]];
+  let h='<svg viewBox="0 0 '+W+' 232" role="img" aria-label="챕터 조직도">';
+  h+=T(0,16,'리더십팀은 6개월마다 교체됩니다',{s:11,w:700,f:C_SUB});
+  let y=32;
+  groups.forEach(function(g){
+    const n=g[1].length, bw=Math.min(118,(W-10)/n-8);
+    h+=R(0,y,W,54,{f:g[2],s:null});
+    h+=T(12,y+21,g[0],{s:12,w:700,f:g[3]});
+    g[1].forEach(function(name,i){
+      h+=R(12+i*(bw+8),y+28,bw,18,{f:'#fff',s:null,r:2})+
+         T(12+i*(bw+8)+bw/2,y+41,name,{s:10.5,w:600,a:'middle'});
+    });
+    y+=62;
+  });
+  h+=T(0,226,'도어퍼슨팀과 각 팀원까지 포함하면 넓은 의미의 리더십팀입니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 2 부의장 : PALMS */
+function dgPalms(){
+  const W=620, BW=112, GAP=15, Y=42, H=72;
+  const rows=[['P','Present','출석','#EFF5F2',C_OK],['A','Absent','결석','#FBF2F3',C_RED],
+              ['L','Late / Leave','지각·조퇴','#FCF7EC',C_AMB],['M','Medical','병가','#F5F5F2',C_MID],
+              ['S','Substitute','대리인','#F5F5F2',C_MID]];
+  let h='<svg viewBox="0 0 '+W+' 150" role="img" aria-label="PALMS 뜻">';
+  h+=T(0,16,'매주 BNI 시스템에 기록되는 출결',{s:11,w:700,f:C_SUB});
+  rows.forEach(function(r,i){
+    const x=i*(BW+GAP);
+    h+=R(x,Y,BW,H,{f:r[3],s:null})+
+       T(x+BW/2,Y+30,r[0],{s:22,w:700,f:r[4],a:'middle'})+
+       T(x+BW/2,Y+48,r[1],{s:10,f:C_SUB,a:'middle'})+
+       T(x+BW/2,Y+66,r[2],{s:12,w:700,a:'middle'});
+  });
+  h+=T(0,142,'이 기록이 트래픽라이트의 출석 점수가 됩니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 6 원투원 : 후기 인정 흐름 */
+function dgOneNote(){
+  const W=620, BW=132, GAP=22, Y=44, H=60;
+  const steps=[['원투원 진행','질문지로'],['누가 올릴지','헤어지기 전 결정'],['밴드 후기','사진 + 질문지'],['상대 댓글','확인']];
+  let h='<svg viewBox="0 0 '+W+' 142" role="img" aria-label="원투원 후기 인정 절차">';
+  h+=T(0,16,'후기와 댓글이 모두 있어야 인정됩니다',{s:11,w:700,f:C_SUB});
+  steps.forEach(function(st,i){
+    const x=i*(BW+GAP);
+    h+=R(x,Y,BW,H,{f:(i===3?'#EFF5F2':'#F5F5F2'),s:null})+
+       T(x+14,Y+26,st[0],{s:12.5,w:700,f:(i===3?C_OK:C_INK)})+
+       T(x+14,Y+46,st[1],{s:10.5,f:C_SUB});
+    if(i<3) h+=T(x+BW+GAP/2,Y+34,'›',{s:13,f:'#C9CDD3',a:'middle'});
+  });
+  h+=T(0,134,'BNI 규정이 아니라 챕터 자체 기준입니다. 부실한 1-2-1을 걸러내기 위한 장치입니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 7 챕터도구 : CEU */
+function dgCeu(){
+  const W=620, L=150, IW=W-L-230;
+  const rows=[['필수 · MSP',2,'BNI 시스템 기본'],['심화 과정',3,'성공지도 · 리퍼럴'],['LT 트레이닝',3,'파운데이션 · 비호']];
+  let h='<svg viewBox="0 0 '+W+' 140" role="img" aria-label="교육 CEU 점수">';
+  h+=T(0,16,'교육 과정별 CEU 점수',{s:11,w:700,f:C_SUB});
+  rows.forEach(function(r,i){
+    const y=32+i*32, w=r[1]/3*IW;
+    h+=T(0,y+15,r[0],{s:12,w:600})+
+       R(L,y,w,20,{r:2,f:(i===0?'#FBF2F3':'#F5F5F2'),s:(i===0?'#E9C8CD':C_LINE)})+
+       T(L+w+8,y+15,r[1]+'점',{s:11.5,w:700,f:(i===0?C_RED:C_MID)})+
+       T(W-2,y+15,r[2],{s:10.5,f:C_SUB,a:'end'});
+    void 0;
+  });
+  h+=T(0,134,'트래픽라이트 교육 점수는 매주 0.5 이상, 6개월 13 이상이 기준입니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 9 비호 : 멤버 수와 실적 */
+function dgChapterSize(){
+  const W=620, BW=290, H=120;
+  const cols=[['30명 챕터','주당 리퍼럴 47건','월 감사장 2.5억','#F5F5F2',C_MID],
+              ['60명 챕터','주당 리퍼럴 107건','월 감사장 9억','#FBF2F3',C_RED]];
+  let h='<svg viewBox="0 0 '+W+' 172" role="img" aria-label="챕터 규모별 실적 비교">';
+  h+=T(0,16,'영등포 지역 실제 데이터',{s:11,w:700,f:C_SUB});
+  cols.forEach(function(c,i){
+    const x=i*(BW+36);
+    h+=R(x,28,BW,H,{f:c[3],s:null})+
+       T(x+16,58,c[0],{s:16,w:700,f:c[4]})+
+       T(x+16,88,c[1],{s:13,w:600})+
+       T(x+16,112,c[2],{s:13,w:600});
+    if(i===0) h+='<path d="M'+(BW+10)+' 88 h16 M'+(BW+20)+' 83 l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
+  });
+  h+=T(0,164,'멤버가 늘면 소개와 매출이 함께 늘어납니다. 비지터 초대가 챕터를 키웁니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+
+/* 1 의장 : 조찬 의제 흐름 */
+function dgAgenda(){
+  const W=620;
+  const rows=[['오픈 네트워킹','사업 이야기를 나누는 시간','06:30~07:00'],
+              ['환영 · 리더십팀 소개','비지터에게 챕터를 각인','07:00'],
+              ['네트워킹 교육 · 리더 발표','반복 학습과 공개 칭찬',''],
+              ['위클리 프레젠테이션','매주 반복되는 리퍼럴 교육',''],
+              ['피쳐 프레젠테이션','한 명에게 집중, 드림 리퍼럴',''],
+              ['기여 발표 · 소개 점검','리퍼럴·비지터·추천장 전달',''],
+              ['폐회','','08:30']];
+  let h='<svg viewBox="0 0 '+W+' '+(30+rows.length*30+28)+'" role="img" aria-label="조찬 미팅 의제 흐름">';
+  h+=T(0,16,'조찬 의제는 전 세계 공통입니다',{s:11,w:700,f:C_SUB});
+  rows.forEach(function(r,i){
+    const y=30+i*30, core=(i===3||i===5);
+    h+='<circle cx="7" cy="'+(y+12)+'" r="'+(core?5:3.5)+'" fill="'+(core?C_RED:'#fff')+'" stroke="'+(core?C_RED:'#A7AAB1')+'" stroke-width="1.6"/>';
+    if(i<rows.length-1) h+='<line x1="7" y1="'+(y+18)+'" x2="7" y2="'+(y+36)+'" stroke="'+C_LINE+'"/>';
+    h+=T(24,y+16,r[0],{s:13,w:core?700:600})+T(250,y+16,r[1],{s:11.5,f:C_SUB})+
+       (r[2]?T(W-2,y+16,r[2],{s:11,w:600,f:C_MID,a:'end'}):'');
+  });
+  h+=T(0,30+rows.length*30+18,'순서마다 목적이 있어 챕터가 임의로 바꿀 수 없습니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 3 ST : 참가비 vs 조찬 회비 */
+function dgFees(){
+  const W=620, BW=296, H=136;
+  const cols=[['멤버십 참가비','1년에 한 번','지역 오피스에 납부','BNI 시스템 이용료','공개 의무 없음','#FBF2F3',C_RED],
+              ['조찬 회비','매월','챕터 ST에게 납부','장소·조식·운영비','매월 사용 내역 공개','#F5F5F2',C_MID]];
+  let h='<svg viewBox="0 0 '+W+' 190" role="img" aria-label="참가비와 조찬 회비의 차이">';
+  h+=T(0,16,'두 가지는 완전히 다른 돈입니다',{s:11,w:700,f:C_SUB});
+  cols.forEach(function(c,i){
+    const x=i*(BW+28);
+    h+=R(x,28,BW,H,{f:c[5],s:null})+
+       T(x+16,52,c[0],{s:15,w:700,f:c[6]})+
+       T(x+16,78,c[1],{s:12,w:600})+
+       T(x+16,100,c[2],{s:11.5,f:C_MID})+
+       T(x+16,120,c[3],{s:11.5,f:C_MID})+
+       T(x+16,142,c[4],{s:11,f:C_SUB});
+  });
+  h+=T(0,182,'조찬 회비는 챕터 공금이라 매월 사용 내역을 공개합니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 5 교육 : T1 · T2 · T3 */
+function dgTiers(){
+  const W=620, BW=182, H=118;
+  const cols=[['T1','내부 리퍼럴','내가 동료 멤버의\n상품·서비스를 이용','#F5F5F2',C_MID],
+              ['T2','외부 리퍼럴','내 지인을\n동료 멤버에게 소개','#FBF2F3',C_RED],
+              ['T3','스핀오프','소개한 지인이\n또 다른 사람을 소개','#F5F5F2',C_MID]];
+  let h='<svg viewBox="0 0 '+W+' 184" role="img" aria-label="리퍼럴 T1 T2 T3">';
+  h+=T(0,16,'리퍼럴은 세 사람이 등장합니다 — 나 · 동료 멤버 · 소개받는 사람',{s:11,w:700,f:C_SUB});
+  cols.forEach(function(c,i){
+    const x=i*(BW+36);
+    h+=R(x,30,BW,H,{f:c[3],s:null})+
+       T(x+16,62,c[0],{s:20,w:700,f:c[4]})+
+       T(x+54,62,c[1],{s:13,w:700})+
+       c[2].split('\n').map(function(line,k){ return T(x+16,92+k*18,line,{s:11.5,f:C_MID}); }).join('');
+    if(i<2) h+='<path d="M'+(x+BW+10)+' 89 h16 M'+(x+BW+20)+' 84 l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+  });
+  h+=T(0,176,'타 챕터 동종 업종에 준 리퍼럴·감사장은 인정되지 않습니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 7 챕터 도구 : 소개장 → 감사장 → 추천장 */
+function dgDocs(){
+  const W=620, BW=182, H=112;
+  const cols=[['소개장','주는 멤버가 작성','기회를 주었습니다','#FBF2F3',C_RED],
+              ['감사장','받은 멤버가 작성','매출이 생겼습니다','#F5F5F2',C_MID],
+              ['추천장','받은 멤버가 작성','더 많은 기회로','#EFF5F2',C_OK]];
+  let h='<svg viewBox="0 0 '+W+' 180" role="img" aria-label="소개장 감사장 추천장">';
+  h+=T(0,16,'누가 쓰는지부터 구분합니다',{s:11,w:700,f:C_SUB});
+  cols.forEach(function(c,i){
+    const x=i*(BW+36);
+    h+=R(x,30,BW,H,{f:c[3],s:null})+
+       T(x+16,60,c[0],{s:15,w:700,f:c[4]})+
+       T(x+16,84,c[1],{s:11.5,w:600,f:C_MID})+
+       T(x+16,110,c[2],{s:11.5,f:C_SUB});
+    if(i<2) h+='<path d="M'+(x+BW+10)+' 86 h16 M'+(x+BW+20)+' 81 l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+  });
+  h+=T(0,172,'감사장은 계약금·중도금·잔금이 입금될 때마다 작성합니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 8 비지터 : 비지터 vs 게스트 */
+function dgVisitor(){
+  const W=620, BW=290, H=128;
+  let h='<svg viewBox="0 0 '+W+' 182" role="img" aria-label="비지터와 게스트의 차이">';
+  h+=T(0,16,'둘 다 환영하지만 성격이 다릅니다',{s:11,w:700,f:C_SUB});
+  h+=R(0,28,BW,H,{f:'#FBF2F3',s:null})+
+     T(16,54,'비지터',{s:15,w:700,f:C_RED})+
+     T(16,80,'사업을 키우려 방문한 사업가',{s:11.5,f:C_MID})+
+     T(16,102,'지원서를 내면 멤버가 될 수 있습니다',{s:11.5,f:C_MID})+
+     T(16,126,'기여에 포함됩니다',{s:12,w:700,f:C_RED});
+  h+=R(BW+36,28,BW,H,{f:'#F5F5F2',s:null})+
+     T(BW+52,54,'게스트 (참관인)',{s:15,w:700,f:C_MID})+
+     T(BW+52,80,'구매력과 네트워크를 가진 분',{s:11.5,f:C_MID})+
+     T(BW+52,102,'가입은 하지 않지만 소개를 가져옵니다',{s:11.5,f:C_MID})+
+     T(BW+52,126,'기여에 포함되지 않습니다',{s:12,w:700,f:C_SUB});
+  h+=T(0,174,'같은 업종이 이미 있어도 비지터 초대는 가능하고 기여에 포함됩니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 9 비호 : 호스팅 순서 */
+function dgHost(){
+  const W=620, BW=92, GAP=12, Y=46, H=58;
+  const steps=[['전날','정보 숙지'],['도착','도어퍼슨 접수'],['자리','30초 의제 안내'],
+               ['오픈 N','멤버 소개'],['본 미팅','동석·설명'],['오후','해피콜']];
+  let h='<svg viewBox="0 0 '+W+' 150" role="img" aria-label="비지터 호스트 진행 순서">';
+  h+=T(0,16,'비지터 호스트의 역할은 의전입니다',{s:11,w:700,f:C_SUB});
+  steps.forEach(function(st,i){
+    const x=i*(BW+GAP);
+    h+=R(x,Y,BW,H,{f:(i===5?'#FBF2F3':'#F5F5F2'),s:null})+
+       T(x+BW/2,Y+24,st[0],{s:12.5,w:700,f:(i===5?C_RED:C_INK),a:'middle'})+
+       T(x+BW/2,Y+44,st[1],{s:10.5,f:C_SUB,a:'middle'});
+    if(i<5) h+=T(x+BW+GAP/2,Y+30,'›',{s:13,f:'#C9CDD3',a:'middle'});
+  });
+  h+=T(0,140,'설명이 아니라 실제로 한 번 해봐야 하는 유일한 파트입니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 10 PR : 위클리 60초 구성 */
+function dgWeekly(){
+  const W=620, Y=44, H=46, TOT=60;
+  const segs=[['도입',5,'#F5F5F2',C_MID],['집중 분야',5,'#F5F5F2',C_MID],
+              ['강점 · 혜택 · 스토리',15,'#F5F5F2',C_MID],['구체적인 행동 요구',10,'#FBF2F3',C_RED],
+              ['메모리 훅',25,'#EFF5F2',C_OK]];
+  let h='<svg viewBox="0 0 '+W+' 150" role="img" aria-label="위클리 프레젠테이션 60초 구성">';
+  h+=T(0,16,'60초를 이렇게 나눕니다',{s:11,w:700,f:C_SUB});
+  let x=0;
+  segs.forEach(function(sg,i){
+    const w=sg[1]/TOT*W-4;
+    h+=R(x,Y,w,H,{f:sg[2],s:null})+
+       T(x+8,Y+22,sg[0],{s:(w>120?12.5:10.5),w:700,f:sg[3]})+
+       T(x+10,Y+40,sg[1]+'초',{s:11,f:C_SUB});
+    x+=w+4;
+  });
+  h+=T(0,116,'목표시장을 구체적으로 — “쿠키가 필요한 곳”(X) → “디저트로 공급할 카페 사장님”(O)',{s:11,w:600,f:C_MID});
+  h+=T(0,140,'단톡방에는 홍보·영업 글을 올리지 않습니다. 위클리와 피쳐가 공식 채널입니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+/* 11 리퍼럴팀 : 상생업종 허브 */
+function dgTeam(){
+  const W=620, CX=200, CY=96, R0=44;
+  const spokes=['인테리어','간판','가구','주방설비','금융','마케팅'];
+  let h='<svg viewBox="0 0 '+W+' 190" role="img" aria-label="리퍼럴팀 상생업종 구조">';
+  h+=T(0,16,'목표시장이 같은 업종끼리 팀을 만듭니다',{s:11,w:700,f:C_SUB});
+  spokes.forEach(function(sp,i){
+    const a=(i/spokes.length)*Math.PI*2 - Math.PI/2, x=CX+Math.cos(a)*118, y=CY+Math.sin(a)*62;
+    h+='<line x1="'+CX+'" y1="'+CY+'" x2="'+x+'" y2="'+y+'" stroke="'+C_LINE+'"/>';
+    h+='<circle cx="'+x+'" cy="'+y+'" r="26" fill="#F5F5F2"/>'+T(x,y+4,sp,{s:10.5,w:600,a:'middle'});
+  });
+  h+='<circle cx="'+CX+'" cy="'+CY+'" r="'+R0+'" fill="#FBF2F3" stroke="#E9C8CD"/>';
+  h+=T(CX,CY-2,'같은',{s:12,w:700,f:C_RED,a:'middle'})+T(CX,CY+16,'목표시장',{s:12,w:700,f:C_RED,a:'middle'});
+  h+=T(392,70,'각자 고객을 하나씩만 열어도',{s:12,w:600,f:C_MID});
+  h+=T(392,94,'팀 전체에 소개가 돌기 시작합니다.',{s:12,w:600,f:C_MID});
+  h+=T(392,126,'상생업종군 작업표',{s:11,f:C_SUB});
+  h+=T(392,146,'핵심고객층 이해 작업표',{s:11,f:C_SUB});
+  h+=T(0,184,'타 챕터 멤버와의 협업은 “파워팀”이 아니라 “협업팀”으로 부릅니다.',{s:10.5,f:C_SUB});
+  return h+'</svg>';
+}
+
 /* 원투원 VCP 단계 */
 function primerVCP(){
   const W=620, BW=182, Y=44, H=96;
@@ -4259,6 +4555,7 @@ function cardHTML(r, open, no){
 }
 
 function render(){
+  if(state.pp) return;
   const asked = !!state.q.trim();
   // 첫 화면(분야 카드가 모두 보이는 곳)에서는 모바일 칩 줄을 숨김
   const shell = document.querySelector('.shell');
@@ -4424,17 +4721,18 @@ const PP_ITEMS = [
   '멤버십위원회 담당자와 연락 방법을 알려줬습니다',
   '규정 Q&A에서 검색하는 방법을 보여줬습니다'
 ];
-function buildPPChk(){
-  const box = $('#ppChk'); if(!box || box._built) return; box._built = true;
+function buildPPChk(items, key){
+  const box = $('#ppChk'); if(!box) return;
+  items = items || PP_ITEMS; key = 'ppChk' + (key || '');
   let st = {};
-  try { st = JSON.parse(localStorage.getItem('ppChk') || '{}'); } catch(e){}
+  try { st = JSON.parse(localStorage.getItem(key) || '{}'); } catch(e){}
   const paint = function(){
-    const done = PP_ITEMS.filter(function(_,i){ return st[i]; }).length;
-    $('#ppNum').textContent = done + ' / ' + PP_ITEMS.length;
-    $('#ppBar').style.width = (done / PP_ITEMS.length * 100) + '%';
-    try { localStorage.setItem('ppChk', JSON.stringify(st)); } catch(e){}
+    const done = items.filter(function(_,i){ return st[i]; }).length;
+    $('#ppNum').textContent = done + ' / ' + items.length;
+    $('#ppBar').style.width = (done / items.length * 100) + '%';
+    try { localStorage.setItem(key, JSON.stringify(st)); } catch(e){}
   };
-  box.innerHTML = PP_ITEMS.map(function(t,i){
+  box.innerHTML = items.map(function(t,i){
     return '<label><input type="checkbox" data-i="'+i+'"'+(st[i]?' checked':'')+'><span>'+esc(t)+'</span></label>';
   }).join('');
   box.querySelectorAll('input').forEach(function(el){
@@ -4446,6 +4744,302 @@ function buildPPChk(){
   paint();
 }
 
+
+
+
+/* ===================== 패스포트 파트별 상세 (장표 구조) ===================== */
+const PP_DETAIL = {
+1:{t:'의장 패스포트', role:'의장', ver:'v2023-08',
+  topics:['챕터를 이끄는 리더십팀과 조직도','조찬미팅의 의제','신입멤버에게 바라는 기대치'],
+  mentor:['의장단 대본','패스포트 멤버멘토 매뉴얼'], mentee:['없음'],
+  one:'진행', time:'원투원 90~120분 · 설명 30~60분', task:'없음',
+  secs:[
+   {no:'2-1', t:'리더십팀', dg:'dgOrg', pts:[
+     '<b>의장단</b> 의장 · 부의장 · ST / <b>멤버십위원회</b> 갱신 · 중재 · 소개장 점검 · 출결 / <b>LT 코디</b> 교육 · 멘토링 · 성장 · 이벤트 · PR · 비호',
+     '리더십팀은 <b>6개월에 한 번</b> 교체됩니다. 여름 기수와 겨울 기수가 있습니다.',
+     '리더십팀의 모든 역할은 <b>멤버가 소개 마케팅과 협업을 잘하도록 돕는 것</b>입니다. 돕는 방법이 다를 뿐입니다.',
+     '<b>혜택</b> — 직접적인 보상은 없지만, 리더십팀을 맡는 동안 거래처 대표를 초대해 보면 당신을 다시 보게 됩니다. BNI는 모두가 평등한 관계라 챕터를 이끄는 리더십은 회사에서보다 훨씬 어렵고, 그만큼 값진 경험이 됩니다.']},
+   {no:'2-2', t:'조찬미팅 의제', dg:'dgAgenda', pts:[
+     '조찬 미팅 순서는 <b>전 세계 모든 챕터가 동일</b>합니다. 탄력적 운영은 가능하지만 챕터가 마음대로 바꿀 수 없습니다.',
+     '<b>오픈 네트워킹</b> — 술·취미 이야기로 보내지 말고 서로의 사업과 한 주의 결과를 이야기합니다. 비지터 응대도 이때 합니다.',
+     '<b>리더십팀 소개</b> — 비지터에게 챕터의 위상을 각인시키고, 헌신하는 리더십팀에 대한 작은 보상입니다.',
+     '<b>네트워킹 교육</b> — 마인드셋·스킬·반복. 인간은 망각의 동물이라 반복이 필요합니다.',
+     '<b>네트워킹 리더 발표</b> — 한 달간 가장 많이 기여한 멤버를 공개적으로 칭찬합니다.',
+     '<b>위클리</b>는 짧게 반복 교육, <b>피쳐</b>는 10분 동안 한 명에게 집중해 드림 리퍼럴을 노립니다.',
+     '<b>기여 발표</b> — 기여가 없으면 “이번 주 저의 기여는 없습니다”를 반드시 발표합니다.',
+     '<b>소개 진행 상황 점검</b> — 전달된 소개장이 잘 처리되고 있는지 확인해 서로의 시간을 낭비하지 않게 합니다.']},
+   {no:'2-3', t:'기대치', pts:[
+     '동료를 위해 리퍼럴을 가져오고 비지터를 모셔오는 일은 매우 중요합니다. 반대로 생각하면 <b>동료들도 당신을 위해 그렇게 한다</b>는 뜻입니다.',
+     '대부분의 멤버는 소개 마케팅과 협업을 처음 접합니다. 새로운 시스템에 잘 적응하도록 격려해 주세요.']}],
+  check:['리더십팀과 조직도를 설명했습니까?','조찬미팅 의제와 각 순서의 의미를 설명했습니까?','신입멤버에게 바라는 기대치를 전달했습니까?']},
+
+2:{t:'부의장 패스포트', role:'부의장 (멤버십 코디네이터)', ver:'v2025-04',
+  topics:['BNI 규정','PALMS 리포트','트래픽라이트','멤버십위원회 역할'],
+  mentor:['패스포트 멤버멘토 매뉴얼','BNI 규정집 (신입이 못 가져왔을 경우 대비)'], mentee:['BNI 규정집'],
+  one:'진행', time:'원투원 90~120분 · 설명 30~60분', task:'없음',
+  secs:[
+   {no:'2-1', t:'WHY · 엄격한 규정이 존재하는 이유', pts:[
+     '조기축구나 맛집 모임에도 규정이 있습니다. 하물며 BNI는 <b>각 전문분야 사업가가 신뢰를 쌓아 비즈니스를 키우는 곳</b>이라 더 엄격합니다.',
+     '멤버들이 하고 싶은 대로 행동하면 챕터는 <b>비즈니스가 아니라 질서를 잡는 데 에너지</b>를 씁니다.',
+     '규정이 있는 가장 중요한 이유는 <b>올바른 챕터 문화의 정착</b>입니다. 동료를 도우려는 멤버가 많은 챕터를 만드는 것입니다.']},
+   {no:'2-2', t:'BNI 규정 · 윤리강령 / 일반규정 / 사무규정', dg:'diagramAbsence', pts:[
+     '<b>윤리강령</b> — 입회식에서 함께 낭송한 기본 비즈니스 매너입니다. 위반 시 멤버십위원회가 보호관찰을 적용할 수 있고, 중대하면 전문분야를 즉시 개방할 수 있습니다.',
+     '<b>일반규정</b> — 챕터 운영에 관한 규정입니다. 규정집을 열어 함께 리뷰합니다.',
+     '<b>일반규정 5번(출석)</b> — 최근 6개월 결석 3회까지. 대리인을 보내면 결석이 아닙니다. 구체적인 출결 기준은 출결 담당 위원이 설명합니다.',
+     '<b>일반규정 6번(기여)</b> — 멤버는 제대로 된 소개와 비지터를 제공해야 하고, 챕터는 최소 기준을 정할 수 있습니다.',
+     '<b>사무규정</b> — 멤버십비·갱신 등 행정 규정입니다.',
+     '<b>“규정이 너무 많아요”</b> — 규정집은 최소한의 핵심입니다. 그 밖의 사안은 멤버십위원회가 사안별로 판단하고, 반복되면 디렉터 승인을 받아 별도 규정을 만듭니다.']},
+   {no:'2-3', t:'PALMS 리포트', dg:'dgPalms', pts:[
+     '멤버의 출결 활동 약자이며 <b>매주 BNI 시스템에 기록</b>됩니다.',
+     'P 출석 · A 결석 · L 지각 및 조퇴 · M 병가(장기불참) · S 대리인']},
+   {no:'2-4', t:'트래픽라이트', dg:'primerTL', pts:[
+     '<b>측정할 수 없으면 개선할 수 없습니다.</b> 멤버가 자신의 비즈니스를 키우기 위해 얼마나 활동하는지 재는 도구입니다.',
+     '<b>반영 범위</b> — 최근 6개월 활동, 준 리퍼럴만 점수가 됩니다.',
+     '<b>핵심 한 문장</b> — 6개월 비지터 5명 · 매주 리퍼럴 1건 · 매주 원투원 1회. 이 세 가지가 100점 중 70점입니다.',
+     '<b>등급</b> — Green / Amber / Red / Gray. (글로벌 조직이라 Yellow·Black에서 명칭이 바뀌었습니다.)',
+     '<b>갱신 기준은 앰버 이상</b>입니다. 레드는 조건부 갱신, 그레이는 갱신 기회가 없습니다.',
+     '<b>용도</b> — 기여가 높은 멤버를 칭찬하고, 기여에 비해 받은 것이 적은 멤버를 빨리 찾아 돕기 위해 봅니다.',
+     '<b>오해 주의</b> — 활동량을 재는 도구이지 멤버의 인성이나 사업을 판단하는 기준이 아닙니다.']},
+   {no:'2-5', t:'갱신', dg:'primerRenewLine', pts:[
+     '“갱신은 1년 뒤 일이 아니라 <b>지금부터 쌓이는 기록</b>입니다.”',
+     '210일 리뷰(상담·MSP 시작) → 120일 전 예비 통보 → <b>90~60일 전 납부·지원서·인터뷰</b> → 60일 전 갱신 멤버 발표 → 갱신일 → 갱신 후 30일 비어데이·디너',
+     '기한을 넘기면 <b>전문분야가 오픈</b>되고 그 분야 비지터를 멤버로 승인할 수 있습니다.',
+     '참가비 1,210,000원(부가세 포함). 은행 이체 또는 카드 결제만 가능하며 카드는 내셔널오피스에 연락합니다.',
+     '갱신일 15일 초과 시 자동 탈퇴 처리(복구 55,000원), 30일 초과 시 복구 불가입니다.']},
+   {no:'2-6', t:'멤버십위원회의 역할', pts:[
+     '“챕터를 위한 최고의 헌신은 <b>협업하기 좋은 멋진 멤버로 챕터를 구성하는 것</b>입니다.”',
+     '올바른 챕터 문화를 정착시키고 멤버 자격을 상향 평준화하는 것이 부의장과 멤버십위원회의 역할입니다.',
+     '담당 — 출결 정희진 · 갱신 배가은 · 중재 김동운 · 리퍼럴 김일연 · 부의장 김재현']}],
+  check:['BNI 규정에 대해서 설명했습니까?','PALMS 리포트에 대해서 설명했습니까?','트래픽라이트에 대해서 설명했습니까?','갱신 일정과 기준을 설명했습니까?','멤버십위원회의 역할을 설명했습니까?']},
+
+3:{t:'ST 패스포트', role:'ST (서기 겸 재무)', ver:'v2023-08',
+  topics:['멤버 신상명세표','피쳐 프레젠테이션','리소스 테이블','참가비와 기타 비용','멤버 갱신'],
+  mentor:['설명 매뉴얼'], mentee:['멤버 신상명세표 양식 (1:1 담당멘토에게 요청)'],
+  one:'진행', time:'원투원 90~120분 · 설명 30~60분', task:'멤버 신상명세표 작성해서 제출',
+  secs:[
+   {no:'2-1', t:'멤버 신상명세표', pts:[
+     '멤버에 대한 가장 기본적인 내용을 기록한 표입니다.',
+     '<b>원투원에서 활용</b>하고, <b>피쳐 프레젠테이션에서 ST가 소개할 때</b> 사용합니다.']},
+   {no:'2-2', t:'피쳐 프레젠테이션', pts:[
+     'MSP를 이수한 모든 멤버가 비즈니스 쇼케이스 발표 기회를 갖습니다. (약 10분)',
+     '동료 멤버에게 <b>나에게 줄 리퍼럴을 찾는 방법</b>을 가르치는 시간입니다.',
+     '40명 미만 챕터는 10분 1명, 40명 이상은 6분 2명으로 진행합니다.']},
+   {no:'2-3', t:'리소스 테이블', pts:[
+     '멤버의 서비스를 홍보할 수 있는 테이블을 운영합니다. 실제 상품이나 브로셔를 전시할 수 있습니다.',
+     '<b>ST에게 신청</b>하면 됩니다.']},
+   {no:'2-4', t:'참가비 및 기타 비용', dg:'dgFees', pts:[
+     '<b>멤버십 참가비</b> — BNI 시스템 이용료. 1년에 한 번 갱신할 때 지역 오피스에 납부하며 사용 내역 공개 의무가 없습니다.',
+     '<b>조찬 회비</b> — 챕터 운영비(장소·조식·운영). 매월 챕터 ST에게 납부하며 <b>매월 사용 내역을 공개</b>합니다.']},
+   {no:'2-5', t:'갱신 안내', pts:[
+     '<b>최고의 복지는 최고의 동료</b>입니다. 멋진 사업가가 동료가 되게 하는 것이 멤버에게 주는 최고의 혜택입니다.',
+     'BNI 멤버십은 1년 단위로 갱신하며, 참여와 기여가 저조한 멤버의 업종은 다른 경쟁자에게 개방됩니다.',
+     '멤버십 종료 <b>90일 전</b>에 갱신 대상자를 발표하고 지원서를 배포합니다. 지원서를 내야 심사가 진행됩니다.']}],
+  check:['멤버 신상명세표를 설명하고 양식을 전달했습니까?','피쳐 프레젠테이션을 설명했습니까?','리소스 테이블을 안내했습니까?','참가비와 조찬 회비의 차이를 설명했습니까?','갱신 절차를 안내했습니까?']},
+
+4:{t:'출석·대리인 패스포트', role:'멤버십위원 (출결 담당)', ver:'v2025-12-29',
+  topics:['BNI 출결 규정','대리인 제도'],
+  mentor:['출석규정 설명 매뉴얼','BNI 규정집 (신입이 못 가져왔을 경우 대비)'], mentee:['BNI 규정집'],
+  one:'없음', time:'설명 30~60분', task:'없음',
+  secs:[
+   {no:'2-1', t:'WHY · 출석 규정이 중요한 이유', pts:[
+     '조찬미팅은 오픈네트워킹·교육·프레젠테이션·기여 전달을 통해 인맥 교류를 활성화하는 시간입니다.',
+     '출석은 <b>“바쁘지만 동료와의 협업을 위해 참석한다”</b>는 신호를 동료에게 보내는 것입니다.',
+     '출석은 가장 기본적인 질서입니다.']},
+   {no:'2-2', t:'출석 · 결석 · 지각 · 조퇴', dg:'diagramMeeting', pts:[
+     '<b>출석</b> — 최소 6시 30분까지 참석해 오픈 네트워킹을 합니다. 후보자 인터뷰에서 적극 참석을 약속했기에 가입이 승인된 것입니다.',
+     '<b>결석</b> — 최근 6개월 3회까지 허용. 4회면 전문분야를 개방합니다.',
+     '<b>기준은 위클리 프레젠테이션</b>입니다. 동료의 위클리를 모두 들어야 합니다.',
+     '<b>지각</b> — 본회의 시작 후 도착. 단 첫 위클리 발표 전까지는 도착해야 하며, 첫 위클리를 못 들으면 결석입니다.',
+     '<b>조퇴</b> — 마지막 위클리까지 듣고 퇴장해야 인정되며, 출결 담당 위원에게 미리 알려야 합니다.',
+     '<b>조퇴 예외</b> — 리퍼럴·비지터 기여를 멤버십위원회에 미리 전달하면 그 전에 나가도 조퇴로 인정됩니다.',
+     '<b>8시 35분 이후</b> 퇴장하면 본회의가 끝나지 않아도 정상 출석입니다.']},
+   {no:'2-3', t:'장기불참 (일반규정 9)', pts:[
+     '<b>병가</b> — 입원확인서 또는 장기요양 필요성에 대한 의사 소견서 제출 시 <b>총 12주</b>까지 인정됩니다. 일반 진단서·영수증은 인정되지 않습니다.',
+     '<b>출산</b> — 본인 및 배우자 출산은 전후 <b>연속 12주</b>까지 인정됩니다.',
+     '멤버십위원회는 재량에 따라 일하지 못할 정도의 장기적 건강 문제에 장기불참을 허용할 수 있습니다.']},
+   {no:'2-4', t:'대리인 제도', dg:'primerProxyNow', pts:[
+     '<b>취지</b> — 부득이 참석하지 못하는 멤버가 출석 규정을 지키면서 <b>자신이 없는 사이에도 동료에게 기여</b>하도록 하는 것입니다.',
+     '<b>6개월 3회까지</b> 허용합니다. 4회부터는 대리인을 보내도 결석입니다.',
+     '<b>대리인을 찾을 책임은 본인</b>에게 있습니다. 리더십팀이 대신 찾아 주는 것은 엄격히 금지되어 있습니다.',
+     '대리인에게 미팅 개요와 역할을 설명하고, 미팅 후 받은 리퍼럴과 추천장을 전달받습니다.',
+     '<b>온라인 조찬</b> — 팬데믹 대비로 6개월에 1~2회 훈련 삼아 진행합니다. 출석 규정은 오프라인과 같습니다.']}],
+  check:['출석 규정을 설명했습니까?','지각·조퇴 기준과 개념도를 설명했습니까?','장기불참(병가·출산) 기준을 설명했습니까?','대리인 제도를 설명했습니까?']},
+
+5:{t:'교육 패스포트', role:'교육 코디네이터', ver:'v2024-06',
+  topics:['리퍼럴이란','리퍼럴과 정보 제공의 차이','T1·T2·T3','잘 주기와 잘 받기','리퍼럴 사고 예방'],
+  mentor:['리퍼럴 설명 매뉴얼'], mentee:['없음'],
+  one:'없음', time:'설명 30~60분', task:'없음',
+  secs:[
+   {no:'2-1', t:'리퍼럴이란', pts:[
+     '사전적 의미는 <b>“사람을 전문적인 도움을 받을 곳으로 보내기”</b>입니다.',
+     'BNI에서는 <b>문제를 가진 지인에게 해결책을 가진 동료 멤버를 연결해 주는 것</b>, 즉 잘 준비된 소개입니다.']},
+   {no:'2-2', t:'리퍼럴 vs 정보 제공', pts:[
+     '<b>정보 제공</b>은 두 명(나와 상대)만 등장합니다.',
+     '<b>리퍼럴</b>은 세 명(나 · 동료 멤버 · 소개받는 사람)이 등장합니다. 가망고객과 이야기해 필요를 확인한 상태여야 합니다.']},
+   {no:'2-3', t:'리퍼럴의 종류', dg:'dgTiers', pts:[
+     '<b>T1</b> 내가 동료 멤버의 상품·서비스를 이용 (타 챕터 멤버 서비스 이용도 T1)',
+     '<b>T2</b> 내 지인을 동료 멤버에게 소개',
+     '<b>T3</b> 내가 소개한 지인이 또 다른 사람을 소개 (스핀오프)']},
+   {no:'2-4', t:'리퍼럴 잘 주기', pts:[
+     '평소 지인과의 대화에서 <b>필요를 알아채는(Catch)</b> 능력이 중요합니다.',
+     '동료 멤버의 명함을 전달하고 지인의 명함을 받습니다.',
+     '전달 전에 <b>동료가 원하는 리퍼럴이 맞는지 확인</b>합니다. 점수 관리를 위해 억지로 주지 않습니다.',
+     '<b>내 역할은 연결까지</b>입니다. 계약은 동료 멤버의 몫입니다.',
+     '소개장 <b>온도</b>는 좋고 나쁨이 아니라 고객의 반응을 전하는 표시입니다.']},
+   {no:'2-5', t:'리퍼럴 잘 받기', pts:[
+     '먼저 <b>고맙다고 말합니다</b>. 고마워하지 않는 멤버에게는 아무도 리퍼럴을 주지 않습니다.',
+     '내 전문분야에 맞는 리퍼럴인지 <b>확인</b>합니다.',
+     '고객의 상태와 요구를 파악해 <b>전략</b>을 세우고 연락합니다.',
+     '결과와 상관없이 <b>피드백</b>합니다. 그것이 리퍼럴을 준 멤버에 대한 예의입니다.']},
+   {no:'2-6', t:'리퍼럴 사고 예방', pts:[
+     '<b>T1 악용 금지</b> — 동료의 서비스를 이용한 뒤 그 마음을 이용해 영업하지 않습니다.',
+     '<b>맞지 않는 리퍼럴</b> — 단칼에 거절하면 그 멤버는 다시 주지 않습니다. 정중히 설명합니다.',
+     '<b>감당 못 할 큰 리퍼럴</b> — 고객 불만족이 생기면 신뢰가 무너집니다.',
+     '<b>너무 작은 리퍼럴</b> — 점수 관리를 위한 형식적 소개는 서로의 시간을 낭비합니다.',
+     '<b>타 챕터 동종 업종</b>에 대한 리퍼럴과 감사장은 인정되지 않습니다.',
+     '이런 상황은 <b>C단계 1-2-1</b>을 충실히 하면 대부분 막을 수 있습니다.']}],
+  check:['리퍼럴의 정의를 설명했습니까?','T1·T2·T3를 설명했습니까?','리퍼럴을 주고 받는 방법을 설명했습니까?','리퍼럴 사고 예방을 설명했습니까?']},
+
+6:{t:'원투원 패스포트', role:'멘토링 코디', ver:'v2023-08',
+  topics:['원투원의 목적과 중요성','VCP 단계','질문지 작성법','신청·준비·진행','후기와 에티켓'],
+  mentor:['좋은 원투원 설명 매뉴얼','질문지 모범 샘플'], mentee:['V·C·P 질문지','신상명세표','상생업종군 작업표'],
+  one:'진행', time:'원투원 90~120분 · 설명 30~60분', task:'원투원 질문지 업데이트 (V·C·P 모두)',
+  secs:[
+   {no:'2-1', t:'WHY · 원투원이 중요한 이유', pts:[
+     'BNI에서 신뢰는 <b>내 고객을 소개해도 안심할 수 있는 믿음</b>입니다. 술과 취미로 쌓은 친분이 비즈니스 신뢰로 이어진다는 보장은 없습니다.',
+     '신뢰를 쌓는 첫 번째 방법이 원투원입니다.',
+     '내가 어떤 사업을 하고 어떤 고객을 찾는지 구체적으로 알릴 수 있는 <b>가장 좋은 도구</b>입니다.']},
+   {no:'2-2', t:'VCP 단계', dg:'primerVCP', pts:[
+     '<b>V 아는 단계</b> — 서로의 사업을 파악합니다. 오래 끌지 말고 빠르게 다음으로 넘어갑니다.',
+     '<b>C 신뢰 단계</b> — 리퍼럴을 실제로 주고받기 위한 단계. 목표시장과 연결 방법을 구체적으로 이야기합니다.',
+     '<b>P 수익 단계</b> — 고객 리스트와 상생업종 계획표를 공유하며 매주 소개가 나올 방법을 찾습니다.',
+     'V에서 C까지 보통 <b>1년 이상</b> 걸립니다. 신뢰는 만드는 것이 아니라 쌓는 것입니다.']},
+   {no:'2-3', t:'질문지 작성법', pts:[
+     '<b>쉽게</b> — 동료는 내 분야를 모릅니다. 전문용어를 피하고 쉽게 풀어 씁니다.',
+     '<b>구체적으로</b> — “업계 최고”(X) → “값싼 팜유 대신 버터를 씁니다”(O)',
+     '<b>행동 유발</b> — “디저트가 필요한 곳 소개해 주세요”(X) → “커피숍 사장님을 만나면 고급 유지 쿠키로 추가 매출을 올려보라고 말해주세요”(O)']},
+   {no:'2-4', t:'신청 · 준비 · 진행', pts:[
+     '<b>내가 먼저</b> 신청합니다. 모두 바쁘니 일주일 정도 여유를 둡니다.',
+     '장소는 상대의 사업장을 권장하되 협의해 정하고, <b>종료 시간도 미리 정합니다</b>. 식사는 필수가 아니며 하면 홈 멤버가 대접합니다.',
+     '상대의 질문지를 미리 내려받아 읽고, 내 질문지도 최신으로 업데이트합니다.',
+     '대화 순서를 정하고 질문지를 지키며 진행합니다. 잡담으로 끝나면 그것은 원투원이 아닙니다.']},
+   {no:'2-5', t:'후기와 에티켓', dg:'dgOneNote', pts:[
+     '후기는 밴드에 올리고, 두 사람이 함께 나온 사진과 질문지가 보이게 첨부합니다. <b>후기와 댓글이 있어야 인정</b>됩니다.',
+     '인증 사진과 후기는 <b>BNI 규정이 아니라 챕터 자체 기준</b>입니다. 부실한 1-2-1을 걸러내기 위한 장치입니다.',
+     '<b>가장 큰 금기는 영업</b>입니다. 동료는 내 고객이 아니라 나를 도와줄 사람입니다.',
+     '준비 부실, 잦은 취소와 지각, 상대 말 자르기, 사업 규모로 무시하기는 신뢰를 깨뜨립니다.']}],
+  check:['원투원의 목적과 중요성을 설명했습니까?','VCP 단계를 설명했습니까?','질문지 작성법을 설명했습니까?','신청과 준비 방법을 설명했습니까?','진행 방법과 후기를 설명했습니까?','에티켓을 설명했습니까?']},
+
+7:{t:'챕터 도구 패스포트', role:'멤버십위원 (소개장 점검)', ver:'v2023-08',
+  topics:['소개장','감사장','추천장','교육 CEU','BNI 앱'],
+  mentor:['설명 매뉴얼'], mentee:['없음'],
+  one:'없음', time:'설명 30~60분', task:'없음',
+  secs:[
+   {no:'2-1', t:'소개장 · 감사장 · 추천장', dg:'dgDocs', pts:[
+     '<b>소개장</b>은 소개를 <b>주는</b> 멤버가, <b>감사장</b>과 <b>추천장</b>은 소개를 <b>받은</b> 멤버가 작성합니다.',
+     '<b>소개장 작성 시점</b> — 동료를 소개하고, 연락해도 되는지 확인하고, 동료가 원하는 리퍼럴인지 확인한 뒤 작성합니다.',
+     '<b>소개장 온도</b> — 좋은/나쁜 리퍼럴이 아니라 <b>고객의 반응</b>을 전하는 표시입니다.',
+     '<b>감사장 작성 시점</b> — 계약이 성사되어 수익이 발생할 때. 계약금·중도금·잔금이 입금될 때마다 작성합니다.',
+     '<b>감사장 금액</b>은 업종마다 기준이 다릅니다. (일반 업종 / 수수료 업종 / 정기 구독 등)',
+     '<b>추천장</b> — 고객 만족 사례를 조찬에서 발표해 동료가 더 많은 기회를 얻도록 돕습니다. 전시할 수 있게 격식을 갖춥니다.']},
+   {no:'2-2', t:'교육 CEU', dg:'dgCeu', pts:[
+     '<b>필수 2점</b> — MSP (BNI 시스템 기본 교육)',
+     '<b>심화 3점</b> — 성공지도 워크숍, 리퍼럴 워크숍 등',
+     '<b>LT 트레이닝 3점</b> — LT 파운데이션, 비지터호스트팀, 멘토링팀 등']},
+   {no:'2-3', t:'BNI 앱', pts:['앱 설치를 돕고 사용 방법을 간단히 설명합니다. 1:1 담당멘토가 이미 도왔을 수도 있습니다.']}],
+  check:['소개장을 설명했습니까?','감사장을 설명했습니까?','추천장을 설명했습니까?','교육 CEU를 설명했습니까?','BNI 앱 설치를 안내했습니까?']},
+
+8:{t:'비지터 패스포트', role:'이벤트 코디', ver:'v2025-04',
+  topics:['비지터와 게스트의 차이','비지터 초대','개인 BCD 준비'],
+  mentor:['비지터 모시기 설명 매뉴얼','챕터 상생업종 취합 자료','온라인 초대장·초대 문구'], mentee:['가입할 때 작성한 40인 리스트'],
+  one:'진행', time:'원투원 90~120분 · 설명 30~60분', task:'비지터 초대',
+  secs:[
+   {no:'2-1', t:'WHY · 비지터 초대의 중요성', pts:[
+     'BNI는 리퍼럴 마케팅으로 <b>수준 높은 비즈니스 리더들과 장기적 관계</b>를 만드는 조직입니다.',
+     '소개 마케팅과 협업은 <b>인맥 교류가 활발할 때</b> 가능합니다. 동료의 인맥과의 교류도 중요합니다.',
+     '멤버에 대한 기여는 두 가지 — 리퍼럴과 비지터입니다. <b>잠재 가치를 가진 인맥은 리퍼럴보다 큰 기여</b>일 수 있습니다.']},
+   {no:'2-2', t:'비지터와 게스트', dg:'dgVisitor', pts:[
+     '<b>비지터</b> — 사업을 키우려 방문한 사업가. 지원서를 내면 멤버가 될 수 있고 기여에 포함됩니다.',
+     '<b>게스트(참관인)</b> — 구매력과 네트워크를 가졌지만 참가할 수 없는 분. 비지터를 데려오고 비즈니스도 하지만 기여에는 포함되지 않습니다.',
+     '같은 업종이 챕터에 있어도 <b>비지터 초대는 가능하고 기여에 포함</b>됩니다. 다만 가입은 불가하므로 다른 챕터를 안내합니다.']},
+   {no:'2-3', t:'비지터 초대', pts:[
+     '가입할 때 쓴 <b>40인 리스트를 함께 리뷰</b>하며 초대 후보를 고릅니다. 챕터 상생업종 자료를 참고합니다.',
+     '온라인 초대장과 초대 문구를 함께 준비해 실제로 초대하는 것이 과제입니다.',
+     '초대할 사람이 떠오르지 않으면 거래처·협력업체·고객·파트너사·지역 사업자 순으로 적어 봅니다.']}],
+  check:['비지터 초대의 중요성을 설명했습니까?','비지터와 게스트의 차이를 설명했습니까?','40인 리스트를 함께 리뷰했습니까?','실제 초대 방법을 안내했습니까?']},
+
+9:{t:'비지터 호스트 패스포트', role:'비호 리더', ver:'v2025-04',
+  topics:['비지터 응대의 중요성','비지터 호스트 역할과 실무','비지터 호스트 경험'],
+  mentor:['비지터 호스트 경험 설명 매뉴얼'], mentee:['없음'],
+  one:'진행', time:'설명 30~60분 + 실제 경험', task:'비지터 호스트 경험 (실제로 해야 함)',
+  secs:[
+   {no:'2-1', t:'WHY · 비지터 응대의 중요성', pts:[
+     '아는 사람도 없는 낯선 모임에서 먼저 말을 걸어준 사람을 떠올려 보게 합니다.',
+     '<b>이제는 신입이 비지터에게 그 역할</b>을 할 차례입니다.']},
+   {no:'2-2', t:'비지터의 중요성 (영등포 실제 데이터)', dg:'dgChapterSize', pts:[
+     '멤버 약 30명 챕터 — 주당 리퍼럴 약 47건, 월 감사장 약 2억 5천',
+     '멤버 약 60명 챕터 — 주당 리퍼럴 약 107건, 월 감사장 약 9억',
+     '멤버가 늘면 소개와 매출이 함께 늘어납니다. 비지터 초대가 챕터를 키웁니다.']},
+   {no:'2-3', t:'비지터 호스트의 역할과 실무', dg:'dgHost', pts:[
+     '<b>역할은 의전</b>입니다. 환영받는다는 느낌을 주고, 상생직군과 만나게 하고, 미팅을 이해하도록 돕습니다.',
+     '<b>전날</b> 담당 비지터 정보를 숙지합니다. 안내 전화는 비호팀에서 합니다.',
+     '<b>도착</b> 시 도어퍼슨이 접수를 돕고, 담당 호스트가 자리로 안내하며 30초 내로 의제를 설명합니다.',
+     '<b>오픈 네트워킹</b> — 혼자 있는 멤버나 열린 소그룹에 먼저 소개합니다.',
+     '<b>본 미팅</b> — 비지터와 동석해 순서의 의미를 설명합니다.',
+     '<b>미팅 후</b> — 비지터 오리엔테이션, 함께 식사, 당일 오후 <b>해피콜</b>.',
+     '<b>자세</b> — 깔끔한 옷차림과 온화한 미소.']}],
+  check:['비지터 응대의 중요성을 설명했습니까?','비지터 호스트 역할을 설명했습니까?','비지터 호스트 실무를 설명했습니까?','실제 호스팅 경험을 배정했습니까?']},
+
+10:{t:'PR 패스포트', role:'PR 코디', ver:'v2023-08',
+  topics:['위클리 프레젠테이션','단톡방 에티켓','웹하드','개인정보 활용 동의'],
+  mentor:['설명 매뉴얼','개인정보 활용 동의서'], mentee:['없음'],
+  one:'진행', time:'원투원 90~120분 · 설명 30~60분', task:'개인정보 활용 동의서 · 위클리 PPT',
+  secs:[
+   {no:'2-1', t:'위클리 프레젠테이션', dg:'dgWeekly', pts:[
+     '<b>엘리베이터 스피치</b>입니다. 60초 안에 내가 누구이고 어떤 리퍼럴을 원하는지 각인시킵니다.',
+     '<b>핵심 ① 구체적인 목표시장</b> — “쿠키가 필요한 곳”(X) → “디저트로 공급할 카페 사장님”(O)',
+     '<b>핵심 ② 짜임새</b> — 도입 5초 · 이번 주 집중 분야 5초 · 강점과 스토리 15초 · 행동 요구 10초 · 메모리 훅',
+     '상품과 목표시장, 강점을 <b>세분화</b>해 매주 다른 내용으로 발표합니다.',
+     'FUN(꽁트·유머), 동료가 따라 하게 만들기, 소품 활용도 효과적입니다.']},
+   {no:'2-2', t:'단톡방 에티켓', pts:[
+     '챕터는 비즈니스 리더가 모인 곳이고 단톡방은 그들이 소통하는 공간입니다. 비방·욕설은 당연히 금지입니다.',
+     '<b>홍보·영업 글은 올리지 않습니다.</b> 위클리와 피쳐라는 공식 채널이 이미 있습니다.',
+     '올리면 좋은 것 — 동료를 소개하기 위한 글, 멋진 소개 사례, 원투원 이야기.']},
+   {no:'2-3', t:'웹하드 · 개인정보 동의', pts:[
+     '원투원 질문지와 자료를 공유하는 웹하드를 운영합니다. 아이디와 사용법을 알려줍니다.',
+     '<b>개인정보 활용 동의서</b>와 <b>위클리 PPT</b>를 받아 PR 코디에게 제출합니다.']}],
+  check:['위클리 프레젠테이션 작성법을 설명했습니까?','함께 위클리를 만들어 봤습니까?','단톡방 에티켓을 설명했습니까?','웹하드를 안내했습니까?','개인정보 활용 동의서를 받았습니까?']},
+
+11:{t:'리퍼럴팀 패스포트', role:'성장 코디', ver:'v2026-02-20',
+  topics:['목표시장과 핵심고객층의 이해','상생업종과 리퍼럴팀의 이해'],
+  mentor:['설명 매뉴얼','챕터 상생업종 취합 자료'], mentee:['C·P단계 원투원 질문지','후보자 인터뷰에서 낸 40인 리스트'],
+  one:'없음', time:'설명 30~60분', task:'핵심고객층 이해작업표 · 상생업종군 작업표',
+  secs:[
+   {no:'2-1', t:'WHY', dg:'dgTeam', pts:[
+     'BNI를 선택한 이유는 <b>소개 마케팅과 협업으로 사업을 성장</b>시키기 위해서입니다.',
+     '그러려면 계약 성사율이 높은 <b>양질의 리퍼럴을 지속적으로</b> 주고받아야 합니다.',
+     '커피숍을 핵심고객으로 하는 팀에서 <b>6명이 각자 거래처 하나씩만 열어도</b> 소개가 돌기 시작합니다.']},
+   {no:'2-2', t:'기본 용어', pts:[
+     '<b>상생업종</b> — 핵심고객층은 같지만 전문분야가 달라 경쟁하지 않는 공생 관계의 직업군',
+     '<b>상생업종군(Contact Sphere)</b> — 핵심고객층이 같은 상생업종의 집합',
+     '<b>리퍼럴 소스</b> — 나에게 고객을 소개해 줄 수 있는 전문분야',
+     '<b>리퍼럴 파트너</b> — 서로에게 정기적으로 T2를 주고받는 관계',
+     '<b>리퍼럴팀</b> — 리퍼럴 파트너 3명 이상. <b>4명 이상이면 파워팀</b>이라고 부릅니다.']},
+   {no:'2-3', t:'핵심고객층', pts:[
+     '리퍼럴은 고객을 소개하는 것이라 <b>내 고객을 정확히 이해</b>해야 합니다.',
+     '전문분야가 같아도 핵심고객층이 다르면 소개 요청과 상생업종이 달라집니다.',
+     '<b>목표시장과 핵심고객층을 혼동하지 않습니다.</b> 목표시장은 앞으로 영업하고 싶은 시장, 핵심고객층은 실제 계약한 고객 중 만족도와 수익성이 좋은 층입니다.']},
+   {no:'2-4', t:'상생업종 찾는 방법', pts:[
+     '<b>① 업종과 업무 관계로</b> — 유사 업종과 유관 업종(예: 보험설계사·손해사정사·부동산)에서 찾습니다.',
+     '<b>② 핵심고객을 구심점으로</b> — 핵심고객층이 필요로 하는 업종이 곧 나의 상생업종입니다. 파급 효과가 큽니다.',
+     '<b>나에게 일감을 주는 업종이 아니라, 나와 같은 고객을 바라보는 전문분야</b>가 상생업종입니다.',
+     '구심점이 되는 고객층이 명확할수록 찾기 쉽습니다.']},
+   {no:'2-5', t:'생각해볼 문제', pts:[
+     '이론만 아는 것은 의미가 없습니다. 실제로 해보고 시행착오를 겪어야 합니다.',
+     '<b>과욕은 에너지 분산</b>입니다. “모두가 내 고객”이라고 하면 아무에게도 집중하지 못합니다.',
+     '<b>선택과 집중</b> — 어떤 고객에 집중할지, 누구와 가장 긴밀히 협업할지 정합니다.']}],
+  check:['목표시장과 핵심고객층의 차이를 설명했습니까?','상생업종과 리퍼럴팀 용어를 설명했습니까?','상생업종 찾는 방법을 설명했습니까?','작업표 2종을 과제로 제시했습니까?']}
+};
 
 /* ===================== 패스포트 : 파트별 박스 ===================== */
 const PP_PARTS = [
@@ -4461,42 +5055,93 @@ const PP_PARTS = [
   {n:10, t:'PR 패스포트',          role:'PR 코디',               one:true,  task:'동의서 · 위클리 PPT', ids:['pp-pr']},
   {n:11, t:'리퍼럴팀 패스포트',    role:'성장 코디',             one:false, task:'작업표 2종', ids:['pp-team']}
 ];
-function ppCardHTML(r){
-  if(!r) return '';
-  let h = '<div class="ppitem"><h4>'+esc(r.title.replace(/^\[\d+\]\s*/,'').replace(/^[^—]*—\s*/,''))+'</h4>';
-  h += '<p class="ppv">'+rich(r.verdict)+'</p>';
-  if(r.table) h += r.table();
-  h += '<ul class="ppul">'+(r.body||[]).map(b=>'<li>'+rich(b)+'</li>').join('')+'</ul>';
-  h += '</div>';
-  return h;
+function ppDiag(name){
+  const f = window[name];
+  if(typeof f !== 'function') return '';
+  return '<div class="pdiag mini-d">'+f()+'</div><p class="dswipe">← 도식을 좌우로 밀어서 보세요 →</p>';
 }
 function buildPassport(){
   const box = $('#ppGrid'); if(!box || box._built) return; box._built = true;
   box.innerHTML = PP_PARTS.map(function(pt){
-    const cards = pt.ids.map(id=> RULES.find(r=>r.id===id)).filter(Boolean);
-    const badges = (pt.one?'<span class="ppb one">원투원 함께</span>':'') +
-                   (pt.task?'<span class="ppb task">과제 · '+esc(pt.task)+'</span>':'');
-    return '<details class="ppbox"><summary>'+
+    const d = PP_DETAIL[pt.n] || {};
+    return '<button type="button" class="ppcard" data-pp="'+pt.n+'">'+
       '<span class="ppno">'+(pt.n<10?'0':'')+pt.n+'</span>'+
       '<span class="pptt"><b>'+esc(pt.t)+'</b><em>'+esc(pt.role)+'</em></span>'+
-      '<span class="ppbs">'+badges+'</span><span class="ppar">＋</span></summary>'+
-      '<div class="ppbody">'+cards.map(ppCardHTML).join('')+
-      (pt.chk?'<div class="ppchkwrap"><b class="pk">설명 점검</b><div class="chk" id="ppChk"></div>'+
-        '<div class="chkbar"><span id="ppNum">0 / 0</span><span class="bar"><i id="ppBar"></i></span>'+
-        '<button type="button" id="ppReset">초기화</button></div></div>':'')+
-      '</div></details>';
+      '<span class="ppsum">'+esc((d.topics||[]).slice(0,3).join(' · '))+'</span>'+
+      '<span class="ppbs">'+(pt.one?'<span class="ppb one">원투원 함께</span>':'')+
+        (pt.task?'<span class="ppb task">과제 · '+esc(pt.task)+'</span>':'')+'</span>'+
+      '<span class="ppgo">›</span></button>';
   }).join('');
-  buildPPChk();
-  box.querySelectorAll('.ppbox').forEach(function(d){
-    d.addEventListener('toggle', function(){
-      if(!d.open) return;
-      bindMotion();
-      d.querySelectorAll('.pdiag').forEach(function(el){ animateDiagram(el); });
-    });
+  box.querySelectorAll('[data-pp]').forEach(function(b){
+    b.onclick = function(){ location.hash = '#pp' + b.dataset.pp; };
   });
   tieAll();
 }
-
+/* ── 역할별 상세 페이지 ── */
+function renderPPDetail(n){
+  const d = PP_DETAIL[n], pt = PP_PARTS.find(function(x){ return x.n === n; });
+  const wrap = $('#ppDetail'); if(!d || !wrap) return;
+  let h = '<button type="button" class="ppback" id="ppBack">← 패스포트 목록</button>';
+  h += '<header class="ppdh"><span class="ppdno">PART '+(n<10?'0':'')+n+'</span>'+
+       '<h2>'+esc(d.t)+'</h2><p>'+esc(d.role)+' · 매뉴얼 '+esc(d.ver)+'</p></header>';
+  h += '<div class="ppmeta">'+
+    '<div><small>설명할 내용</small><ul>'+d.topics.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('')+'</ul></div>'+
+    '<div><small>멤버멘토 준비</small><ul>'+d.mentor.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('')+'</ul></div>'+
+    '<div><small>신입 멤버 준비</small><ul>'+d.mentee.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('')+'</ul></div>'+
+    '<div><small>진행</small><ul><li>원투원 '+esc(d.one)+'</li><li>'+esc(d.time)+'</li><li>과제물 '+esc(d.task)+'</li></ul></div>'+
+    '</div>';
+  d.secs.forEach(function(sc){
+    h += '<section class="ppsec"><div class="ppsh"><span>'+esc(sc.no)+'</span><h3>'+esc(sc.t)+'</h3></div>';
+    if(sc.dg) h += ppDiag(sc.dg);
+    h += '<ul class="ppul">'+sc.pts.map(function(x){ return '<li>'+rich(x)+'</li>'; }).join('')+'</ul></section>';
+  });
+  h += '<section class="ppsec"><div class="ppsh"><span>점검</span><h3>설명을 마쳤는지 확인하고 서명합니다</h3></div>'+
+    '<div class="chk" id="ppChk"></div>'+
+    '<div class="chkbar"><span id="ppNum">0 / 0</span><span class="bar"><i id="ppBar"></i></span>'+
+    '<button type="button" id="ppReset">초기화</button></div>'+
+    '<p class="disc">체크는 이 기기에만 저장됩니다. 설명 전에 미리 서명하지 않습니다.</p></section>';
+  const prev = PP_DETAIL[n-1], next = PP_DETAIL[n+1];
+  h += '<nav class="ppnav">'+
+    (prev?'<button type="button" data-go="'+(n-1)+'"><small>이전</small>'+esc(prev.t)+'</button>':'<span></span>')+
+    (next?'<button type="button" data-go="'+(n+1)+'" class="nx"><small>다음</small>'+esc(next.t)+'</button>':'<span></span>')+
+    '</nav>';
+  wrap.innerHTML = h;
+  $('#ppBack').onclick = function(){ location.hash = ''; };
+  wrap.querySelectorAll('[data-go]').forEach(function(b){
+    b.onclick = function(){ location.hash = '#pp' + b.dataset.go; };
+  });
+  buildPPChk(d.check, n);
+  bindMotion();
+  wrap.querySelectorAll('.pdiag').forEach(function(el){ animateDiagram(el); });
+  tieAll();
+}
+function showPPDetail(n){
+  state.pp = n;
+  ['#homeSec','#updSec','#ppSec','#listSec','#primerSec','#chapterSec','#toolLate','#toolTL','#toolRenew','#alerts'].forEach(function(sel){
+    const e = document.querySelector(sel); if(e) e.hidden = true;
+  });
+  const hero = document.querySelector('.hero'); if(hero) hero.hidden = true;
+  const side = document.querySelector('.side'); if(side) side.hidden = true;
+  const shell = document.querySelector('.shell'); if(shell) shell.classList.add('ppmode');
+  document.querySelector('.topbar').classList.add('compact');
+  const w = $('#ppDetail'); if(w) w.hidden = false;
+  renderPPDetail(n);
+  window.scrollTo({top:0, behavior:'auto'});
+}
+function hidePPDetail(){
+  state.pp = 0;
+  const w = $('#ppDetail'); if(w){ w.hidden = true; w.innerHTML = ''; }
+  const hero = document.querySelector('.hero'); if(hero) hero.hidden = false;
+  const side = document.querySelector('.side'); if(side) side.hidden = false;
+  const shell = document.querySelector('.shell'); if(shell) shell.classList.remove('ppmode');
+  const a = document.querySelector('#alerts'); if(a) a.hidden = false;
+  render();
+}
+function ppRoute(){
+  const m = (location.hash || '').match(/^#pp(\d+)$/);
+  if(m && PP_DETAIL[+m[1]]) showPPDetail(+m[1]);
+  else if(state.pp) hidePPDetail();
+}
 /* ===================== 조찬 일정 ===================== */
 /* 출처: 챕터 일정표 (구글 시트) — 날짜 d / 종류 k / 장소 p / 내용 n / 도어퍼슨 dp / 피처 f / 교육 주제 t · 강사 tr */
 const SCHED = [
@@ -5436,6 +6081,8 @@ function boot(){
   buildChips();
   bindChipScroll();
   bindTopSearch();
+  window.addEventListener('hashchange', ppRoute);
+  ppRoute();
   $('#homeBtn').onclick = goHome;
   buildSuggests();
   buildHeroSide();
