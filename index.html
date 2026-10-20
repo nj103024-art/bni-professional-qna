@@ -868,6 +868,85 @@ details.archive>.disc{text-align:center;margin:0 0 10px}
 .idxi{display:block;width:100%;border:0;background:transparent;padding:9px 10px;font:inherit;font-size:13.5px;color:var(--ink2);text-align:left;line-height:1.5;border-top:1px solid var(--line2);border-radius:8px}
 @media(hover:hover){.idxi:hover{background:var(--soft);color:var(--navy)}}
 .idxi:active{background:var(--soft)}
+
+/* ════════════ DESIGN.md 적용 (Stripe 구조 규칙 + BNI 색) ════════════
+   참고: VoltAgent/awesome-design-md · design-md/stripe/DESIGN.md (MIT)
+   타이포 위계 · 간격 · 라운드 · 그림자 · 메시 배경만 차용, 색은 BNI 팔레트 유지 */
+:root{
+  --bg:#F6F9FC;            /* canvas-soft : 차가운 오프화이트 */
+  --soft:#F1F5F9;
+  --line:#E3E8EE;          /* hairline */
+  --line2:#EDF1F6;
+  --ink2:#3C4A61; --ink3:#64748D; --ink4:#9AA6B8;
+  --sh1:0 1px 3px rgba(0,55,112,.08);
+  --sh2:0 8px 24px rgba(0,55,112,.08), 0 2px 6px rgba(0,55,112,.04);
+  --r-lg:12px; --r-md:8px;
+}
+body{font-size:15px;letter-spacing:-.011em}
+/* 표면 : 흰 카드 + 머리카락 선 + 1단계 그림자 */
+.al,.hcard,.primer,.card,.tool,.urow,.chbox,.idxg,.idxwrap>summary,.mcard,.qline,details.archive>summary,.snav,.ftin>div:first-child,.srow,.day,.oteam,.ogrp{
+  box-shadow:var(--sh1)}
+.card,.primer,.tool,.chbox,.ogrp,.idxg,.al,.urow{border-radius:var(--r-lg)}
+.hcard{border-radius:var(--r-lg);box-shadow:var(--sh1)}
+@media(hover:hover){.hcard:hover{outline:0;box-shadow:var(--sh2);background:#fff}
+  .card:hover{outline:0;box-shadow:var(--sh2)}}
+.pkrow,.step,.vbox,.oteam,.day,.term,.rrow,.wrow,.check,.tlres,.mysch,.srow,.sched .srow,.mini.ty,details.more,.tyopt,.vq,.chapt,.om,.gchip{border-radius:var(--r-md)}
+.sched .srow,.oteam,.day{box-shadow:none}
+
+/* 타이포 : 디스플레이는 가늘게 + 음수 자간, 본문은 또렷하게 */
+.hero h1{font-size:46px;font-weight:300;letter-spacing:-.04em;line-height:1.12}
+.hero h1 em{font-weight:400}
+.hero p.sub{font-size:17px;font-weight:300;color:var(--ink2);line-height:1.6}
+.sech h2{font-size:22px;font-weight:400;letter-spacing:-.026em}
+.sech span{font-weight:400}
+.ph h3{font-size:26px;font-weight:300;letter-spacing:-.03em;line-height:1.26}
+.plead{font-size:16px;font-weight:300;color:var(--ink2);line-height:1.72}
+.card h3{font-size:18px;font-weight:600;letter-spacing:-.022em;line-height:1.42}
+.verdict{font-size:15px;font-weight:400;color:var(--ink2);line-height:1.68}
+.hcard b{font-size:17px;font-weight:600;letter-spacing:-.022em}
+.pt>b,.stx>b,.utx>b,.oth b,.rtx>b,.wa b{font-weight:600}
+.qline .qv{font-weight:400;letter-spacing:-.025em}
+.eyebrow{font-weight:600;letter-spacing:.04em;font-size:11px}
+/* 숫자는 표 정렬 */
+.tlsum b,.tlp,.sdate b,.mini.ty .out b,.ud,.myd,.tld .dd,.chip .n,.vsum b{font-variant-numeric:tabular-nums}
+
+/* 히어로 : 그라데이션 메시 (BNI 네이비·레드, 아주 옅게) */
+.hero{background:#fff;border-radius:0 0 24px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-18% -10% 42% -10%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(42% 58% at 14% 30%, rgba(200,16,46,.10), transparent 70%),
+    radial-gradient(46% 62% at 52% 6%,  rgba(23,35,61,.10),  transparent 72%),
+    radial-gradient(40% 56% at 86% 26%, rgba(93,124,196,.14), transparent 70%);
+  filter:blur(26px)}
+.heroin{position:relative;z-index:2}
+.hero::after{display:none}
+
+/* 버튼 : 알약형, 한 화면에 채운 버튼은 하나만 */
+.btn,.extlink,.ask .go{border-radius:999px}
+.btn{font-weight:600;letter-spacing:-.01em;box-shadow:var(--sh1)}
+.extlink{box-shadow:var(--sh1)}
+.ask .box{background:#fff;border-radius:999px;box-shadow:var(--sh2);padding:8px 8px 8px 20px}
+.ask .box:focus-within{box-shadow:0 0 0 2px var(--navy), var(--sh2)}
+.ask .go{width:44px;height:44px}
+.sg{background:#fff;box-shadow:var(--sh1);font-weight:400}
+.sg:hover{box-shadow:var(--sh2)}
+.tbq{border-radius:999px;background:#fff;box-shadow:var(--sh1)}
+input[type=time],input[type=date],input[type=number],input[type=text],select{background:#fff;box-shadow:inset 0 0 0 1px var(--line);border-radius:var(--r-md)}
+input:focus,select:focus{box-shadow:inset 0 0 0 2px var(--navy)}
+.chip[aria-pressed="true"]{box-shadow:var(--sh1)}
+@media(max-width:959px){.chip{box-shadow:var(--sh1)}}
+
+/* 여백 : 섹션은 넉넉하게, 카드 안은 촘촘하게 */
+.heroin{padding:72px 24px 48px}
+@media(max-width:600px){.heroin{padding:52px 20px 36px}.hero h1{font-size:38px}}
+.sec{margin-bottom:44px}
+@media(min-width:960px){.sec{margin-bottom:60px}}
+.sech{margin-bottom:18px}
+.card{padding:22px 22px 18px}
+.primer{padding:26px 22px 22px}
+@media(min-width:700px){.primer{padding:34px 34px 28px}}
+footer{margin-top:24px}
+
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
