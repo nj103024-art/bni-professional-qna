@@ -947,6 +947,130 @@ input:focus,select:focus{box-shadow:inset 0 0 0 2px var(--navy)}
 @media(min-width:700px){.primer{padding:34px 34px 28px}}
 footer{margin-top:24px}
 
+
+/* ════════════ 정제 레이어 : 장식 덜어내고 활자와 여백으로 ════════════ */
+:root{
+  --bg:#FBFBFA;          /* 따뜻한 오프화이트 종이 */
+  --soft:#F4F4F2;
+  --line:#E2E1DD;
+  --line2:#EDECE8;
+  --ink:#1A1A1A; --ink2:#4A4A48; --ink3:#767571; --ink4:#A6A49F;
+  --navy:#17233D; --navy-2:#2C3B5C; --navy-3:#5B6880;
+  --sh1:none; --sh2:none;
+  --r-lg:4px; --r-md:3px;
+}
+body{background:var(--bg);color:var(--ink);font-size:15px;letter-spacing:-.008em}
+
+/* 그라데이션·그림자 제거 → 1px 선과 면으로 */
+.hero::before,.hero::after{display:none!important}
+.hero{background:transparent;border-radius:0;border-bottom:1px solid var(--line)}
+.al,.hcard,.primer,.card,.tool,.urow,.chbox,.idxg,.idxwrap>summary,.mcard,.qline,
+details.archive>summary,.snav,.ftin>div:first-child,.srow,.day,.oteam,.ogrp,
+.btn,.extlink,.sg,.tbq,.chip,.ask .box{box-shadow:none}
+.card,.primer,.tool,.chbox,.ogrp,.idxg,.al,.urow,.hcard,.mcard,.qline{
+  background:#fff;border:1px solid var(--line);border-radius:4px}
+.pkrow,.step,.vbox,.oteam,.day,.term,.rrow,.wrow,.check,.tlres,.mysch,.srow,
+.sched .srow,.mini.ty,details.more,.tyopt,.vq,.chapt,.om,.gchip,.pdiag,.diagram,
+.note,.fixnote,.chkbox,.cond,.msp,.mnext,.empty,.res,.flow,.tlrow,.xref,.days .day{
+  border-radius:3px}
+.pkrow,.step,.vbox,.term,.rrow,.wrow,.tlres,.mysch,.srow,.mini.ty{background:var(--soft)}
+.oteam,.day{background:var(--soft)}
+
+/* 히어로 : 왼쪽 정렬 에디토리얼 */
+.heroin{max-width:1180px;text-align:left;padding:64px 24px 44px}
+@media(max-width:600px){.heroin{padding:44px 20px 32px}}
+.eyebrow{background:transparent;color:var(--ink3);padding:0;border-radius:0;
+  font-size:10.5px;font-weight:700;letter-spacing:.18em}
+.eyebrow svg{display:none}
+.hero h1{font-size:44px;font-weight:600;letter-spacing:-.035em;line-height:1.18;margin:16px 0 14px;color:var(--navy)}
+.hero h1 em{color:var(--ink);font-weight:600}
+.hero h1 em::after{display:none}
+@media(max-width:600px){.hero h1{font-size:32px}}
+.hero p.sub{margin:0 0 30px;font-size:16px;font-weight:400;color:var(--ink2);line-height:1.68;max-width:46ch}
+.hero p.sub .nw{white-space:nowrap}
+@media(max-width:430px){.hero p.sub .nw{white-space:normal}}
+.ask{margin:0;max-width:560px}
+.ask .box{background:#fff;border:1px solid var(--navy);border-radius:3px;padding:6px 6px 6px 16px}
+.ask .box:focus-within{box-shadow:inset 0 0 0 1px var(--navy)}
+.ask .go{width:40px;height:40px;border-radius:2px;background:var(--navy)}
+.suggests{display:grid;grid-template-columns:1fr;gap:0;margin-top:18px;border-top:1px solid var(--line);padding-top:0;max-width:560px}
+@media(min-width:620px){.suggests{grid-template-columns:1fr 1fr;column-gap:24px}}
+.sg{display:block;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line2);border-radius:0;
+  padding:12px 0;margin:0;font-size:13.5px;color:var(--ink2);font-weight:400}
+.sg:hover{background:transparent;color:var(--navy);border-bottom-color:var(--navy)}
+.hint{margin-top:16px;color:var(--ink4)}
+.extlink{background:transparent;color:var(--navy);border:0;border-bottom:1px solid var(--navy);
+  border-radius:0;padding:6px 0;margin-top:16px;font-size:13.5px}
+.extlink:hover{background:transparent;color:var(--red-d);border-bottom-color:var(--red-d)}
+.extlink svg{color:var(--navy)}
+.extlink .arr{color:var(--ink4)}
+
+/* 분야 타일 : 번호 + 선, 파스텔 아이콘칩 제거 */
+.home{gap:0 22px;grid-template-columns:1fr 1fr}
+@media(min-width:1040px){.home{grid-template-columns:repeat(3,1fr)}}
+.hcard{border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;
+  padding:14px 0 16px;gap:4px;counter-increment:cat;position:relative}
+@media(min-width:1040px){.hcard{padding:18px 0 20px}}
+.hcard::before{content:counter(cat,decimal-leading-zero);position:absolute;right:0;top:14px;font-size:10.5px;
+  font-weight:600;color:var(--ink4);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.hcard .hi{background:transparent;padding:0;border-radius:0;color:var(--navy-3);margin:0 0 6px;width:18px;height:18px}
+.hcard b{font-size:16px;font-weight:600;color:var(--navy);letter-spacing:-.025em}
+.hcard span{font-size:12.5px;line-height:1.5}
+.hcard .hn{font-size:11px;padding-top:6px}
+.hcard span{color:var(--ink3);font-size:13px}
+.hcard .hn{color:var(--ink4);padding-top:10px}
+.hcard .hn .arr{color:var(--ink4)}
+@media(hover:hover){.hcard:hover{background:transparent;outline:0;box-shadow:none}
+  .hcard:hover b{color:var(--red-d)}}
+#home{counter-reset:cat}
+
+/* 섹션 머리 : 작은 라벨 + 규칙선 */
+.sech{border-top:1px solid var(--navy);padding-top:12px;margin-bottom:16px}
+.sech h2{font-size:19px;font-weight:600;letter-spacing:-.022em;color:var(--navy)}
+.sech span{font-size:12.5px;color:var(--ink3)}
+
+/* 카드 : 선으로 구분, 배지는 무채색 */
+.card{padding:22px 20px 18px}
+.card h3{font-size:17.5px;font-weight:600;color:var(--navy)}
+.verdict{color:var(--ink2)}
+.bd{border-radius:2px;font-weight:600;letter-spacing:0;background:var(--soft);color:var(--ink3);border:0}
+.bd.cat{background:transparent;color:var(--ink3);padding-left:0;padding-right:10px;
+  border-right:1px solid var(--line);border-radius:0}
+.bd.live,.bd.now,.bd.old{background:var(--soft);color:var(--ink3)}
+.bd.soon{background:var(--red-w);color:var(--red-d)}
+.bd.chk{background:var(--amber-w);color:var(--amber)}
+details.more{background:transparent;border-top:1px solid var(--line2);border-radius:0;padding:0;margin-top:14px}
+details.more>summary{color:var(--ink2);font-weight:500;padding:12px 0}
+.src{color:var(--ink4);font-size:10.5px;letter-spacing:.02em}
+
+/* 핵심 정리 */
+.ph span{background:transparent;color:var(--ink3);padding:0;font-size:10.5px;letter-spacing:.16em;font-weight:700}
+.ph h3{font-size:25px;font-weight:600;color:var(--navy);letter-spacing:-.03em}
+.plead{font-weight:400}
+.pdiag{background:#fff;border:1px solid var(--line2)}
+.pn{background:var(--navy);border-radius:2px}
+.pk,.dayh,.vh,.orl,.oth small,.rgh,.tlk{letter-spacing:.06em}
+.orl,.oth small,.dayh,.vh{color:var(--navy-3);font-weight:700}
+
+/* 도구 · 버튼 */
+.btn{border-radius:2px;background:var(--navy);font-weight:600}
+.btn:hover{background:var(--navy-2)}
+.gchip,.chip,.tyopt,.vq,.chapt,.om{border-radius:2px}
+.gchip[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--navy)}
+@media(max-width:959px){.chip{background:#fff;border:1px solid var(--line)}
+  .chip[aria-pressed="true"]{border-color:var(--navy)}}
+.tbq{border-radius:2px;background:#fff;border:1px solid var(--line)}
+input[type=time],input[type=date],input[type=number],input[type=text],select{
+  border-radius:2px;background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+input:focus,select:focus{box-shadow:inset 0 0 0 1px var(--navy)}
+.op{border-radius:3px}
+.op.big{background:var(--navy);border-radius:3px}
+.idxwrap>summary{border:1px solid var(--line);border-radius:3px;font-weight:500;color:var(--ink2)}
+.idxi{border-radius:0}
+.topbar{background:#fff;border-bottom:1px solid var(--line)}
+footer{border-top:1px solid var(--line);background:transparent}
+.ftin>div:first-child{background:transparent;border:0;padding:0}
+
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
