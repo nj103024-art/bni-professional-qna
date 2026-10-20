@@ -1239,6 +1239,31 @@ footer{border-top:1px solid var(--line);margin-top:0}
 footer>div>b{font-size:14px;font-weight:600}
 footer p{font-size:12.5px;color:var(--ink3);line-height:1.65}
 
+
+/* 도식 : 스크롤에 들어오면 한 번 그려짐 */
+@keyframes dgPart{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes dgFade{from{opacity:0}to{opacity:1}}
+.pdiag svg>*,.diagram svg>*{opacity:0}
+.pdiag svg.dgrun>*,.diagram svg.dgrun>*{animation:dgPart .5s cubic-bezier(.2,.7,.3,1) both;animation-delay:var(--d,0ms)}
+.pdiag.dgin,.diagram.dgin{animation:dgFade .4s both}
+.pdiag.img svg,.pdiag .dress{opacity:1}
+.pdiag.img{animation:dgFade .4s both}
+@media(prefers-reduced-motion:reduce){
+  .pdiag svg>*,.diagram svg>*{opacity:1;animation:none!important}
+}
+/* 결과 영역은 부드럽게 열림 */
+#judgeOut>*,#renewOut>*,.tlres,.mini.ty .out{animation:dgPart .32s cubic-bezier(.2,.7,.3,1) both}
+/* 큰 숫자 */
+[data-count]{font-variant-numeric:tabular-nums}
+
+.cards{min-width:0}
+.cards>*{min-width:0;max-width:100%}
+.card{min-width:0;overflow:hidden}
+.pdiag.mini-d{max-width:100%;margin:16px 0 0;padding:20px 16px;background:var(--paper);border:1px solid var(--line2);
+  overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.pdiag.mini-d svg{min-width:540px}
+.dswipe{display:none;margin:6px 0 0;font-size:11px;color:var(--ink4);text-align:center}
+@media(max-width:700px){.dswipe{display:block}}
 /* 푸터 */
 footer{background:transparent;border:0;margin:0}
 .ftin{padding:0 16px 48px}
@@ -2227,7 +2252,7 @@ const RULES = [
  keywords:['원투원','121','1-2-1','타챕터','다른 챕터','점수','인정','등록','실적','1년','앰배서더','패스포트']
 },
 {
- id:'one2one-passport', cat:'원투원', src:'패스포트 멤버멘토 매뉴얼 (YDP D&A) · YDP 표준 운영규정 6.1항', eff:null, boost:10,
+ id:'one2one-passport', table: function(){ return '<div class="pdiag mini-d">'+primerPassport()+'</div><p class="dswipe">← 도식을 좌우로 밀어서 보세요 →</p>'; }, cat:'원투원', src:'패스포트 멤버멘토 매뉴얼 (YDP D&A) · YDP 표준 운영규정 6.1항', eff:null, boost:10,
  title:'패스포트는 설명만 듣는 건가요? (패스포트 원투원)',
  verdict:'아닙니다. 먼저 원투원을 하고, 이어서 그 멤버멘토의 담당 파트를 설명받는 순서입니다. 이때 한 원투원은 의무 1-2-1로 인정됩니다.',
  body:[
@@ -2250,7 +2275,7 @@ const RULES = [
  keywords:['패스포트','원투원','121','1-2-1','의무','멤버멘토','담당멘토','신입','신규','수료','FA','MSP','60일','8명','D&A','과제물']
 },
 {
- id:'one2one-vcp', cat:'원투원', src:'패스포트 멤버멘토 매뉴얼 (YDP D&A) · YDP 표준 운영규정 6.1항', eff:null, boost:8,
+ id:'one2one-vcp', table: function(){ return '<div class="pdiag mini-d">'+primerVCP()+'</div><p class="dswipe">← 도식을 좌우로 밀어서 보세요 →</p>'; }, cat:'원투원', src:'패스포트 멤버멘토 매뉴얼 (YDP D&A) · YDP 표준 운영규정 6.1항', eff:null, boost:8,
  title:'원투원에 단계가 있나요? (VCP 단계)',
  verdict:'아는 단계(V) → 신뢰 단계(C) → 수익 단계(P) 순서로 쌓아갑니다. 단계마다 쓰는 질문지가 다릅니다.',
  body:[
@@ -3126,6 +3151,48 @@ function primerProxy(){
   return h;
 }
 
+/* 원투원 VCP 단계 */
+function primerVCP(){
+  const W=620, BW=182, Y=44, H=96;
+  const cols=[['V','아는 단계','Visibility','서로의 사업을 파악','#F2F3F5',C_MID],
+              ['C','신뢰 단계','Credibility','목표 시장·연결 방법','#F5EDEE',C_RED],
+              ['P','수익 단계','Profitability','고객 리스트 공유','#EDF2EF',C_OK]];
+  let h='<svg viewBox="0 0 '+W+' 190" role="img" aria-label="원투원 VCP 단계">';
+  h+=T(0,18,'원투원은 한 번에 끝나지 않습니다',{s:11,w:800,f:C_SUB});
+  cols.forEach(function(c,i){
+    const x=i*(BW+36);
+    h+=G(R(x,Y,BW,H,{f:c[4],s:null,r:3})+
+        T(x+16,Y+32,c[0],{s:22,w:800,f:c[5]})+
+        T(x+46,Y+32,c[1],{s:14,w:800})+
+        T(x+46,Y+50,c[2],{s:10,f:C_SUB})+
+        T(x+16,Y+78,c[3],{s:11.5,f:C_MID}), c[1]);
+    if(i<2) h+='<path d="M'+(x+BW+10)+' '+(Y+H/2)+' h16 M'+(x+BW+20)+' '+(Y+H/2-5)+' l5 5 -5 5" fill="none" stroke="#C9CDD3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+  });
+  h+='<line x1="0" y1="162" x2="'+W+'" y2="162" stroke="'+C_LINE+'"/>';
+  h+=T(0,182,'V에서 C까지 보통 1년 이상 — 신뢰는 만드는 것이 아니라 쌓는 것',{s:10.5,f:C_SUB});
+  h+='</svg>';
+  return h;
+}
+/* 패스포트 한 자리 진행 */
+function primerPassport(){
+  const W=620, Y=40, H=74;
+  const steps=[['원투원','90~120분',320,'#F5EDEE',C_RED],['패스포트 설명','30~60분',180,'#F2F3F5',C_MID],['과제물','받아 가기',96,'#F2F3F5',C_SUB]];
+  let h='<svg viewBox="0 0 '+W+' 176" role="img" aria-label="패스포트 한 자리 진행 순서">';
+  h+=T(0,16,'패스포트는 한 자리에서 세 가지를 합니다',{s:11,w:800,f:C_SUB});
+  let x=0;
+  steps.forEach(function(st,i){
+    h+=G(R(x,Y,st[2],H,{f:st[3],s:null,r:3})+
+        T(x+14,Y+30,st[0],{s:13.5,w:800,f:st[4]})+
+        T(x+14,Y+52,st[1],{s:11,f:C_SUB}), st[0]);
+    x+=st[2]+12;
+  });
+  h+=T(0,136,'원투원이 먼저입니다. V단계 질문지와 신상명세표를 준비해 갑니다.',{s:11,f:C_MID});
+  h+='<line x1="0" y1="152" x2="'+W+'" y2="152" stroke="'+C_LINE+'"/>';
+  h+=T(0,170,'의무 1-2-1 : 담당 멘토 · 지정 멤버멘토(최소 8명) · 담당 D&A',{s:10.5,f:C_SUB});
+  h+='</svg>';
+  return h;
+}
+
 /* 트래픽라이트 배점 */
 function primerTL(){
   const W=620, L=96, IW=W-L-118, MAX=25;
@@ -3611,13 +3678,13 @@ const PRIMERS = [
         ['불편한 점은 멤버십위원회로','멤버들의 불만·건의를 검토하고 처리하는 것이 위원회의 공식 역할입니다. 규정 해석이 애매할 때도 같은 곳으로 문의하시면 됩니다.']],
   src:'멤버십위원회 운영 기준'},
 
- {cat:'원투원', title:'1년이 지나면 타 챕터 원투원도 실적이 됩니다',
-  lead:'2026년 4월 1일부터 <b>타 챕터 멤버와의 원투원도 점수로 인정</b>됩니다. 다만 가입 1년 미만 멤버는 먼저 챕터 안에서 관계를 쌓는 것이 원칙입니다.',
-  svg:primerOne2One,
-  keys:[['가입 1년 이상이면 타 챕터도 인정','타 챕터 멤버와의 원투원 기록을 그대로 등록할 수 있습니다.'],
+ {cat:'원투원', title:'아는 단계 → 신뢰 단계 → 수익 단계',
+  lead:'원투원은 <b>VCP 세 단계</b>로 쌓습니다. 서로를 아는 V단계, 리퍼럴을 주고받는 C단계, 고객을 소개하는 P단계입니다. 단계마다 쓰는 질문지가 다르고, V에서 C까지 보통 1년 이상 걸립니다.',
+  svg:primerVCP,
+  keys:[['패스포트는 원투원을 먼저 하고 설명을 듣습니다','원투원 90~120분, 패스포트 설명 30~60분을 한 자리에서 진행하며 의무 1-2-1로 인정됩니다.'],
+        ['가입 1년 이상이면 타 챕터도 인정','타 챕터 멤버와의 원투원 기록을 그대로 등록할 수 있습니다.'],
         ['1년 미만은 조건이 있습니다','상대가 어시스트 앰배서더 또는 앰배서더로 활동하는 멤버일 때만 타 챕터 원투원이 인정됩니다.'],
         ['신규 멤버는 우선 대상부터','패스포트 교육 담당 멤버 멘토, 담당 멘토, 리더십팀과 먼저 진행합니다. YDP 기준 6~8명이며, 디렉터와 협의해 10명 이내로 정할 수도 있습니다.'],
-        ['패스포트는 원투원을 먼저 하고 설명을 듣습니다','원투원 90~120분, 패스포트 설명 30~60분으로 한 자리에서 진행하며 이때 한 원투원은 의무 1-2-1로 인정됩니다.'],
         ['후기와 댓글이 있어야 인정됩니다','인증 사진과 후기는 BNI 규정이 아니라 챕터 자체 기준입니다. 기록을 빠뜨리면 점수에 반영되지 않습니다.']],
   src:'YDP 표준 운영규정 6항 · 패스포트 멤버멘토 매뉴얼'},
 
@@ -4634,6 +4701,56 @@ function noBreakDots(el){
 }
 function tieAll(){ document.querySelectorAll(TIE_SEL).forEach(function(el){ noBreakDots(el); tieTail(el); }); }
 
+
+/* ===================== 도식 애니메이션 ===================== */
+const REDUCE = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let _dio = null;
+function animateDiagram(box){
+  if(box._anim) return; box._anim = true;
+  const svg = box.querySelector('svg');
+  if(!svg){ box.classList.add('dgin'); return; }
+  const items = [...svg.children];
+  items.forEach(function(el, i){
+    el.style.setProperty('--d', Math.min(i, 14) * 55 + 'ms');
+  });
+  svg.classList.add('dgrun');
+}
+function countUpEl(el){
+  if(el._cu) return; el._cu = true;
+  const raw = el.getAttribute('data-to'); const to = Number(raw);
+  if(!isFinite(to)) return;
+  if(REDUCE || document.visibilityState !== 'visible'){ el.textContent = raw; return; }
+  const dur = 620, t0 = performance.now(), suf = el.getAttribute('data-suffix') || '';
+  setTimeout(function(){ el.textContent = raw + suf; }, dur + 150);
+  (function step(t){
+    const k = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suf;
+    if(k < 1) requestAnimationFrame(step);
+  })(t0);
+}
+function bindMotion(){
+  const targets = document.querySelectorAll('.pdiag:not([data-m]), .diagram:not([data-m]), [data-count]:not([data-m])');
+  if(!targets.length) return;
+  if(REDUCE || !('IntersectionObserver' in window)){
+    targets.forEach(function(el){
+      el.setAttribute('data-m','1');
+      if(el.hasAttribute('data-count')) el.textContent = el.getAttribute('data-to') + (el.getAttribute('data-suffix')||'');
+      else el.classList.add('dgin');
+    });
+    return;
+  }
+  if(!_dio){
+    _dio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        const el = e.target; _dio.unobserve(el);
+        if(el.hasAttribute('data-count')) countUpEl(el); else animateDiagram(el);
+      });
+    }, {rootMargin:'0px 0px -10% 0px', threshold:.15});
+  }
+  targets.forEach(function(el){ el.setAttribute('data-m','1'); _dio.observe(el); });
+}
+
 /* ===================== 인터랙션 ===================== */
 let _io = null;
 /* 커서를 따라 살짝 기우는 입체 효과 */
@@ -4683,6 +4800,7 @@ function countUp(el, to){
 
 function bindFX(){
   tieAll();
+  bindMotion();
   document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));
   return;
   bindTilt();
