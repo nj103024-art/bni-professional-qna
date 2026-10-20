@@ -1140,7 +1140,10 @@ b,strong{font-weight:600}
 .hs{display:block;width:100%;text-align:left;background:var(--soft);border:0;border-radius:3px;
   padding:16px 18px;font:inherit;color:inherit}
 .hslbl{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--ink3);margin-bottom:10px}
-.hs-meet b{display:block;font-size:17px;font-weight:600;color:var(--navy);letter-spacing:-.025em}
+.hs-meet b,.hs-pp b{display:block;font-size:17px;font-weight:600;color:var(--navy);letter-spacing:-.025em}
+.hsgo{display:block;margin-top:10px;font-size:12px;font-weight:600;color:var(--red-d)}
+.heroside .hs-pp b{color:#fff}
+.heroside .hsgo{color:#F3C1C9}
 .hsdd{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--red-d);
   background:var(--red-w);border-radius:2px;padding:3px 7px;font-variant-numeric:tabular-nums}
 .hssub{display:block;margin-top:10px;font-size:12.5px;color:var(--ink3);line-height:1.5}
@@ -5561,6 +5564,11 @@ function buildHeroSide(){
       '<span class="hsdd">'+(nx.dd===0?'오늘':'D-'+nx.dd)+'</span>'+
       (det.length?'<span class="hssub">'+det.join(' · ')+'</span>':'')+'</button>';
   }
+  h += '<button type="button" class="hs hs-pp" id="hsPP">'+
+    '<span class="hslbl">패스포트</span>'+
+    '<b>역할별 설명 자료</b>'+
+    '<span class="hssub">의장 · 부의장 · ST · 출결 등 11개 파트</span>'+
+    '<span class="hsgo">목록 보기 ›</span></button>';
   h += '<div class="hs hs-upd"><span class="hslbl">최근 바뀐 내용</span>'+
     up.map(function(u){
       const dd = dayDiff(parseYmd(u.d), TODAY);
@@ -5571,6 +5579,14 @@ function buildHeroSide(){
   box.innerHTML = h;
   box.querySelectorAll('[data-card]').forEach(b=> b.onclick = ()=> goCard(b.dataset.card));
   box.querySelectorAll('[data-cat]').forEach(b=> b.onclick = ()=> goCat(b.dataset.cat));
+  const pp = $('#hsPP');
+  if(pp) pp.onclick = function(){
+    if(state.pp || state.q.trim() || state.cat !== '전체') goHome();
+    setTimeout(function(){
+      const sec = $('#ppSec');
+      if(sec) window.scrollTo({top: sec.getBoundingClientRect().top + window.scrollY - 60, behavior:'smooth'});
+    }, 80);
+  };
   tieAll();
 }
 
