@@ -4647,6 +4647,7 @@ function render(){
 }
 
 function goCat(cat){
+  exitPP();
   state.cat = cat; state.q=''; $('#q').value=''; $('#qclear').hidden = true;
   syncChips(); render(); swapIn();
   const sh = document.querySelector('.shell');
@@ -4657,6 +4658,7 @@ function swapIn(){
   m.classList.remove('swap'); void m.offsetWidth; m.classList.add('swap');
 }
 function goHome(){
+  exitPP();
   state.cat='전체'; state.q=''; $('#q').value=''; $('#qclear').hidden = true;
   syncChips(); render(); swapIn();
   window.scrollTo({top:0, behavior:'smooth'});
@@ -5215,14 +5217,21 @@ function showPPDetail(n){
   renderPPDetail(n);
   window.scrollTo({top:0, behavior:'auto'});
 }
-function hidePPDetail(){
+function restorePPChrome(){
   state.pp = 0;
   const w = $('#ppDetail'); if(w){ w.hidden = true; w.innerHTML = ''; }
   const hero = document.querySelector('.hero'); if(hero) hero.hidden = false;
   const side = document.querySelector('.side'); if(side) side.hidden = false;
   const shell = document.querySelector('.shell'); if(shell) shell.classList.remove('ppmode');
   const a = document.querySelector('#alerts'); if(a) a.hidden = false;
-  render();
+  if(window.scrollY <= 300) document.querySelector('.topbar').classList.remove('compact');
+}
+function hidePPDetail(){ restorePPChrome(); render(); }
+/* 로고·분야 이동 시 상세 화면에서 빠져나옵니다 */
+function exitPP(){
+  if(!state.pp) return;
+  restorePPChrome();
+  if(location.hash) history.replaceState(null, '', location.pathname + location.search);
 }
 function ppRoute(){
   const m = (location.hash || '').match(/^#pp(\d+)$/);
@@ -5497,6 +5506,7 @@ function buildUpdates(){
 }
 function goCard(id){
   const r = RULES.find(x=>x.id===id); if(!r) return;
+  exitPP();
   state.q=''; $('#q').value=''; $('#qclear').hidden = true;
   state.cat = r.cat; syncChips(); render();
   const el = document.getElementById('card-'+id); if(!el) return;
@@ -5613,6 +5623,7 @@ function bindTopSearch(){
   form.addEventListener('submit', e=> e.preventDefault());
   q2.addEventListener('input', ()=>{
     q.value = q2.value; state.q = q2.value; $('#qclear').hidden = !q2.value;
+    if(q2.value.trim()) exitPP();
     if(q2.value.trim() && state.cat !== '전체'){ state.cat = '전체'; syncChips(); }
     clearTimeout(q2._t); q2._t = setTimeout(function(){
       render();
@@ -6179,6 +6190,7 @@ function boot(){
   const q = $('#q');
   q.addEventListener('input', ()=>{
     state.q = q.value; $('#qclear').hidden = !q.value;
+    if(q.value.trim()) exitPP();
     const q2 = $('#q2'); if(q2 && q2.value !== q.value) q2.value = q.value;
     if(q.value.trim() && state.cat !== '전체'){ state.cat = '전체'; syncChips(); }
     clearTimeout(q._t); q._t = setTimeout(render, 140);
