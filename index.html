@@ -1269,12 +1269,13 @@ footer p{font-size:12.5px;color:var(--ink3);line-height:1.65}
 /* 큰 숫자 */
 [data-count]{font-variant-numeric:tabular-nums}
 
-.cards{min-width:0}
+.cards{min-width:0;grid-auto-flow:dense}
 .cards>*{min-width:0;max-width:100%}
 .card{min-width:0;overflow:hidden}
 .pdiag.mini-d{max-width:100%;margin:16px 0 0;padding:20px 16px;background:var(--paper);border:1px solid var(--line2);
   overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-.pdiag.mini-d svg{min-width:540px}
+.pdiag.mini-d svg{min-width:0;max-width:820px;margin:0 auto}
+@media(max-width:700px){.pdiag.mini-d svg{min-width:520px}}
 .dswipe{display:none;margin:6px 0 0;font-size:11px;color:var(--ink4);text-align:center}
 @media(max-width:700px){.dswipe{display:block}}
 
@@ -1985,7 +1986,7 @@ const RULES = [
      ['7','챕터 도구','멤버십위원(소개장)','소개장·감사장·추천장·CEU','','—'],
      ['8','비지터 모셔오기','이벤트코디','40인 리스트·비지터 초대','★','비지터 초대'],
      ['9','비지터호스트 경험','비호리더','실제 호스팅 경험','','호스팅 경험'],
-     ['10','PR','PR코디','위클리 PPT·단톡방·웹하드','★','동의서·PPT'],
+     ['10','PR','PR코디','위클리 PPT·단톡방·웹하드','','동의서·PPT'],
      ['11','리퍼럴팀·파워팀','성장코디','상생업종군·핵심고객 작업표','','작업표 2종']];
    return '<div class="pptbl"><div class="ppth"><span>파트</span><span>담당</span><span>내용</span><span>1-2-1</span><span>과제물</span></div>'+
      rows.map(function(r){
@@ -4635,7 +4636,7 @@ function cardHTML(r, open, no){
   const badges = ['<span class="bd cat">'+esc(r.cat)+'</span>',
                   '<span class="bd '+st.cls+'">'+esc(st.label)+'</span>'];
   if(r.check && r.check.length) badges.push('<span class="bd chk">⚠️ 확인 필요</span>');
-  let h = '<article class="card spot reveal" id="card-'+r.id+'">';
+  let h = '<article class="card spot reveal'+(r.table?' span2':'')+'" id="card-'+r.id+'">';
   if(false) h += '<span class="cno">'+String(no).padStart(2,'0')+'</span>';
   h += '<div class="cbadges">'+badges.join('')+'</div>';
   h += '<h3>'+esc(r.title)+'</h3>';
